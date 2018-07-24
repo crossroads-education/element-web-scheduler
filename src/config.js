@@ -27,8 +27,11 @@ export default {
     quarterMaxEvents: 99,
     yearMaxEvents: 99,
 
+    rowHeight: "auto",
+    
     eventItemHeight: 22,
     eventItemLineHeight: 24,
+    eventItemTopMargin: 1,
     dayStartFrom: 0,
     dayStopTo: 23,
     defaultEventBgColor: '#80C5F6',
