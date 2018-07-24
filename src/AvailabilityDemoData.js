@@ -30,6 +30,7 @@ export const AvailabilityDemoData = {
             title: 'av',
             resizable: false,
             movable: false,
+            eventItemPopoverEnabled: false,
             type: 'available'
         },
         {
@@ -40,6 +41,7 @@ export const AvailabilityDemoData = {
             title: 'unav',
             resizable: false,
             movable: false,
+            eventItemPopoverEnabled: false,
             type: 'unavailable'
         },
         {
@@ -50,6 +52,7 @@ export const AvailabilityDemoData = {
             title: 'tent',
             resizable: false,
             movable: false,
+            eventItemPopoverEnabled: false,
             type: 'tentative'
         }
     ],

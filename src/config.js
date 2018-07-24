@@ -37,7 +37,8 @@ export default {
     dayStartFrom: 0,
     dayStopTo: 23,
     defaultEventBgColor: '#80C5F6',
-    selectedAreaColor: '#7EC2F3',
+    selectedAreaColor: '#7EC2F3', // only used if selectedAreaBackground is falsy
+    selectedAreaBackground: null, // overwrites selectedAreaColor
     nonWorkingTimeHeadColor: '#999999',
     nonWorkingTimeHeadBgColor: '#fff0f6',
     nonWorkingTimeBodyBgColor: '#fff0f6',
