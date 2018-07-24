@@ -185,7 +185,7 @@ class ResourceEvents extends Component {
                 let renderEventsMaxIndex = headerItem.addMore === 0 ? cellMaxEvents : headerItem.addMoreIndex;
 
                 headerItem.events.forEach((evt, idx) => {
-                    console.log(evt);
+                    const extraMargin = (index === 0 ? 1 : 0);
                     if(idx < renderEventsMaxIndex && evt !== undefined && evt.render) {
                         let durationStart = localeMoment(startDate);
                         let durationEnd = localeMoment(endDate).add(1, 'days');
@@ -197,8 +197,8 @@ class ResourceEvents extends Component {
                         let eventEnd = localeMoment(evt.eventItem.end);
                         let isStart = eventStart >= durationStart;
                         let isEnd = eventEnd <= durationEnd;
-                        let left = index*cellWidth + (index > 0 ? 2 : 3);
-                        let width = (evt.span * cellWidth - (index > 0 ? 5 : 6)) > 0 ? (evt.span * cellWidth - (index > 0 ? 5 : 6)) : 0;
+                        let left = index*cellWidth + config.eventItemLeftMargin + extraMargin;
+                        let width = Math.max(0, evt.span * cellWidth + 1 - config.eventItemRightMargin - config.eventItemLeftMargin - extraMargin);
                         let top = marginTop + idx*config.eventItemLineHeight;
                         let eventItem = <DnDEventItem
                                                    {...this.props}
@@ -218,8 +218,8 @@ class ResourceEvents extends Component {
                 });
 
                 if(headerItem.addMore > 0) {
-                    let left = index*cellWidth + (index > 0 ? 2 : 3);
-                    let width = cellWidth - (index > 0 ? 5 : 6);
+                    let left = index*cellWidth + config.eventItemLeftMargin + extraMargin;
+                    let width = Math.max(0, evt.span * cellWidth + 1 - config.eventItemRightMargin - config.eventItemLeftMargin - extraMargin);
                     let top = marginTop + headerItem.addMoreIndex*config.eventItemLineHeight;
                     let addMoreItem = <AddMore
                                             {...this.props}
@@ -236,8 +236,8 @@ class ResourceEvents extends Component {
 
                 if(headerItem.summary != undefined) {
                     let top = isTop ? 1 : resourceEvents.rowHeight - config.eventItemLineHeight + 1;
-                    let left = index*cellWidth + (index > 0 ? 2 : 3);
-                    let width = cellWidth - (index > 0 ? 5 : 6);
+                    let left = index*cellWidth + config.eventItemLeftMargin + extraMargin;
+                    let width = Math.max(0, evt.span * cellWidth + 1 - config.eventItemRightMargin - config.eventItemLeftMargin - extraMargin);
                     let key = `${resourceEvents.slotId}_${headerItem.time}`;
                     let summary = <Summary key={key} schedulerData={schedulerData} summary={headerItem.summary} left={left} width={width} top={top} />;
                     eventList.push(summary);

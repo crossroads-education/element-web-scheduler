@@ -12,7 +12,9 @@ class AvailablitySchedule extends Component{
         let schedulerData = new SchedulerData('2017-12-18', ViewTypes.Day, false, false, { 
             minuteStep: 15,
             eventItemTopMargin: 0,
-            rowHeight: 22
+            rowHeight: 22,
+            eventItemLeftMargin: 1,
+            eventItemRightMargin: 1,
         });
         schedulerData.localeMoment.locale('en');
         schedulerData.setResources(AvailabilityDemoData.resources);
@@ -157,11 +159,12 @@ class AvailablitySchedule extends Component{
         // let divStyle = {borderLeft: borderWidth + 'px solid ' + borderColor, backgroundColor: backgroundColor, height: mustBeHeight };
         // if(!!agendaMaxEventWidth)
         //     divStyle = {...divStyle, maxWidth: agendaMaxEventWidth};
-        const divStyle = { backgroundColor: 'green' };
-        if (event.type === 'unavailable') divStyle.backgroundColor = 'red';
-        if (event.type === 'tentative') divStyle.backgroundColor = 'yellow';
+        const divStyle = { };
+        if (event.type === 'available') divStyle.backgroundColor = 'white' ;
+        if (event.type === 'unavailable') divStyle.background = "repeating-linear-gradient(45deg, white, white 2.5px, #D8D8D8 2.5px, #D8D8D8 5px)";
+        if (event.type === 'tentative') divStyle.backgroundColor = "#D8D8D8";
         return <div key={event.id} className={mustAddCssClass} style={{...divStyle, margin: 0}}>
-            <span style={{marginLeft: '4px', lineHeight: `${mustBeHeight}px` }}>{event.title}</span>
+            <span style={{marginLeft: '4px', lineHeight: `${mustBeHeight}px`, color: "black"}}>{event.title}</span>
         </div>;
     }
 }
