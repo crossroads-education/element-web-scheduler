@@ -376,13 +376,12 @@ export default class SchedulerData {
                 oldEnd = this.localeMoment(item.end),
                 rule = RRule.fromString(item.rrule);
             rule.origOptions.dtstart = oldStart.toDate();
-            let untilMoment = this.localeMoment(rule.origOptions.until);
-            if(windowEnd < untilMoment)
+            if(!rule.origOptions.until || windowEnd < this.localeMoment(rule.origOptions.until)) {
                 rule.origOptions.until = windowEnd.toDate();
-
+            }
+                
             //reload
             rule = RRule.fromString(rule.toString());
-
             let all = rule.all();
             let newEvents = all.map((time, index) => {
                 return {
@@ -558,7 +557,9 @@ export default class SchedulerData {
                 slotId: resource.id,
                 slotName: resource.name,
                 rowHeight: 0,
-                headerItems: headerEvents
+                headerItems: headerEvents,
+                component: resource.component,
+                componentProps: resource.componentProps
             };
         });
     }

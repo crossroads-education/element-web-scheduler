@@ -185,6 +185,7 @@ class ResourceEvents extends Component {
                 let renderEventsMaxIndex = headerItem.addMore === 0 ? cellMaxEvents : headerItem.addMoreIndex;
 
                 headerItem.events.forEach((evt, idx) => {
+                    console.log(evt);
                     if(idx < renderEventsMaxIndex && evt !== undefined && evt.render) {
                         let durationStart = localeMoment(startDate);
                         let durationEnd = localeMoment(endDate).add(1, 'days');

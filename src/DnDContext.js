@@ -20,7 +20,9 @@ export default class DnDContext {
                 let cellWidth = schedulerData.getContentCellWidth();
                 let point = monitor.getClientOffset();
                 let pos = getPos(component.eventContainer);
+                console.log(pos);
                 let leftIndex = Math.floor((point.x - pos.x)/cellWidth);
+                console.log(leftIndex);
                 let startTime = resourceEvents.headerItems[leftIndex].start;
                 let endTime = resourceEvents.headerItems[leftIndex].end;
                 if(viewType !== ViewTypes.Day)

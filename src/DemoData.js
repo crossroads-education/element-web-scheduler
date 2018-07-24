@@ -1,32 +1,55 @@
+import * as React from "react";
+
+const ResourceComponent = props => (
+    <div>
+        <span> {props.name} </span>
+        <img src={props.imgUrl} />
+    </div>
+);
+
 const DemoData = {
     resources: [
         {
             id: 'r1',
             name: 'Resource1',
+            component: ResourceComponent,
+            componentProps: { name: "Brian", imgUrl: "https://ui-avatars.com/api/?name=John+Doe"}
         },
         {
             id: 'r2',
             name: 'Resource2',
+            component: ResourceComponent,
+            componentProps: { name: "Sean", imgUrl: "https://ui-avatars.com/api/?name=k"}
         },
         {
             id: 'r3',
             name: 'Resource3',
+            component: ResourceComponent,
+            componentProps: { name: "John", imgUrl: "https://ui-avatars.com/api/?name=x"}
         },
         {
             id: 'r4',
             name: 'Resource4',
+            component: ResourceComponent,
+            componentProps: { name: "William", imgUrl: "https://ui-avatars.com/api/?name=f"}
         },
         {
             id: 'r5',
             name: 'Resource5',
+            component: ResourceComponent,
+            componentProps: { name: "Joseph", imgUrl: "https://ui-avatars.com/api/?name=z"}
         },
         {
             id: 'r6',
             name: 'Resource6',
+            component: ResourceComponent,
+            componentProps: { name: "George", imgUrl: "https://ui-avatars.com/api/?name=o"}
         },
         {
             id: 'r7',
             name: 'Resource7',
+            component: ResourceComponent,
+            componentProps: { name: "Matthew", imgUrl: "https://ui-avatars.com/api/?name=l"}
         }
     ],
     events: [
