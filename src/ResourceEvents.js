@@ -175,7 +175,8 @@ class ResourceEvents extends Component {
 
         let selectedArea = isSelecting ? <SelectedArea {...this.props} left={left} width={width} /> : <div />;
 
-        let eventList = [];
+        let eventList = {};
+
         resourceEvents.headerItems.forEach((headerItem, index) => {
 
             if (headerItem.count > 0 || headerItem.summary != undefined) {
@@ -185,7 +186,6 @@ class ResourceEvents extends Component {
                 let renderEventsMaxIndex = headerItem.addMore === 0 ? cellMaxEvents : headerItem.addMoreIndex;
 
                 headerItem.events.forEach((evt, idx) => {
-                    console.log(evt);
                     if(idx < renderEventsMaxIndex && evt !== undefined && evt.render) {
                         let durationStart = localeMoment(startDate);
                         let durationEnd = localeMoment(endDate).add(1, 'days');
@@ -213,7 +213,10 @@ class ResourceEvents extends Component {
                                                    leftIndex={index}
                                                    rightIndex={index + evt.span}
                                                    />
-                        eventList.push(eventItem);
+                        const layer = (config.layers) ? evt.eventItem.layer : 0;
+
+                        if(!eventList[layer]) eventList[layer] = [];
+                        eventList[layer].push(eventItem);
                     }
                 });
 
@@ -231,7 +234,9 @@ class ResourceEvents extends Component {
                                             top={top}
                                             clickAction={this.onAddMoreClick}
                                         />;
-                    eventList.push(addMoreItem);
+                    const layer = (config.layers) ? config.interactiveLayer : 0;
+                    if (!eventList[layer]) eventList[layer] = [];              
+                    eventList[layer].push(addMoreItem);
                 }
 
                 if(headerItem.summary != undefined) {
@@ -240,22 +245,52 @@ class ResourceEvents extends Component {
                     let width = cellWidth - (index > 0 ? 5 : 6);
                     let key = `${resourceEvents.slotId}_${headerItem.time}`;
                     let summary = <Summary key={key} schedulerData={schedulerData} summary={headerItem.summary} left={left} width={width} top={top} />;
-                    eventList.push(summary);
+                    
+
+                    const layer = (config.layers) ? config.interactiveLayer : 0;
+                    if (!eventList[layer]) eventList[layer] = [];
+                    eventList[layer].push(summary);
                 }
             }
         });
 
+        let eventContent;
+        if(config.layers) {
+            console.log(eventList);
+            const content = config.layers.map(layer => {
+                
+                if (layer !== config.interactiveLayer) {
+                    return (
+                        (eventList[layer]) ? (
+                            <div ref={this.eventContainerRef} className="event-container" style={{ height: resourceEvents.rowHeight, zIndex: layer, pointerEvents: "none" }}>
+                                {eventList[layer]}
+                            </div>
+                        ) : null
+                    )
+                }
+            });
+            content.push(
+                connectDropTarget(
+                    <div ref={this.eventContainerRef} className="event-container" style={{ height: resourceEvents.rowHeight, zIndex: config.interactiveLayer}}>
+                        {selectedArea}
+                        {eventList[config.interactiveLayer]}
+                    </div>
+                )
+            );
+            eventContent = content;
+        } else {
+            eventContent = connectDropTarget(
+                <div ref={this.eventContainerRef} className="event-container" style={{ height: resourceEvents.rowHeight }}>
+                    {selectedArea}
+                    {eventList[0]}
+                </div>
+            );
+        }
+
         return (
             <tr>
-                <td style={{width: rowWidth}}>
-                    {
-                        connectDropTarget(
-                            <div ref={this.eventContainerRef} className="event-container" style={{height: resourceEvents.rowHeight}}>
-                                {selectedArea}
-                                {eventList}
-                            </div>
-                        )
-                    }
+                <td style={{width: rowWidth, position: "relative"}}>
+                    {eventContent}
                 </td>
             </tr>
         );

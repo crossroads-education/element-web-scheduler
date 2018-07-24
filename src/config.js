@@ -2,7 +2,7 @@ import ViewTypes from './ViewTypes'
 import SummaryPos from './SummaryPos'
 
 export default {
-    schedulerWidth: 1000,
+    schedulerWidth: 1600,
     schedulerMaxHeight: 0,
     tableHeaderHeight: 40,
 
@@ -16,7 +16,7 @@ export default {
     yearResourceTableWidth: 160,
 
     dayCellWidth: 30,
-    weekCellWidth: 120,
+    weekCellWidth: 200,
     monthCellWidth: 80,
     quarterCellWidth: 80,
     yearCellWidth: 80,
@@ -62,6 +62,10 @@ export default {
     nonAgendaOtherCellHeaderFormat: 'ddd M/D',
 
     minuteStep: 30,
+
+    interactiveLayer: 2,
+    backgroundLayer: 0,
+    layers: [1, 2],
 
     views: [
         {viewName: 'Day', viewType: ViewTypes.Day, showAgenda: false, isEventPerspective: false},
