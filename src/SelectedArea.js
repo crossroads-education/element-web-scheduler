@@ -17,7 +17,7 @@ class SelectedArea extends Component {
         const {config} = schedulerData;
 
         return (
-            <div className="selected-area" style={{left: left, width: width, top: 0, bottom: 0, backgroundColor: config.selectedAreaColor}}>
+            <div className="selected-area" style={{left: left+1, width: width-1, top: 1, bottom: 0, background: config.selectedAreaBackground || config.selectedAreaColor }}>
             </div>
         );
     }

@@ -5,6 +5,28 @@ import Nav from './Nav'
 import ViewSrcCode from './ViewSrcCode'
 import withDragDropContext from './withDnDContext'
 
+const AvailabilityPalette = (props) => (
+    <form>
+        <fieldset style={{ padding: 10, border: "1px solid silver", width: 300, margin: "auto" }}>
+            <legend style={{ fontSize: "1em", display: "inline-block", marginBottom: 0, width: "auto" }}>Select a availability type</legend>
+            <div>
+                <input type="radio" id="unavailable" onChange={() => props.onChange("unavailable")} name="availability" checked={props.mode === "unavailable"} />
+                <label htmlFor="unavailable">&nbsp;&nbsp;unavailable</label>
+            </div>
+
+            <div>
+                <input type="radio" id="tentative" onChange={() => props.onChange("tentative")} name="availability" checked={props.mode === "tentative"} />
+                <label htmlFor="tentative">&nbsp;&nbsp;tentative</label>
+            </div>
+
+            <div>
+                <input type="radio" id="available" onChange={() => props.onChange("available")} name="availability" checked={props.mode === "available"} />
+                <label htmlFor="available">&nbsp;&nbsp;available</label>
+            </div>
+        </fieldset>    
+    </form>
+);
+
 class AvailablitySchedule extends Component{
     constructor(props){
         super(props);
@@ -12,14 +34,30 @@ class AvailablitySchedule extends Component{
         let schedulerData = new SchedulerData('2017-12-18', ViewTypes.Day, false, false, { 
             minuteStep: 15,
             eventItemTopMargin: 0,
-            rowHeight: 22
+            rowHeight: 22,
+            eventItemLeftMargin: 1,
+            eventItemRightMargin: 1,
+            selectedAreaBackground: this.getAvailibilityBackground("available"),
+            dayCellWidth: 20,
+            dayStartFrom: 6,
+            dayStopTo: 17,
+            views: []
+        }, {
+            isNonWorkingTimeFunc: () => false
         });
         schedulerData.localeMoment.locale('en');
         schedulerData.setResources(AvailabilityDemoData.resources);
         schedulerData.setEvents(AvailabilityDemoData.events);
         this.state = {
-            viewModel: schedulerData
+            viewModel: schedulerData,
+            availabilityBrush: "available"
         }
+    }
+
+    setAvailabilityBrush = (mode) => {
+        console.log(this.state.viewModel);
+        this.state.viewModel.config.selectedAreaBackground = this.getAvailibilityBackground(mode); // FIXME: don't change state outside of setState!
+        this.setState({ availabilityBrush: mode });
     }
 
     render(){
@@ -27,6 +65,8 @@ class AvailablitySchedule extends Component{
         return (
             <div>
                 <Nav />
+                <AvailabilityPalette mode={this.state.availabilityBrush} onChange={this.setAvailabilityBrush}/>
+                <br/>
                 <div>
                     <h3 style={{textAlign: 'center'}}>Custom event style<ViewSrcCode srcCodeUrl="https://github.com/StephenChou1017/react-big-scheduler/blob/master/example/CustomEventStyle.js" /></h3>
                     <Scheduler schedulerData={viewModel}
@@ -95,27 +135,27 @@ class AvailablitySchedule extends Component{
     };
 
     newEvent = (schedulerData, slotId, slotName, start, end, type, item) => {
-        if(confirm(`Do you want to create a new event? {slotId: ${slotId}, slotName: ${slotName}, start: ${start}, end: ${end}, type: ${type}, item: ${item}}`)){
-
+        // if(confirm(`Do you want to create a new event? {slotId: ${slotId}, slotName: ${slotName}, start: ${start}, end: ${end}, type: ${type}, item: ${item}}`)){
             let newFreshId = 0;
             schedulerData.events.forEach((item) => {
                 if(item.id >= newFreshId)
                     newFreshId = item.id + 1;
             });
+            const brush = this.state.availabilityBrush;
 
             let newEvent = {
                 id: newFreshId,
-                title: 'New event you just created',
+                title: brush,
                 start: start,
                 end: end,
                 resourceId: slotId,
-                bgColor: 'purple'
+                type: brush
             }
             schedulerData.addEvent(newEvent);
             this.setState({
                 viewModel: schedulerData
             })
-        }
+        // }
     }
 
     updateEventStart = (schedulerData, event, newStart) => {
@@ -145,23 +185,17 @@ class AvailablitySchedule extends Component{
         }
     }
 
+    getAvailibilityBackground = (mode) => {
+        if (mode === 'available') return 'white';
+        if (mode === 'tentative') return "repeating-linear-gradient(45deg, white, white 2.5px, #D8D8D8 2.5px, #D8D8D8 5px)";
+        if (mode === 'unavailable') return "#D8D8D8";
+        return "black"
+    }
+
     eventItemTemplateResolver = (schedulerData, event, bgColor, isStart, isEnd, mustAddCssClass, mustBeHeight, agendaMaxEventWidth) => {
-        // return <div key={event.id} className={mustAddCssClass} style={{ height: `${mustBeHeight} px`}}
-        // let borderWidth = isStart ? '4' : '0';
-        // let borderColor =  'rgba(0,139,236,1)', backgroundColor = '#80C5F6';
-        // let titleText = schedulerData.behaviors.getEventTextFunc(schedulerData, event);
-        // if(!!event.type){
-        //     borderColor = event.type == 1 ? 'rgba(0,139,236,1)' : (event.type == 3 ? 'rgba(245,60,43,1)' : '#999');
-        //     backgroundColor = event.type == 1 ? '#80C5F6' : (event.type == 3 ? '#FA9E95' : '#D9D9D9');
-        // }
-        // let divStyle = {borderLeft: borderWidth + 'px solid ' + borderColor, backgroundColor: backgroundColor, height: mustBeHeight };
-        // if(!!agendaMaxEventWidth)
-        //     divStyle = {...divStyle, maxWidth: agendaMaxEventWidth};
-        const divStyle = { backgroundColor: 'green' };
-        if (event.type === 'unavailable') divStyle.backgroundColor = 'red';
-        if (event.type === 'tentative') divStyle.backgroundColor = 'yellow';
-        return <div key={event.id} className={mustAddCssClass} style={{...divStyle, margin: 0}}>
-            <span style={{marginLeft: '4px', lineHeight: `${mustBeHeight}px` }}>{event.title}</span>
+        const titleText = schedulerData.behaviors.getEventTextFunc(schedulerData, event);
+        return <div key={event.id} className={mustAddCssClass} style={{ background: this.getAvailibilityBackground(event.type), margin: 0}}>
+            <span style={{marginLeft: '4px', lineHeight: `${mustBeHeight}px`, color: "black"}}>{titleText}</span>
         </div>;
     }
 }
