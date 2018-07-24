@@ -257,13 +257,11 @@ class ResourceEvents extends Component {
 
         let eventContent;
         if(config.layers) {
-            console.log(eventList);
             const content = config.layers.map(layer => {
-                
                 if (layer !== config.interactiveLayer) {
                     return (
                         (eventList[layer]) ? (
-                            <div ref={this.eventContainerRef} className="event-container" style={{ height: resourceEvents.rowHeight, zIndex: layer, pointerEvents: "none" }}>
+                            <div ref={this.eventContainerRef} className="event-container" style={{ position: "absolute", height: resourceEvents.rowHeight, zIndex: layer, pointerEvents: "none" }}>
                                 {eventList[layer]}
                             </div>
                         ) : null

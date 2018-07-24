@@ -66,9 +66,9 @@ export default {
 
     minuteStep: 30,
 
-    interactiveLayer: 2,
+    interactiveLayer: 0,
     backgroundLayer: 0,
-    layers: [1, 2],
+    layers: false,
 
     views: [
         {viewName: 'Day', viewType: ViewTypes.Day, showAgenda: false, isEventPerspective: false},
