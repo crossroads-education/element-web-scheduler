@@ -184,9 +184,9 @@ class ResourceEvents extends Component {
                 let isTop = config.summaryPos === SummaryPos.TopRight || config.summaryPos === SummaryPos.Top || config.summaryPos === SummaryPos.TopLeft;
                 let marginTop = resourceEvents.hasSummary && isTop ? config.eventItemTopMargin + config.eventItemLineHeight : config.eventItemTopMargin;
                 let renderEventsMaxIndex = headerItem.addMore === 0 ? cellMaxEvents : headerItem.addMoreIndex;
-
+                const xCorrection = (index === 0 ? 1 : 0);
                 headerItem.events.forEach((evt, idx) => {
-                    const xCorrection = (index === 0 ? 1 : 0);
+                    
                     if(idx < renderEventsMaxIndex && evt !== undefined && evt.render) {
                         let durationStart = localeMoment(startDate);
                         let durationEnd = localeMoment(endDate).add(1, 'days');
@@ -194,13 +194,15 @@ class ResourceEvents extends Component {
                             durationStart = localeMoment(startDate).add(config.dayStartFrom, 'hours');
                             durationEnd = localeMoment(endDate).add(config.dayStopTo + 1, 'hours');
                         }
+                        let layer = (config.layers) ? evt.eventItem.layer : 0;
+                        if (!eventList[layer]) eventList[layer] = [];
                         let eventStart = localeMoment(evt.eventItem.start);
                         let eventEnd = localeMoment(evt.eventItem.end);
                         let isStart = eventStart >= durationStart;
                         let isEnd = eventEnd <= durationEnd;
                         let left = index*cellWidth + config.eventItemLeftMargin + xCorrection;
                         let width = Math.max(0, evt.span * cellWidth + 1 - config.eventItemRightMargin - config.eventItemLeftMargin - xCorrection);
-                        let top = marginTop + idx*config.eventItemLineHeight;
+                        let top = marginTop + (layer) ? eventList[layer].length * config.eventItemLineHeight : idx * config.eventItemLineHeight;
                         console.log("setting top to", top);
                         let eventItem = <DnDEventItem
                                                    {...this.props}
@@ -215,16 +217,16 @@ class ResourceEvents extends Component {
                                                    leftIndex={index}
                                                    rightIndex={index + evt.span}
                                                    />
-                        const layer = (config.layers) ? evt.eventItem.layer : 0;
+                        
 
-                        if(!eventList[layer]) eventList[layer] = [];
+                        
                         eventList[layer].push(eventItem);
                     }
                 });
 
                 if(headerItem.addMore > 0) {
                     let left = index*cellWidth + config.eventItemLeftMargin + xCorrection;
-                    let width = Math.max(0, evt.span * cellWidth + 1 - config.eventItemRightMargin - config.eventItemLeftMargin - xCorrection);
+                    let width = Math.max(0, cellWidth + 1 - config.eventItemRightMargin - config.eventItemLeftMargin - xCorrection);
                     let top = marginTop + headerItem.addMoreIndex*config.eventItemLineHeight;
                     let addMoreItem = <AddMore
                                             {...this.props}
@@ -243,14 +245,14 @@ class ResourceEvents extends Component {
 
                 if(headerItem.summary != undefined) {
                     let top = isTop ? 1 : resourceEvents.rowHeight - config.eventItemLineHeight + 1;
-                    let left = index*cellWidth + config.eventItemLeftMargin + xCorrection;
+                    let left = index * cellWidth + config.eventItemLeftMargin + xCorrection;
                     let width = Math.max(0, evt.span * cellWidth + 1 - config.eventItemRightMargin - config.eventItemLeftMargin - xCorrection);
                     let key = `${resourceEvents.slotId}_${headerItem.time}`;
                     let summary = <Summary key={key} schedulerData={schedulerData} summary={headerItem.summary} left={left} width={width} top={top} />;
                     
 
                     const layer = (config.layers) ? config.interactiveLayer : 0;
-                    if (!eventList[layer]) eventList[layer] = [];
+                    
                     eventList[layer].push(summary);
                 }
             }

@@ -197,7 +197,7 @@ class Scheduler extends Component {
                                             </tbody>
                                         </table>
                                     </div>
-                                    <div className="scheduler-bg" style={{ zIndex: config.backgroundLayer, pointerEvents: "none"}}>
+                                    <div className="scheduler-bg" style={{ zIndex: config.backgroundLayer, pointerEvents: "none" }}>
                                         <table className="scheduler-bg-table" style={{width: schedulerWidth}} ref={this.schedulerContentBgTableRef} >
                                             <BodyView {...this.props}/>
                                         </table>
