@@ -28,6 +28,7 @@ export default {
     yearMaxEvents: 99,
 
     rowHeight: "auto",
+    selectedAreaZIndex: 0,
 
     eventItemHeight: 22,
     eventItemLineHeight: 24,

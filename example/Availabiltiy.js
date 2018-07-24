@@ -41,7 +41,8 @@ class AvailablitySchedule extends Component{
             dayCellWidth: 20,
             dayStartFrom: 6,
             dayStopTo: 17,
-            views: []
+            views: [],
+            selectedAreaZIndex: 2,
         }, {
             isNonWorkingTimeFunc: () => false
         });
