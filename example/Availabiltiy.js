@@ -45,7 +45,7 @@ class AvailablitySchedule extends Component{
             dayStopTo: 17,
             views: [],
             selectedAreaZIndex: 2,
-            tableBgZIndex: 3,
+            backgroundLayer: 3,
             selectedAreaBorder: '1px solid #aaa'
         }, {
             isNonWorkingTimeFunc: () => false

@@ -60,7 +60,7 @@ const DemoData = {
             resourceId: 'r1',
             title: 'I am finished',
             bgColor: '#D9D9D9',
-            layer: 2
+            layer: 4
         },
         {
             id: 2,
@@ -69,7 +69,7 @@ const DemoData = {
             resourceId: 'r2',
             title: 'I am not resizable',
             resizable: false,
-            layer: 2
+            layer: 4
         },
         {
             id: 3,
@@ -78,7 +78,7 @@ const DemoData = {
             resourceId: 'r3',
             title: 'I am not movable',
             movable: false,
-            layer: 2
+            layer: 4
         },
         {
             id: 4,
@@ -87,7 +87,7 @@ const DemoData = {
             resourceId: 'r4',
             title: 'I am not start-resizable',
             startResizable: false,
-            layer: 2
+            layer: 4
         },
         {
             id: 5,
@@ -96,7 +96,7 @@ const DemoData = {
             resourceId: 'r5',
             title: 'I am not end-resizable',
             endResizable: false,
-            layer: 2
+            layer: 4
         },
         {
             id: 6,
@@ -104,7 +104,7 @@ const DemoData = {
             end: '2017-12-19 23:30:00',
             resourceId: 'r6',
             title: 'I am normal',
-            layer: 2
+            layer: 4
         },
         {
             id: 7,
@@ -113,7 +113,7 @@ const DemoData = {
             resourceId: 'r7',
             title: 'I am exceptional',
             bgColor: '#FA9E95',
-            layer: 2
+            layer: 4
         },
         {
             id: 8,
@@ -124,7 +124,7 @@ const DemoData = {
             movable: false,
             resizable: false,
             bgColor: 'red',
-            layer: 2
+            layer: 4
         },
         {
             id: 9,
@@ -132,7 +132,7 @@ const DemoData = {
             end: '2017-12-27 23:30:00',
             resourceId: 'r1',
             title: 'R1 has many tasks 1',
-            layer: 2
+            layer: 4
         },
         {
             id: 10,
@@ -142,7 +142,7 @@ const DemoData = {
             title: 'R1 has recurring tasks every week on Tuesday, Friday',
             rrule: 'FREQ=WEEKLY;DTSTART=20171219T013000Z;BYDAY=TU,FR',
             bgColor: '#f759ab',
-            layer: 2
+            layer: 4
         },
         {
             id: 11,
@@ -150,7 +150,7 @@ const DemoData = {
             end: '2017-12-20 23:30:00',
             resourceId: 'r1',
             title: 'R1 has many tasks 3',
-            layer: 2
+            layer: 4
 
         },
         {
@@ -159,7 +159,16 @@ const DemoData = {
             end: '2017-12-20 23:30:00',
             resourceId: 'r1',
             title: 'R1 has many tasks 4',
-            layer: 2
+            layer: 4
+        },
+        {
+            id: 15,
+            start: '2017-12-20 14:30:00',
+            end: '2017-12-20 20:30:00',
+            resourceId: 'r1',
+            title: 'R1 has many tasks 4',
+            layer: 5,
+            bgColor: "#ff7f00"
         },
         {
             id: 13,
@@ -167,7 +176,7 @@ const DemoData = {
             end: '2017-12-22 23:30:00',
             resourceId: 'r1',
             title: 'R1 has many tasks 5',
-            layer: 2
+            layer: 4
         },
         {
             id: 14,
@@ -175,7 +184,7 @@ const DemoData = {
             end: '2017-12-27 23:30:00',
             resourceId: 'r1',
             title: 'R1 has many tasks 6',
-            layer: 1
+            layer: 1    
         },
     ],
     eventsForTaskView: [
@@ -287,6 +296,7 @@ const DemoData = {
             groupId: 4,
             groupName: 'Task4'
         },
+        
         {
             id: 12,
             start: '2017-12-28 18:30:00',

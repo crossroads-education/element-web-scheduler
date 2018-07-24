@@ -69,7 +69,7 @@ export default {
 
     minuteStep: 30,
 
-    interactiveLayer: 2,
+    interactiveLayer: 0,
     backgroundLayer: 0,
     layers: false,
 
