@@ -4,6 +4,8 @@ import Scheduler, {SchedulerData, ViewTypes} from '../src/index'
 import Nav from './Nav'
 import ViewSrcCode from './ViewSrcCode'
 import withDragDropContext from './withDnDContext'
+import { extendMoment } from 'moment-range';
+import uuid from 'uuid/v4';
 
 const AvailabilityPalette = (props) => (
     <form>
@@ -43,6 +45,8 @@ class AvailablitySchedule extends Component{
             dayStopTo: 17,
             views: [],
             selectedAreaZIndex: 2,
+            tableBgZIndex: 3,
+            selectedAreaBorder: '1px solid #aaa'
         }, {
             isNonWorkingTimeFunc: () => false
         });
@@ -136,27 +140,53 @@ class AvailablitySchedule extends Component{
     };
 
     newEvent = (schedulerData, slotId, slotName, start, end, type, item) => {
-        // if(confirm(`Do you want to create a new event? {slotId: ${slotId}, slotName: ${slotName}, start: ${start}, end: ${end}, type: ${type}, item: ${item}}`)){
-            let newFreshId = 0;
-            schedulerData.events.forEach((item) => {
-                if(item.id >= newFreshId)
-                    newFreshId = item.id + 1;
-            });
-            const brush = this.state.availabilityBrush;
+        const newEvent = {
+            id: null,
+            title: '',
+            start: start,
+            end: end,
+            resourceId: slotId,
+            type: this.state.availabilityBrush,
+            disableInteractions: true
+        }
+        this.insertEvent(newEvent, schedulerData);
+    }
 
-            let newEvent = {
-                id: newFreshId,
-                title: brush,
-                start: start,
-                end: end,
-                resourceId: slotId,
-                type: brush
+    insertEvent = (newEvent, schedulerData) => {
+        const moment = extendMoment(schedulerData.localeMoment);
+        const resultEvents = [newEvent];
+        
+        let newRange = moment.range(newEvent.start, newEvent.end);
+
+        schedulerData.events.forEach(evt => {
+            if (evt.resourceId !== newEvent.resourceId) {
+                resultEvents.push(evt);
+            } else {
+                const range = moment.range(evt.start, evt.end);
+                if (newEvent.type === evt.type) {
+                    if (range.overlaps(newRange, { adjacent: true })) {
+                        newRange = range.add(newRange, { adjacent: true });
+                    } else {
+                        resultEvents.push(evt);
+                    }
+                } else {
+                    if (range.overlaps(newRange)) {
+                        range.subtract(newRange).forEach(res => resultEvents.push({ ...evt, id: null, start: res.start, end: res.end }));
+                    } else {
+                        resultEvents.push(evt);
+                    }
+                }
             }
-            schedulerData.addEvent(newEvent);
-            this.setState({
-                viewModel: schedulerData
-            })
-        // }
+        });
+        resultEvents.forEach(evt => evt.id = evt.id || uuid());
+        newEvent.start = newRange.start;
+        newEvent.end = newRange.end;
+
+        schedulerData.setEvents(resultEvents);
+
+        this.setState({
+            viewModel: schedulerData
+        })
     }
 
     updateEventStart = (schedulerData, event, newStart) => {

@@ -29,6 +29,8 @@ export default {
 
     rowHeight: "auto",
     selectedAreaZIndex: 0,
+    tableBgZIndex: 1,
+    selectedAreaBorder: 'none',
 
     eventItemHeight: 22,
     eventItemLineHeight: 24,
