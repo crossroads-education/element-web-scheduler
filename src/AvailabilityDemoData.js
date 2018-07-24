@@ -31,7 +31,8 @@ export const AvailabilityDemoData = {
             resizable: false,
             movable: false,
             eventItemPopoverEnabled: false,
-            type: 'available'
+            type: 'available',
+            disableInteractions: true
         },
         {
             id: 2,
@@ -42,7 +43,8 @@ export const AvailabilityDemoData = {
             resizable: false,
             movable: false,
             eventItemPopoverEnabled: false,
-            type: 'unavailable'
+            type: 'unavailable',
+            disableInteractions: true
         },
         {
             id: 3,
@@ -53,7 +55,8 @@ export const AvailabilityDemoData = {
             resizable: false,
             movable: false,
             eventItemPopoverEnabled: false,
-            type: 'tentative'
+            type: 'tentative',
+            disableInteractions: true
         }
     ],
 }

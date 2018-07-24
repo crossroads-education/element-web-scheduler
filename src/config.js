@@ -28,6 +28,7 @@ export default {
     yearMaxEvents: 99,
 
     rowHeight: "auto",
+    selectedAreaZIndex: 0,
 
     eventItemHeight: 22,
     eventItemLineHeight: 24,
@@ -68,7 +69,7 @@ export default {
 
     interactiveLayer: 2,
     backgroundLayer: 0,
-    layers: [1, 2],
+    layers: false,
 
     views: [
         {viewName: 'Day', viewType: ViewTypes.Day, showAgenda: false, isEventPerspective: false},
