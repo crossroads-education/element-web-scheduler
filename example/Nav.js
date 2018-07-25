@@ -32,6 +32,12 @@ class Nav extends Component {
                     </li>
                     <li style={liStyle}>
                         <Link target="_self"
+                              to='/roll-call'>
+                            <span>RollCall</span>
+                        </Link>
+                    </li>
+                    <li style={liStyle}>
+                        <Link target="_self"
                               to='/'>
                             <span>Basic</span>
                         </Link>
