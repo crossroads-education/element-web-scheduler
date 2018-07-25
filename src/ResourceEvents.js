@@ -203,11 +203,16 @@ class ResourceEvents extends Component {
                         let isEnd = eventEnd <= durationEnd;
                         let left = index*cellWidth;
                         let width = evt.span * cellWidth;
-                        let offset = (config.layers) ? idx : {  };
+                        let offset = idx;
+                        if(config.layers) {
+                            if (!layerCount[evt.eventItem.layer]) layerCount[evt.eventItem.layer] = 0;
+                            offset = layerCount[evt.eventItem.layer];
+                            layerCount[evt.eventItem.layer]++;
+                        }
                         if(left + width >= 100) {
                             width = 100 - left;
                         }
-                        let top = idx * config.eventItemLineHeight;
+                        let top = offset * config.eventItemLineHeight;
                         let eventItem = <DnDEventItem
                                             {...this.props}
                                             key={evt.eventItem.id}
