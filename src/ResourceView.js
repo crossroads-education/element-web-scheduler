@@ -25,7 +25,7 @@ class ResourceView extends Component {
            
            
             let slotItem = (
-                <div style={{width: "100%"}} title={item.slotName} className="overflow-text header2-text">
+                <div style={{width: "100%", height: "100%"}} title={item.slotName} className="overflow-text header2-text">
                     {a}
                 </div>
             );
@@ -37,7 +37,7 @@ class ResourceView extends Component {
 
             return (
                 <div key={item.slotId}>
-                    <div data-resource-id={item.slotId} style={{height: item.rowHeight}}>
+                    <div data-resource-id={item.slotId} style={{height: item.rowHeight - 1}}>
                         {slotItem}
                     </div>
                 </div>
@@ -46,9 +46,7 @@ class ResourceView extends Component {
 
         return (
             <div className="resource-table" style={{width}}>
-                <div>
-                    {resourceList}
-                </div>
+                {resourceList}
             </div>
         )
     }

@@ -1,9 +1,9 @@
 import * as React from "react";
 
 const ResourceComponent = props => (
-    <div>
+    <div style={{height: "100%"}}>
         <span> {props.name} </span>
-        <img src={props.imgUrl} />
+        <img src={props.imgUrl} style={{height: "100%", width: "auto"}}/>
     </div>
 );
 
