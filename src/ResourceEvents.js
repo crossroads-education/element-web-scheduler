@@ -184,7 +184,8 @@ class ResourceEvents extends Component {
                 let isTop = config.summaryPos === SummaryPos.TopRight || config.summaryPos === SummaryPos.Top || config.summaryPos === SummaryPos.TopLeft;
                 let marginTop = resourceEvents.hasSummary && isTop ? config.eventItemTopMargin + config.eventItemLineHeight : config.eventItemTopMargin;
                 let renderEventsMaxIndex = headerItem.addMore === 0 ? cellMaxEvents : headerItem.addMoreIndex;
-                const xCorrection = (index === 0 ? 1 : 0);
+                const leftCorrection = (index === 0) ? 0 : 2;
+                const widthCorrection = (index !== 0) ? 0 : 2;
                 headerItem.events.forEach((evt, idx) => {
                     
                     if(idx < renderEventsMaxIndex && evt !== undefined && evt.render) {
@@ -219,8 +220,8 @@ class ResourceEvents extends Component {
                                             top={top}
                                             leftIndex={index}
                                             rightIndex={index + evt.span}
-                                            widthExtra={(config.eventItemRightMargin - config.eventItemLeftMargin - xCorrection + 1)}
-                                            leftExtra={(config.eventItemLeftMargin + xCorrection)}
+                                            widthExtra={(config.eventItemRightMargin - config.eventItemLeftMargin - widthCorrection)}
+                                            leftExtra={(config.eventItemLeftMargin - leftCorrection)}
                                         />
                         eventList[layer].push(eventItem);
                     }
