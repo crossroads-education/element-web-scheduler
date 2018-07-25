@@ -28,10 +28,7 @@ class HeaderView extends Component {
                     let datetime = localeMoment(item.time);
                     const isCurrentTime = datetime.isSame(new Date(), 'hour');
 
-                    style = !!item.nonWorkingTime ? {width: cellWidth*minuteStepsInHour, color: config.nonWorkingTimeHeadColor, backgroundColor: config.nonWorkingTimeHeadBgColor} : {width: cellWidth*minuteStepsInHour};
-
-                    if(index === headers.length - minuteStepsInHour)
-                        style = !!item.nonWorkingTime ? {color: config.nonWorkingTimeHeadColor, backgroundColor: config.nonWorkingTimeHeadBgColor} : {};
+                    style = !!item.nonWorkingTime ? { width: config.schedulerContentWidth, color: config.nonWorkingTimeHeadColor, backgroundColor: config.nonWorkingTimeHeadBgColor } : { width: config.schedulerContentWidth};
 
                     let pFormattedList = config.nonAgendaDayCellHeaderFormat.split('|').map(item => datetime.format(item));
                     let element;
@@ -45,11 +42,9 @@ class HeaderView extends Component {
                         ));
 
                         element = (
-                            <th key={item.time} className="header3-text" style={style}>
-                                <div>
-                                    {pList}
-                                </div>
-                            </th>
+                            <div key={item.time} className="header3-text" style={style}>
+                                {pList}
+                            </div>
                         );
                     }
 
@@ -60,9 +55,7 @@ class HeaderView extends Component {
         else {
             headerList = headers.map((item, index) => {
                 let datetime = localeMoment(item.time);
-                style = !!item.nonWorkingTime ? {width: cellWidth, color: config.nonWorkingTimeHeadColor, backgroundColor: config.nonWorkingTimeHeadBgColor} : {width: cellWidth};
-                if(index === headers.length - 1)
-                    style = !!item.nonWorkingTime ? {color: config.nonWorkingTimeHeadColor, backgroundColor: config.nonWorkingTimeHeadBgColor} : {};
+                style = !!item.nonWorkingTime ? { width: config.schedulerContentWidth, color: config.nonWorkingTimeHeadColor, backgroundColor: config.nonWorkingTimeHeadBgColor } : { width: config.schedulerContentWidth};
 
                 let pFormattedList = config.nonAgendaOtherCellHeaderFormat.split('|').map(item => datetime.format(item));
 
@@ -75,21 +68,17 @@ class HeaderView extends Component {
                 ));
 
                 return (
-                    <th key={item.time} className="header3-text" style={style}>
-                        <div>
-                            {pList}
-                        </div>
-                    </th>
+                    <div key={item.time} style={style}>
+                        {pList}
+                    </div>
                 );
             });
         }
 
         return (
-            <thead>
-                <tr style={{height: headerHeight}}>
-                    {headerList}
-                </tr>
-            </thead>
+            <div style={{height: headerHeight, display: "flex"}}>
+                {headerList}
+            </div>
         );
     }
 }

@@ -203,7 +203,6 @@ class ResourceEvents extends Component {
                         let left = index*cellWidth + config.eventItemLeftMargin + xCorrection;
                         let width = Math.max(0, evt.span * cellWidth + 1 - config.eventItemRightMargin - config.eventItemLeftMargin - xCorrection);
                         let top = marginTop + (layer) ? eventList[layer].length * config.eventItemLineHeight : idx * config.eventItemLineHeight;
-                        console.log("setting top to", top);
                         let eventItem = <DnDEventItem
                                                    {...this.props}
                                                    key={evt.eventItem.id}
@@ -217,9 +216,7 @@ class ResourceEvents extends Component {
                                                    leftIndex={index}
                                                    rightIndex={index + evt.span}
                                                    />
-                        
-
-                        
+                        console.log(eventItem, index);
                         eventList[layer].push(eventItem);
                     }
                 });
@@ -290,11 +287,9 @@ class ResourceEvents extends Component {
         }
 
         return (
-            <tr>
-                <td style={{width: rowWidth, position: "relative"}}>
-                    {eventContent}
-                </td>
-            </tr>
+            <div style={{position: "relative" }}>
+                {eventContent}
+            </div>
         );
     }
 

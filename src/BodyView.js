@@ -20,25 +20,25 @@ class BodyView extends Component {
         let tableRows = renderData.map((item) => {
             let rowCells = headers.map((header, index) => {
                 let key = item.slotId + '_' + header.time;
-                let style = index === headers.length - 1 ? {} : {width: cellWidth};
+                let style = {width: "calc(100% + 2px)", height: "100%"};
                 if(!!header.nonWorkingTime)
                     style = {...style, backgroundColor: config.nonWorkingTimeBodyBgColor};
                 return (
-                    <td key={key} style={style}><div></div></td>
+                    <div key={key} style={style}><div/></div>
                 )
             });
 
             return (
-                <tr key={item.slotId} style={{height: item.rowHeight}}>
+                <div key={item.slotId} style={{height: item.rowHeight, display:"flex"}}>
                     {rowCells}
-                </tr>
+                </div>
             );
         });
 
         return (
-            <tbody>
+            <div>
                 {tableRows}
-            </tbody>
+            </div>
         );
     }
 }

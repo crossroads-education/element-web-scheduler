@@ -270,14 +270,12 @@ export default class SchedulerData {
     }
 
     getContentCellWidth(){
-        return this.viewType === ViewTypes.Week ? this.config.weekCellWidth : (
-            this.viewType === ViewTypes.Day ? this.config.dayCellWidth : (
-                this.viewType === ViewTypes.Month ? this.config.monthCellWidth : (
-                    this.viewType === ViewTypes.Year ? this.config.yearCellWidth :
-                        this.config.quarterCellWidth
-                )
-            )
-        );
+        let width = this.config.schedulerContentWidth / this.headers.length;
+        return width;
+    }
+
+    getEventWidth(span){
+        return ((this.headers.length / span) * 100 + "%");
     }
 
     getCellMaxEvents(){

@@ -39,21 +39,21 @@ class ResourceView extends Component {
             }
 
             return (
-                <tr key={item.slotId}>
-                    <td data-resource-id={item.slotId} style={{height: item.rowHeight}}>
+                <div key={item.slotId}>
+                    <div data-resource-id={item.slotId} style={{height: item.rowHeight}}>
                         {slotItem}
-                    </td>
-                </tr>
+                    </div>
+                </div>
             );
         });
 
         return (
             <div style={{paddingBottom: paddingBottom}}>
-                <table className="resource-table">
-                    <tbody>
+                <div className="resource-table">
+                    <div>
                         {resourceList}
-                    </tbody>
-                </table>
+                    </div>
+                </div>
             </div>
         )
     }

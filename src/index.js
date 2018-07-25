@@ -102,7 +102,7 @@ class Scheduler extends Component {
     render() {
         const { schedulerData, leftCustomHeader, rightCustomHeader } = this.props;
         const {renderData, viewType, showAgenda, isEventPerspective, config} = schedulerData;
-        const width = config.schedulerWidth;
+        const width = config.schedulerContainerWidth;
         const calendarPopoverEnabled = config.calendarPopoverEnabled;
 
         let dateLabel = schedulerData.getDateLabel();
@@ -113,7 +113,7 @@ class Scheduler extends Component {
                 style={{margin: "0px 8px"}}>{item.viewName}</span></RadioButton>
         })
 
-        let tbodyContent = <tr />;
+        let tbodyContent = <div />;
         if (showAgenda) {
             tbodyContent = <AgendaView
                                 {...this.props}
@@ -121,8 +121,7 @@ class Scheduler extends Component {
         }
         else {
             let resourceTableWidth = schedulerData.getResourceTableWidth();
-            let schedulerContainerWidth = width - resourceTableWidth + 1;
-            let schedulerWidth = schedulerData.getContentTableWidth() - 1;
+            let schedulerContainerWidth = (config.viewResources) ? width - resourceTableWidth : width;
             let DndResourceEvents = this.state.dndContext.getDropTarget();
             let eventDndSource = this.state.dndContext.getDndSource();
 
@@ -138,7 +137,7 @@ class Scheduler extends Component {
             let browserScrollbarHeight = this.state.browserScrollbarHeight,
                 browserScrollbarWidth = this.state.browserScrollbarWidth,
                 contentHeight = this.state.contentHeight;
-            let schedulerContentStyle = {overflow: 'auto', margin: "0px, 0px, 0px, 0px", position: "relative"};
+            let schedulerContentStyle = {margin: "0px, 0px, 0px, 0px", position: "relative", width: config.schedulerContentWidth };
             let resourceContentStyle = {overflowX: "auto", overflowY: "auto", margin: `0px -${browserScrollbarWidth}px 0px 0px`};
             if (config.schedulerMaxHeight > 0) {
                 schedulerContentStyle = {
@@ -152,21 +151,17 @@ class Scheduler extends Component {
             }
 
             let resourceName = schedulerData.isEventPerspective ? config.taskName : config.resourceName;
-            tbodyContent = (
-                <tr>
-                    <td style={{width: resourceTableWidth, verticalAlign: 'top'}}>
+            const resourceView = (
+                <div>
+                    <div style={{ width: resourceTableWidth, verticalAlign: 'top' }}>
                         <div className="resource-view">
-                            <div style={{overflow: "hidden", borderBottom: "1px solid #e9e9e9", height: config.tableHeaderHeight}}>
-                                <div style={{overflowX: "scroll", overflowY: "hidden", margin: `0px 0px -${browserScrollbarHeight}px`}}>
-                                    <table className="resource-table">
-                                        <thead>
-                                        <tr style={{height: config.tableHeaderHeight}}>
-                                            <th className="header3-text">
-                                                {resourceName}
-                                            </th>
-                                        </tr>
-                                        </thead>
-                                    </table>
+                            <div style={{ overflow: "hidden", borderBottom: "1px solid #e9e9e9", height: config.tableHeaderHeight }}>
+                                <div style={{ overflowX: "scroll", overflowY: "hidden" }}>
+                                    <div className="resource-table">
+                                        <div className="header3-text">
+                                            {resourceName}
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                             <div style={resourceContentStyle} ref={this.schedulerResourceRef} onMouseOver={this.onSchedulerResourceMouseOver} onMouseOut={this.onSchedulerResourceMouseOut} onScroll={this.onSchedulerResourceScroll}>
@@ -176,47 +171,55 @@ class Scheduler extends Component {
                                 />
                             </div>
                         </div>
-                    </td>
-                    <td>
-                        <div className="scheduler-view" style={{width: schedulerContainerWidth, verticalAlign: 'top'}}>
-                            <div style={{overflow: "hidden", borderBottom: "1px solid #e9e9e9", height: config.tableHeaderHeight}}>
-                                <div style={{overflowX: "scroll", overflowY: "hidden", margin: `0px 0px -${browserScrollbarHeight}px`}} ref={this.schedulerHeadRef} onMouseOver={this.onSchedulerHeadMouseOver} onMouseOut={this.onSchedulerHeadMouseOut} onScroll={this.onSchedulerHeadScroll}>
-                                    <div style={{paddingRight: `${browserScrollbarWidth}px`, width: schedulerWidth + browserScrollbarWidth}}>
-                                        <table className="scheduler-bg-table">
-                                            <HeaderView {...this.props}/>
-                                        </table>
+                    </div>
+                </div>
+            );
+            
+            tbodyContent = (
+                <React.Fragment>
+                    {config.viewResources && resourceView}
+                    <div>
+                        <div className="scheduler-view">
+                            <div style={{ overflow: "hidden", borderBottom: "1px solid #e9e9e9", height: config.tableHeaderHeight }}>
+                                <div style={{ overflowX: "scroll", overflowY: "hidden" }} ref={this.schedulerHeadRef} onMouseOver={this.onSchedulerHeadMouseOver} onMouseOut={this.onSchedulerHeadMouseOut} onScroll={this.onSchedulerHeadScroll}>
+                                    <div>
+                                        <div className="scheduler-bg-table">
+                                            <HeaderView {...this.props} />
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                             <div style={schedulerContentStyle} ref={this.schedulerContentRef} onMouseOver={this.onSchedulerContentMouseOver} onMouseOut={this.onSchedulerContentMouseOut} onScroll={this.onSchedulerContentScroll} >
-                                <div style={{width: schedulerWidth, height: contentHeight}}>
+                                <div>
                                     <div className="scheduler-content">
-                                        <table className="scheduler-content-table" >
-                                            <tbody>
+                                        <div className="scheduler-content-table" >
+                                            <div>
                                                 {resourceEventsList}
-                                            </tbody>
-                                        </table>
+                                            </div>
+                                        </div>
                                     </div>
                                     <div className="scheduler-bg" style={{ zIndex: config.backgroundLayer, pointerEvents: "none" }}>
-                                        <table className="scheduler-bg-table" style={{width: schedulerWidth}} ref={this.schedulerContentBgTableRef} >
-                                            <BodyView {...this.props}/>
-                                        </table>
+                                        <div className="scheduler-bg-table" ref={this.schedulerContentBgTableRef} >
+                                            <BodyView {...this.props} />
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </td>
-                </tr>
+                    </div>
+                </React.Fragment>
             );
+
+            
         };
 
         let popover = <div className="popover-calendar"><Calendar fullscreen={false} onSelect={this.onSelect}/></div>;
-
+        
         return (
-            <table className="scheduler" style={{width: width}}>
-                <thead>
-                <tr>
-                    <td colSpan="2">
+            <div className="scheduler" style={{width: width}}>
+                <div>
+                <div>
+                    <div colSpan="2">
                         <Row type="flex" align="middle" justify="space-between" style={{marginBottom: '24px'}}>
                             {leftCustomHeader}
                             <Col>
@@ -244,43 +247,43 @@ class Scheduler extends Component {
                             </Col>
                             {rightCustomHeader}
                         </Row>
-                    </td>
-                </tr>
-                </thead>
-                <tbody>
-                {tbodyContent}
-                </tbody>
-            </table>
+                    </div>
+                </div>
+                </div>
+                <div>
+                    {tbodyContent}
+                </div>
+            </div>
         )
     }
 
     resolveScrollbarSize = () => {
-        const { schedulerData } = this.props;
-        let browserScrollbarHeight = 17, browserScrollbarWidth = 17, contentHeight = schedulerData.getSchedulerContentDesiredHeight();
-        if (!!this.schedulerContent) {
-            browserScrollbarHeight = this.schedulerContent.offsetHeight - this.schedulerContent.clientHeight;
-            browserScrollbarWidth = this.schedulerContent.offsetWidth - this.schedulerContent.clientWidth;
-        }
-        if(!!this.schedulerContentBgTable && !!this.schedulerContentBgTable.offsetHeight){
-            contentHeight = this.schedulerContentBgTable.offsetHeight;
-        }
+        // const { schedulerData } = this.props;
+        // let browserScrollbarHeight = 17, browserScrollbarWidth = 17, contentHeight = schedulerData.getSchedulerContentDesiredHeight();
+        // if (!!this.schedulerContent) {
+        //     browserScrollbarHeight = this.schedulerContent.offsetHeight - this.schedulerContent.clientHeight;
+        //     browserScrollbarWidth = this.schedulerContent.offsetWidth - this.schedulerContent.clientWidth;
+        // }
+        // if(!!this.schedulerContentBgTable && !!this.schedulerContentBgTable.offsetHeight){
+        //     contentHeight = this.schedulerContentBgTable.offsetHeight;
+        // }
 
-        let tmpState = {};
-        let needSet = false;
-        if (browserScrollbarHeight != this.state.browserScrollbarHeight) {
-            tmpState = {...tmpState, browserScrollbarHeight: browserScrollbarHeight};
-            needSet = true;
-        }
-        if (browserScrollbarWidth != this.state.browserScrollbarWidth) {
-            tmpState = {...tmpState, browserScrollbarWidth: browserScrollbarWidth};
-            needSet = true;
-        }
-        if(contentHeight != this.state.contentHeight){
-            tmpState = {...tmpState, contentHeight: contentHeight};
-            needSet = true;
-        }
-        if (needSet)
-            this.setState(tmpState);
+        // let tmpState = {};
+        // let needSet = false;
+        // if (browserScrollbarHeight != this.state.browserScrollbarHeight) {
+        //     tmpState = {...tmpState, browserScrollbarHeight: browserScrollbarHeight};
+        //     needSet = true;
+        // }
+        // if (browserScrollbarWidth != this.state.browserScrollbarWidth) {
+        //     tmpState = {...tmpState, browserScrollbarWidth: browserScrollbarWidth};
+        //     needSet = true;
+        // }
+        // if(contentHeight != this.state.contentHeight){
+        //     tmpState = {...tmpState, contentHeight: contentHeight};
+        //     needSet = true;
+        // }
+        // if (needSet)
+        //     this.setState(tmpState);
     }
 
     schedulerHeadRef = (element) => {

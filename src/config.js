@@ -2,7 +2,8 @@ import ViewTypes from './ViewTypes'
 import SummaryPos from './SummaryPos'
 
 export default {
-    schedulerWidth: 1600,
+    schedulerContainerWidth: 400,
+    schedulerContentWidth: 1600,
     schedulerMaxHeight: 0,
     tableHeaderHeight: 40,
 
@@ -37,8 +38,8 @@ export default {
     eventItemTopMargin: 1,
     eventItemLeftMargin: 2,
     eventItemRightMargin: 4,
-    dayStartFrom: 0,
-    dayStopTo: 23,
+    dayStartFrom: 9,
+    dayStopTo: 18,
     defaultEventBgColor: '#80C5F6',
     selectedAreaColor: '#7EC2F3', // only used if selectedAreaBackground is falsy
     selectedAreaBackground: null, // overwrites selectedAreaColor
@@ -72,6 +73,7 @@ export default {
     interactiveLayer: 0,
     backgroundLayer: 0,
     layers: false,
+    viewResources: true,
 
     views: [
         {viewName: 'Day', viewType: ViewTypes.Day, showAgenda: false, isEventPerspective: false},

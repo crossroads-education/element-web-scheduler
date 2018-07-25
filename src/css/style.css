@@ -35,7 +35,7 @@
     border-spacing: 0;
 }
 
-.scheduler td {
+.scheduler div {
     padding: 0px;
 }
 
@@ -64,7 +64,7 @@
     pointer-events: none;
 }
 
-table.resource-table, table.scheduler-bg-table, table.scheduler-table {
+div.resource-table, div.scheduler-bg-table, div.scheduler-table {
     width: 100%;
     margin: 0;
     padding: 0;
@@ -74,11 +74,11 @@ table.resource-table, table.scheduler-bg-table, table.scheduler-table {
     text-align: center;
 }
 
-table.scheduler-table {
+div.scheduler-table {
     border: 1px solid #e9e9e9;
 }
 
-table.scheduler-content-table {
+div.scheduler-content-table {
     margin: 0;
     padding: 0;
     border: 0 solid #e9e9e9;
@@ -87,20 +87,20 @@ table.scheduler-content-table {
     border-spacing: 0;
 }
 
-table.resource-table tr, table.scheduler-bg-table tr, table.scheduler-table tr {border-bottom: 1px solid #e9e9e9}
+div.resource-table div, div.scheduler-bg-table div, div.scheduler-table div {border-bottom: 1px solid #e9e9e9}
 
-table.resource-table th, table.scheduler-table th, table.resource-table td, table.scheduler-bg-table td, table.scheduler-table td{
+div.resource-table th, div.scheduler-table th, div.resource-table div, div.scheduler-bg-table div, div.scheduler-table div{
     border-right: 1px solid #e9e9e9aa;
     border-bottom: 1px solid #e9e9e9aa;
 }
 
-table.scheduler-bg-table th {
+div.scheduler-bg-table div{
     border-right: 1px solid #e9e9e9aa;
 }
 
-table.resource-table tr th:last-child, /*table.scheduler-bg-table tr th:last-child, */table.scheduler-table tr th:last-child,
-table.resource-table tr td:last-child, /*table.scheduler-bg-table tr td:last-child, */table.scheduler-table tr td:last-child{ border-right: 0 }
-/*table.resource-table tr:last-child td, table.scheduler-bg-table tr:last-child td, */table.scheduler-table tr:last-child td{ border-bottom: 0 }
+div.resource-table div th:last-child, /*div.scheduler-bg-table div th:last-child, */div.scheduler-table div th:last-child,
+div.resource-table div div:last-child, /*div.scheduler-bg-table div div:last-child, */div.scheduler-table div div:last-child{ border-right: 0 }
+/*div.resource-table div:last-child div, div.scheduler-bg-table div:last-child div, */div.scheduler-table div:last-child div{ border-bottom: 0 }
 
 .timeline-event {
     position: absolute;
