@@ -76,21 +76,27 @@ class EventItem extends Component {
         ev.stopPropagation();
 
         const {left, width, leftIndex, rightIndex, schedulerData} = this.props;
-        let cellWidth = schedulerData.getContentCellWidth();
-        let offset = leftIndex > 0 ? 5 : 6;
-        let minWidth = cellWidth - offset;
-        let maxWidth = rightIndex * cellWidth - offset;
-        const {startX} = this.state;
+        const { startX } = this.state;
+        
         let delta = (ev.clientX - startX);
+        
+        let cellWidth = schedulerData.getContentCellWidth();
+       
         let newLeft = ((((left / 100) * schedulerData.config.schedulerContentWidth) + delta) / schedulerData.config.schedulerContentWidth) * 100;
         let newWidth = ((((width / 100) * schedulerData.config.schedulerContentWidth) - delta) / schedulerData.config.schedulerContentWidth) * 100;
+        
+        let offset = leftIndex > 0 ? 1.5 : 2;
+        offset = offset/schedulerData.config.schedulerContentWidth * 100;
+        let minWidth = cellWidth - offset;
+        let maxWidth = rightIndex * cellWidth - offset;
+        
         if (newWidth < minWidth) {
             newWidth = minWidth;
             newLeft = (rightIndex - 1) * cellWidth + (rightIndex - 1 > 0 ? 2 : 3);
         }
         else if (newWidth > maxWidth) {
             newWidth = maxWidth;
-            newLeft = 3;
+            newLeft = offset;
         }
 
         this.setState({left: newLeft, width: newWidth});
@@ -177,16 +183,26 @@ class EventItem extends Component {
     }
 
     doEndDrag = (ev) => {
+
+        
+
+        // let cellWidth = schedulerData.getContentCellWidth();
+
+        // let newLeft = ((((left / 100) * schedulerData.config.schedulerContentWidth) + delta) / schedulerData.config.schedulerContentWidth) * 100;
+        // let newWidth = ((((width / 100) * schedulerData.config.schedulerContentWidth) - delta) / schedulerData.config.schedulerContentWidth) * 100;
         ev.stopPropagation();
         const {width, leftIndex, schedulerData} = this.props;
         const {headers} = schedulerData;
-        let cellWidth = schedulerData.getContentCellWidth();
+        const { endX } = this.state;
+        let delta = (ev.clientX - endX);
+        let cellWidth = schedulerData.getContentCellWidthInPixels();
+        console.log(width, schedulerData.config.schedulerContentWidth, delta);
+        let newWidth = ((((width/100) * schedulerData.config.schedulerContentWidth) + delta) / schedulerData.config.schedulerContentWidth) * 100;
+        console.log(newWidth);
         let offset = leftIndex > 0 ? 5 : 6;
-        let minWidth = cellWidth - offset;
-        let maxWidth = (headers.length - leftIndex) * cellWidth - offset;
-        const {endX} = this.state;
-
-        let newWidth = (width + ev.clientX - endX);
+        let minWidth = (cellWidth + offset) / schedulerData.config.schedulerContentWidth * 100;
+        let maxWidth = (((headers.length - leftIndex) * cellWidth ) / schedulerData.config.schedulerContentWidth * 100) + offset;
+        console.log(minWidth, maxWidth);
         if (newWidth < minWidth)
             newWidth = minWidth;
         else if (newWidth > maxWidth)

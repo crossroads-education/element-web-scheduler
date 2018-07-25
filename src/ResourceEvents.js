@@ -180,14 +180,14 @@ class ResourceEvents extends Component {
         resourceEvents.headerItems.forEach((headerItem, index) => {
 
             if (headerItem.count > 0 || headerItem.summary != undefined) {
-
+                const layerCount = {};
                 let isTop = config.summaryPos === SummaryPos.TopRight || config.summaryPos === SummaryPos.Top || config.summaryPos === SummaryPos.TopLeft;
                 let marginTop = resourceEvents.hasSummary && isTop ? config.eventItemTopMargin + config.eventItemLineHeight : config.eventItemTopMargin;
                 let renderEventsMaxIndex = headerItem.addMore === 0 ? cellMaxEvents : headerItem.addMoreIndex;
                 const leftCorrection = (index === 0) ? 0 : 2;
-                const widthCorrection = (index !== 0) ? 0 : 2;
+                const widthCorrection = (index !== 0) ? 2 : 0;
                 headerItem.events.forEach((evt, idx) => {
-                    
+                    console.log(evt, idx);
                     if(idx < renderEventsMaxIndex && evt !== undefined && evt.render) {
                         let durationStart = localeMoment(startDate);
                         let durationEnd = localeMoment(endDate).add(1, 'days');
@@ -203,11 +203,11 @@ class ResourceEvents extends Component {
                         let isEnd = eventEnd <= durationEnd;
                         let left = index*cellWidth;
                         let width = evt.span * cellWidth;
-
+                        let offset = (config.layers) ? idx : {  };
                         if(left + width >= 100) {
                             width = 100 - left;
                         }
-                        let top = marginTop + (layer) ? eventList[layer].length * config.eventItemLineHeight : idx * config.eventItemLineHeight;
+                        let top = idx * config.eventItemLineHeight;
                         let eventItem = <DnDEventItem
                                             {...this.props}
                                             key={evt.eventItem.id}
