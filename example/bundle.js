@@ -18,11 +18,13 @@ import FreezeFirstRow from './FreezeFirstRow'
 import ResourceClickable from './ResourceClickable'
 import ComingSoon from './ComingSoon'
 import Availabiltiy from './Availabiltiy';
+import RollCall from './RollCall';
 
 render((
     <Router history={hashHistory}>
         <Route path="/" component={Basic}/>
         <Route path="/availability" component={Availabiltiy}/>
+        <Route path="/roll-call" component={RollCall}/>
         <Route path="/readonly" component={Readonly}/>
         <Route path="/locale" component={Locale}/>
         <Route path="/views" component={Views}/>
