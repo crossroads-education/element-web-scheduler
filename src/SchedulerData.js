@@ -270,13 +270,14 @@ export default class SchedulerData {
     }
 
     getContentCellWidth(){
-        let width = this.config.schedulerContentWidth / this.headers.length;
+        let width = 100 / this.headers.length;
         return width;
     }
 
-    getEventWidth(span){
-        return ((this.headers.length / span) * 100 + "%");
+    getContentCellWidthInPixels(){
+        return (config.schedulerContentWidth - this.getResourceTableWidth()) * (this.getContentCellWidth() / 100);
     }
+
 
     getCellMaxEvents(){
         return this.viewType === ViewTypes.Week ? this.config.weekMaxEvents : (

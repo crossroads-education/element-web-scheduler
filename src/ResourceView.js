@@ -16,19 +16,16 @@ class ResourceView extends Component {
 
     render() {
 
-        const {schedulerData, browserScrollbarHeight, slotClickedFunc, slotItemTemplateResolver} = this.props;
+        const {schedulerData, slotClickedFunc, slotItemTemplateResolver} = this.props;
         const {renderData} = schedulerData;
         let width = schedulerData.getResourceTableWidth() - 2;
-        let paddingBottom = browserScrollbarHeight;
         let resourceList = renderData.map((item) => {
-            // let a = slotClickedFunc != undefined ? 
-            // <a onClick={() => { slotClickedFunc(schedulerData, item);}}>{item.slotName}</a> : <span>{item.slotName}</span>;
             let a = item.component ? 
                 <item.component slotName={item.slotName} {...item.componentProps}/> : <span>{item.slotName}</span>;
            
            
             let slotItem = (
-                <div style={{width: width}} title={item.slotName} className="overflow-text header2-text">
+                <div style={{width: "100%"}} title={item.slotName} className="overflow-text header2-text">
                     {a}
                 </div>
             );
@@ -48,11 +45,9 @@ class ResourceView extends Component {
         });
 
         return (
-            <div style={{paddingBottom: paddingBottom}}>
-                <div className="resource-table">
-                    <div>
-                        {resourceList}
-                    </div>
+            <div className="resource-table" style={{width}}>
+                <div>
+                    {resourceList}
                 </div>
             </div>
         )

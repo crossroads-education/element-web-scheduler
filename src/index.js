@@ -102,7 +102,6 @@ class Scheduler extends Component {
     render() {
         const { schedulerData, leftCustomHeader, rightCustomHeader } = this.props;
         const {renderData, viewType, showAgenda, isEventPerspective, config} = schedulerData;
-        const width = config.schedulerContainerWidth;
         const calendarPopoverEnabled = config.calendarPopoverEnabled;
 
         let dateLabel = schedulerData.getDateLabel();
@@ -121,7 +120,8 @@ class Scheduler extends Component {
         }
         else {
             let resourceTableWidth = schedulerData.getResourceTableWidth();
-            let schedulerContainerWidth = (config.viewResources) ? width - resourceTableWidth : width;
+            let schedulerContainerWidth = (config.viewResources) ? config.schedulerContainerWidth - resourceTableWidth : width;
+            let schedulerContentWidth = (config.viewResources) ? config.schedulerContentWidth - resourceTableWidth : width;
             let DndResourceEvents = this.state.dndContext.getDropTarget();
             let eventDndSource = this.state.dndContext.getDndSource();
 
@@ -137,8 +137,8 @@ class Scheduler extends Component {
             let browserScrollbarHeight = this.state.browserScrollbarHeight,
                 browserScrollbarWidth = this.state.browserScrollbarWidth,
                 contentHeight = this.state.contentHeight;
-            let schedulerContentStyle = {margin: "0px, 0px, 0px, 0px", position: "relative", width: config.schedulerContentWidth };
-            let resourceContentStyle = {overflowX: "auto", overflowY: "auto", margin: `0px -${browserScrollbarWidth}px 0px 0px`};
+            let schedulerContentStyle = {margin: "0px, 0px, 0px, 0px", position: "relative", width: schedulerContentWidth };
+            let resourceContentStyle = {overflowX: "auto", overflowY: "auto"};
             if (config.schedulerMaxHeight > 0) {
                 schedulerContentStyle = {
                     ...schedulerContentStyle,
@@ -152,55 +152,57 @@ class Scheduler extends Component {
 
             let resourceName = schedulerData.isEventPerspective ? config.taskName : config.resourceName;
             const resourceView = (
-                <div>
-                    <div style={{ width: resourceTableWidth, verticalAlign: 'top' }}>
-                        <div className="resource-view">
-                            <div style={{ overflow: "hidden", borderBottom: "1px solid #e9e9e9", height: config.tableHeaderHeight }}>
-                                <div style={{ overflowX: "scroll", overflowY: "hidden" }}>
-                                    <div className="resource-table">
-                                        <div className="header3-text">
-                                            {resourceName}
-                                        </div>
+                <div style={{ width: resourceTableWidth, display: "inline-block"}}>
+                    <div className="resource-view">
+                        <div style={{ overflow: "hidden", borderBottom: "1px solid #e9e9e9", height: config.tableHeaderHeight }}>
+                            <div>
+                                <div className="resource-table">
+                                    <div className="header3-text">
+                                        {resourceName}
                                     </div>
                                 </div>
                             </div>
-                            <div style={resourceContentStyle} ref={this.schedulerResourceRef} onMouseOver={this.onSchedulerResourceMouseOver} onMouseOut={this.onSchedulerResourceMouseOut} onScroll={this.onSchedulerResourceScroll}>
-                                <ResourceView
-                                    {...this.props}
-                                    browserScrollbarHeight={browserScrollbarHeight}
-                                />
-                            </div>
+                        </div>
+                        <div style={resourceContentStyle} ref={this.schedulerResourceRef} onMouseOver={this.onSchedulerResourceMouseOver} onMouseOut={this.onSchedulerResourceMouseOut} onScroll={this.onSchedulerResourceScroll}>
+                            <ResourceView
+                                {...this.props}
+                                browserScrollbarHeight={browserScrollbarHeight}
+                            />
                         </div>
                     </div>
                 </div>
             );
             
+            let overflow = (schedulerContainerWidth < schedulerContentWidth) ? {overflowX: "scroll", overflowY: "hidden"} : {overflow: "hidden"};
+
             tbodyContent = (
                 <React.Fragment>
                     {config.viewResources && resourceView}
-                    <div>
-                        <div className="scheduler-view">
-                            <div style={{ overflow: "hidden", borderBottom: "1px solid #e9e9e9", height: config.tableHeaderHeight }}>
-                                <div style={{ overflowX: "scroll", overflowY: "hidden" }} ref={this.schedulerHeadRef} onMouseOver={this.onSchedulerHeadMouseOver} onMouseOut={this.onSchedulerHeadMouseOut} onScroll={this.onSchedulerHeadScroll}>
-                                    <div>
-                                        <div className="scheduler-bg-table">
-                                            <HeaderView {...this.props} />
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div style={schedulerContentStyle} ref={this.schedulerContentRef} onMouseOver={this.onSchedulerContentMouseOver} onMouseOut={this.onSchedulerContentMouseOut} onScroll={this.onSchedulerContentScroll} >
-                                <div>
-                                    <div className="scheduler-content">
-                                        <div className="scheduler-content-table" >
-                                            <div>
-                                                {resourceEventsList}
+                    <div style={{ width: schedulerContainerWidth, display: "inline-block"}}>
+                        <div className="scheduler-view" style={overflow}>
+                            <div style={{width: schedulerContentWidth}}> 
+                                <div style={{ overflow: "hidden", borderBottom: "1px solid #e9e9e9", height: config.tableHeaderHeight }}>
+                                    <div  ref={this.schedulerHeadRef} onMouseOver={this.onSchedulerHeadMouseOver} onMouseOut={this.onSchedulerHeadMouseOut} onScroll={this.onSchedulerHeadScroll}>
+                                        <div>
+                                            <div className="scheduler-bg-table">
+                                                <HeaderView {...this.props} />
                                             </div>
                                         </div>
                                     </div>
-                                    <div className="scheduler-bg" style={{ zIndex: config.backgroundLayer, pointerEvents: "none" }}>
-                                        <div className="scheduler-bg-table" ref={this.schedulerContentBgTableRef} >
-                                            <BodyView {...this.props} />
+                                </div>
+                                <div style={schedulerContentStyle} ref={this.schedulerContentRef} onMouseOver={this.onSchedulerContentMouseOver} onMouseOut={this.onSchedulerContentMouseOut} onScroll={this.onSchedulerContentScroll} >
+                                    <div>
+                                        <div className="scheduler-content">
+                                            <div className="scheduler-content-table" >
+                                                <div>
+                                                    {resourceEventsList}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="scheduler-bg" style={{ zIndex: config.backgroundLayer, pointerEvents: "none" }}>
+                                            <div className="scheduler-bg-table" ref={this.schedulerContentBgTableRef} >
+                                                <BodyView {...this.props} />
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -216,40 +218,38 @@ class Scheduler extends Component {
         let popover = <div className="popover-calendar"><Calendar fullscreen={false} onSelect={this.onSelect}/></div>;
         
         return (
-            <div className="scheduler" style={{width: width}}>
-                <div>
-                <div>
-                    <div colSpan="2">
-                        <Row type="flex" align="middle" justify="space-between" style={{marginBottom: '24px'}}>
-                            {leftCustomHeader}
-                            <Col>
-                                <div className='header2-text'>
-                                    <Icon type="left" style={{marginRight: "8px"}} className="icon-nav"
-                                          onClick={this.goBack}/>
-                                  {
-                                    calendarPopoverEnabled
-                                      ?
-                                      <Popover content={popover} placement="bottom" trigger="click"
-                                               visible={this.state.visible}
-                                               onVisibleChange={this.handleVisibleChange}>
-                                        <span className={'header2-text-label'} style={{cursor: 'pointer'}}>{dateLabel}</span>
-                                      </Popover>
-                                      : <span className={'header2-text-label'}>{dateLabel}</span>
-                                  }
-                                    <Icon type="right" style={{marginLeft: "8px"}} className="icon-nav"
-                                          onClick={this.goNext}/>
-                                </div>
-                            </Col>
-                            <Col>
-                                <RadioGroup defaultValue={defaultValue} size="default" onChange={this.onViewChange}>
-                                    {radioButtonList}
-                                </RadioGroup>
-                            </Col>
-                            {rightCustomHeader}
-                        </Row>
+            <div className="scheduler" style={{width: config.schedulerContainerWidth}}>
+                    <div>
+                        <div colSpan="2">
+                            <Row type="flex" align="middle" justify="space-between" style={{marginBottom: '24px'}}>
+                                {leftCustomHeader}
+                                <Col>
+                                    <div className='header2-text'>
+                                        <Icon type="left" style={{marginRight: "8px"}} className="icon-nav"
+                                                onClick={this.goBack}/>
+                                        {
+                                        calendarPopoverEnabled
+                                            ?
+                                            <Popover content={popover} placement="bottom" trigger="click"
+                                                    visible={this.state.visible}
+                                                    onVisibleChange={this.handleVisibleChange}>
+                                            <span className={'header2-text-label'} style={{cursor: 'pointer'}}>{dateLabel}</span>
+                                            </Popover>
+                                            : <span className={'header2-text-label'}>{dateLabel}</span>
+                                        }
+                                        <Icon type="right" style={{marginLeft: "8px"}} className="icon-nav"
+                                                onClick={this.goNext}/>
+                                    </div>
+                                </Col>
+                                <Col>
+                                    <RadioGroup defaultValue={defaultValue} size="default" onChange={this.onViewChange}>
+                                        {radioButtonList}
+                                    </RadioGroup>
+                                </Col>
+                                {rightCustomHeader}
+                            </Row>
+                        </div>
                     </div>
-                </div>
-                </div>
                 <div>
                     {tbodyContent}
                 </div>

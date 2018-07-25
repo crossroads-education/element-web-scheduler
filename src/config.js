@@ -2,7 +2,7 @@ import ViewTypes from './ViewTypes'
 import SummaryPos from './SummaryPos'
 
 export default {
-    schedulerContainerWidth: 400,
+    schedulerContainerWidth: 1600,
     schedulerContentWidth: 1600,
     schedulerMaxHeight: 0,
     tableHeaderHeight: 40,

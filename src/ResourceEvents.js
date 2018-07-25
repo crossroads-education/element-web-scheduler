@@ -57,7 +57,7 @@ class ResourceEvents extends Component {
         if((ev.srcElement || ev.target) !== this.eventContainer) return;
 
         const {schedulerData} = this.props;
-        let cellWidth = schedulerData.getContentCellWidth();
+        let cellWidth = schedulerData.getContentCellWidthInPixels();
         let pos = getPos(this.eventContainer);
         let startX = ev.clientX - pos.x;
         let leftIndex = Math.floor(startX/cellWidth);
@@ -84,7 +84,7 @@ class ResourceEvents extends Component {
         const { startX } = this.state;
         const {schedulerData} = this.props;
         const {headers} = schedulerData;
-        let cellWidth = schedulerData.getContentCellWidth();
+        let cellWidth = schedulerData.getContentCellWidthInPixels();
         let pos = getPos(this.eventContainer);
         let currentX = ev.clientX - pos.x;
         let leftIndex = Math.floor(Math.min(startX, currentX)/cellWidth);
@@ -110,7 +110,7 @@ class ResourceEvents extends Component {
         const { leftIndex, rightIndex } = this.state;
         document.documentElement.removeEventListener('mousemove', this.doDrag, false);
         document.documentElement.removeEventListener('mouseup', this.stopDrag, false);
-
+        console.log(leftIndex, rightIndex);
         let startTime = headers[leftIndex].time;
         let endTime = resourceEvents.headerItems[rightIndex - 1].end;
         if(viewType !== ViewTypes.Day)
@@ -200,30 +200,38 @@ class ResourceEvents extends Component {
                         let eventEnd = localeMoment(evt.eventItem.end);
                         let isStart = eventStart >= durationStart;
                         let isEnd = eventEnd <= durationEnd;
-                        let left = index*cellWidth + config.eventItemLeftMargin + xCorrection;
-                        let width = Math.max(0, evt.span * cellWidth + 1 - config.eventItemRightMargin - config.eventItemLeftMargin - xCorrection);
+                        let left = index*cellWidth;
+                        let width = evt.span * cellWidth;
+
+                        if(left + width >= 100) {
+                            width = 100 - left;
+                        }
                         let top = marginTop + (layer) ? eventList[layer].length * config.eventItemLineHeight : idx * config.eventItemLineHeight;
                         let eventItem = <DnDEventItem
-                                                   {...this.props}
-                                                   key={evt.eventItem.id}
-                                                   eventItem={evt.eventItem}
-                                                   isStart={isStart}
-                                                   isEnd={isEnd}
-                                                   isInPopover={false}
-                                                   left={left}
-                                                   width={width}
-                                                   top={top}
-                                                   leftIndex={index}
-                                                   rightIndex={index + evt.span}
-                                                   />
-                        console.log(eventItem, index);
+                                            {...this.props}
+                                            key={evt.eventItem.id}
+                                            eventItem={evt.eventItem}
+                                            isStart={isStart}
+                                            isEnd={isEnd}
+                                            isInPopover={false}
+                                            left={left}
+                                            width={width}
+                                            top={top}
+                                            leftIndex={index}
+                                            rightIndex={index + evt.span}
+                                            widthExtra={(config.eventItemRightMargin - config.eventItemLeftMargin - xCorrection + 1)}
+                                            leftExtra={(config.eventItemLeftMargin + xCorrection)}
+                                        />
                         eventList[layer].push(eventItem);
                     }
                 });
 
                 if(headerItem.addMore > 0) {
-                    let left = index*cellWidth + config.eventItemLeftMargin + xCorrection;
-                    let width = Math.max(0, cellWidth + 1 - config.eventItemRightMargin - config.eventItemLeftMargin - xCorrection);
+                    let left = index * cellWidth;
+                    let width = cellWidth;
+                    if (left + width >= 100) {
+                        width = 100 - left;
+                    }
                     let top = marginTop + headerItem.addMoreIndex*config.eventItemLineHeight;
                     let addMoreItem = <AddMore
                                             {...this.props}
@@ -261,7 +269,7 @@ class ResourceEvents extends Component {
                 if (layer !== config.interactiveLayer) {
                     return (
                         (eventList[layer]) ? (
-                            <div ref={this.eventContainerRef} className="event-container" style={{ position: "absolute", height: resourceEvents.rowHeight, zIndex: layer, pointerEvents: "none" }}>
+                            <div ref={this.eventContainerRef} className="event-container" style={{ position: "absolute", height: resourceEvents.rowHeight, zIndex: layer, pointerEvents: "none", width: "100%" }}>
                                 {eventList[layer]}
                             </div>
                         ) : null

@@ -14,15 +14,17 @@ class AddMore extends Component {
         top: PropTypes.number.isRequired,
         clickAction: PropTypes.func.isRequired,
         headerItem: PropTypes.object.isRequired,
+        widthExtra: PropTypes.number,
+        leftExtra: PropTypes.number
     }
 
     render() {
-        const {number, left, width, top, clickAction, headerItem, schedulerData} = this.props;
+        const {number, left, width, top, clickAction, headerItem, schedulerData, widthExtra, leftExtra} = this.props;
         const {config} = schedulerData;
         let content = '+'+number+'more';
-
+        const displayLeft = left + "%";
         return (
-        <a className="timeline-event" style={{left: left, width: width, top: top}} onClick={() => {clickAction(headerItem);}} >
+        <a className="timeline-event" style={{left: displayLeft, width: width, top: top}} onClick={() => {clickAction(headerItem);}} >
             <div style={{height: config.eventItemHeight, color: '#999', textAlign: 'center'}}>
                 {content}
             </div>

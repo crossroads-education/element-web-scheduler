@@ -81,8 +81,9 @@ class EventItem extends Component {
         let minWidth = cellWidth - offset;
         let maxWidth = rightIndex * cellWidth - offset;
         const {startX} = this.state;
-        let newLeft = left + ev.clientX - startX;
-        let newWidth = width + startX - ev.clientX;
+        let delta = (ev.clientX - startX);
+        let newLeft = ((((left / 100) * schedulerData.config.schedulerContentWidth) + delta) / schedulerData.config.schedulerContentWidth) * 100;
+        let newWidth = ((((width / 100) * schedulerData.config.schedulerContentWidth) - delta) / schedulerData.config.schedulerContentWidth) * 100;
         if (newWidth < minWidth) {
             newWidth = minWidth;
             newLeft = (rightIndex - 1) * cellWidth + (rightIndex - 1 > 0 ? 2 : 3);
@@ -103,19 +104,24 @@ class EventItem extends Component {
         const {width, leftIndex, rightIndex, schedulerData, eventItem, updateEventStart} = this.props;
         schedulerData._stopResizing();
         const {viewType, events, config, localeMoment} = schedulerData;
-        let cellWidth = schedulerData.getContentCellWidth();
+        let cellWidth = schedulerData.getContentCellWidthInPixels();
         let offset = leftIndex > 0 ? 5 : 6;
         let minWidth = cellWidth - offset;
         let maxWidth = rightIndex * cellWidth - offset;
         const {startX} = this.state;
-        let newWidth = width + startX - ev.clientX;
+        let deltaWidth = startX - ev.clientX;
+        let newWidth = ((width / 100) * schedulerData.config.schedulerContentWidth) + deltaWidth;
         let deltaX = ev.clientX - startX;
-        let sign = deltaX < 0 ? -1 : (deltaX === 0 ? 0 : 1);
-        let count = (sign > 0 ? Math.floor(Math.abs(deltaX) / cellWidth) : Math.ceil(Math.abs(deltaX) / cellWidth)) * sign;
-        if (newWidth < minWidth)
+        let sign = Math.sign(deltaX);
+        let count = Math.abs(deltaX) / cellWidth;
+        count = (sign > 0) ? Math.floor(count) : Math.ceil(count);
+        count = count * sign;
+        if (newWidth < minWidth) {
             count = rightIndex - leftIndex - 1;
-        else if (newWidth > maxWidth)
+        } else if (newWidth > maxWidth) {
             count = -leftIndex;
+        }
+            
         let newStart = localeMoment(eventItem.start).add(viewType === ViewTypes.Day ? count * config.minuteStep : count, viewType === ViewTypes.Day ? 'minutes' : 'days').format(DATETIME_FORMAT);
 
         let hasConflict = false;
@@ -255,6 +261,8 @@ class EventItem extends Component {
         const {eventItem, isStart, isEnd, isInPopover, eventItemClick, schedulerData, isDragging, connectDragSource, connectDragPreview, eventItemTemplateResolver} = this.props;
         const {config, localeMoment} = schedulerData;
         const {left, width, top} = this.state;
+        const widthExtra = this.props.widthExtra || 0;
+        const leftExtra = this.props.leftExtra || 0;
         let roundCls = isStart ? (isEnd ? 'round-all' : 'round-head') : (isEnd ? 'round-tail' : 'round-none');
         let bgColor = config.defaultEventBgColor;
         if (eventItem.bgColor !== undefined)
@@ -288,8 +296,10 @@ class EventItem extends Component {
         );
         if(eventItemTemplateResolver != undefined)
             eventItemTemplate = eventItemTemplateResolver(schedulerData, eventItem, bgColor, isStart, isEnd, 'event-item', config.eventItemHeight, undefined);
-        
-        const aStyle = {left: left, width: width, top: top};
+
+        let displayWidth = "calc(" + width + "% + " + widthExtra + "px)";
+        let displayLeft = "calc(" + left + "% + " + leftExtra + "px)";
+        const aStyle = {left: displayLeft, width: displayWidth, top: top};
         if (this.props.eventItem.disableInteractions) aStyle.pointerEvents = "none";
         
         let a = <a className="timeline-event" style={aStyle} onClick={() => { if(!!eventItemClick) eventItemClick(schedulerData, eventItem);}}>
