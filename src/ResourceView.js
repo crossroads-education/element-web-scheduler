@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
 import {PropTypes} from 'prop-types'
+import DefaultResourceComponent from "./DefaultResourceComponent";
 
 class ResourceView extends Component {
 
@@ -17,12 +18,11 @@ class ResourceView extends Component {
     render() {
 
         const {schedulerData, slotClickedFunc, slotItemTemplateResolver} = this.props;
-        const {renderData} = schedulerData;
+        const {renderData, config} = schedulerData;
         let width = schedulerData.getResourceTableWidth() - 2;
+        let DisplayComponent = (config.resourceComponent) ? config.resourceComponent : DefaultResourceComponent;
         let resourceList = renderData.map((item) => {
-            let a = item.component ? 
-                <item.component slotName={item.slotName} {...item.componentProps}/> : <span>{item.slotName}</span>;
-           
+            let a = <DisplayComponent slotName={item.slotName} {...item.componentProps}/>;
            
             let slotItem = (
                 <div style={{width: "100%", height: "100%"}} title={item.slotName} className="overflow-text header2-text">

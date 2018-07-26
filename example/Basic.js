@@ -7,13 +7,15 @@ import Nav from './Nav'
 import Tips from './Tips'
 import ViewSrcCode from './ViewSrcCode'
 import withDragDropContext from './withDnDContext'
+import ResourceComponent from "./BasicResourceComponent";
+import PopoverComponent from "./BasicPopoverComponent";
 
 class Basic extends Component{
     constructor(props){
         super(props);
 
         //let schedulerData = new SchedulerData(new moment("2017-12-18").format(DATE_FORMAT), ViewTypes.Week);
-        let schedulerData = new SchedulerData('2017-12-20', ViewTypes.Day, false, false, { interactiveLayer: 5, layers: [1, 4, 5], eventItemLeftMargin: 0});
+        let schedulerData = new SchedulerData('2017-12-20', ViewTypes.Day, false, false, { interactiveLayer: 5, layers: [1, 4, 5], eventItemLeftMargin: 0, resourceComponent: ResourceComponent, popoverComponent: PopoverComponent});
         schedulerData.localeMoment.locale('en');
         schedulerData.setResources(DemoData.resources);
         schedulerData.setEvents(DemoData.events);

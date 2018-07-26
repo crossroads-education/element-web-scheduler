@@ -74,6 +74,9 @@ export default {
     backgroundLayer: 0,
     layers: false,
     viewResources: true,
+    popoverTrigger: "hover",
+    resourceComponent: false,
+    popoverComponent: false,
 
     views: [
         {viewName: 'Day', viewType: ViewTypes.Day, showAgenda: false, isEventPerspective: false},

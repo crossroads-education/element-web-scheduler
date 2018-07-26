@@ -324,23 +324,34 @@ class EventItem extends Component {
             {endResizeDiv}
         </a>;
 
-        return (
-            isDragging ? null : ( schedulerData._isResizing() || config.eventItemPopoverEnabled == false ?
+        let renderContent = null;
+
+        if (!isDragging) {
+            if (schedulerData._isResizing() || !config.eventItemPopoverEnabled) {
+                renderContent = (
                     <div>
                         {
                             connectDragPreview(
                                 connectDragSource(a)
                             )
                         }
-                    </div> :
-                    <Popover placement="bottomLeft" content={content} trigger="hover">
+                    </div>
+                );
+            } else {
+                renderContent = (
+                    <Popover placement="bottomLeft" content={content} trigger={config.popoverTrigger}>
                         {
                             connectDragPreview(
                                 connectDragSource(a)
                             )
                         }
                     </Popover>
-            )
+                );
+            }
+        }
+
+        return (
+            renderContent
         );
     }
 
