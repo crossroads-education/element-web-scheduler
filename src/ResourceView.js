@@ -37,7 +37,7 @@ class ResourceView extends Component {
 
             return (
                 <div key={item.slotId}>
-                    <div data-resource-id={item.slotId} style={{height: item.rowHeight - 1}}>
+                    <div data-resource-id={item.slotId} style={{height: item.rowHeight - 1, borderRight: "none"}}>
                         {slotItem}
                     </div>
                 </div>

@@ -26,6 +26,12 @@ class Nav extends Component {
                     </li>
                     <li style={liStyle}>
                         <Link target="_self"
+                            to='/master'>
+                            <span>Master</span>
+                        </Link>
+                    </li>
+                    <li style={liStyle}>
+                        <Link target="_self"
                               to='/availability'>
                             <span>Availability</span>
                         </Link>

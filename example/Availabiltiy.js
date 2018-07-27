@@ -6,6 +6,7 @@ import ViewSrcCode from './ViewSrcCode'
 import withDragDropContext from './withDnDContext'
 import { extendMoment } from 'moment-range';
 import uuid from 'uuid/v4';
+import AvailabilityEvent from "./AvailabilityEvent";
 
 const AvailabilityPalette = (props) => (
     <form>
@@ -46,7 +47,8 @@ class AvailablitySchedule extends Component{
             views: [],
             selectedAreaZIndex: 2,
             backgroundLayer: 3,
-            selectedAreaBorder: '1px solid #aaa'
+            selectedAreaBorder: '1px solid #aaa',
+            schedulerContentWidth: 1200
         }, {
             isNonWorkingTimeFunc: () => false
         });
@@ -225,9 +227,8 @@ class AvailablitySchedule extends Component{
 
     eventItemTemplateResolver = (schedulerData, event, bgColor, isStart, isEnd, mustAddCssClass, mustBeHeight, agendaMaxEventWidth) => {
         const titleText = schedulerData.behaviors.getEventTextFunc(schedulerData, event);
-        return <div key={event.id} className={mustAddCssClass} style={{ background: this.getAvailibilityBackground(event.type), margin: 0}}>
-            <span style={{marginLeft: '4px', lineHeight: `${mustBeHeight}px`, color: "black"}}>{titleText}</span>
-        </div>;
+        const backgroundColor = this.getAvailibilityBackground(event.type);
+        return <AvailabilityEvent mustAddCssClass={mustAddCssClass} backgroundColor={backgroundColor} titleText={event.titleText} mustBeHeight={mustBeHeight} />;
     }
 }
 

@@ -29,7 +29,7 @@ class BodyView extends Component {
             });
 
             return (
-                <div key={item.slotId} style={{height: item.rowHeight, display:"flex"}}>
+                <div key={item.slotId} style={{height: item.rowHeight, display:"flex", borderBottom: "none"}}>
                     {rowCells}
                 </div>
             );

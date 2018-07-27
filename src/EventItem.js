@@ -65,7 +65,7 @@ class EventItem extends Component {
         const {schedulerData} = this.props;
         schedulerData._startResizing();
         this.setState({
-            startX: ev.clientX
+            startLeft: this.state.left
         });
 
         document.documentElement.addEventListener('mousemove', this.doStartDrag, false);
@@ -78,7 +78,7 @@ class EventItem extends Component {
         const {left, width, leftIndex, rightIndex, schedulerData} = this.props;
         const { startX } = this.state;
         
-        let delta = (ev.clientX - startX);
+        let delta = (ev.clientX - startX) * 1.125; 
         
         let cellWidth = schedulerData.getContentCellWidth();
        
@@ -115,6 +115,7 @@ class EventItem extends Component {
         let minWidth = cellWidth - offset;
         let maxWidth = rightIndex * cellWidth - offset;
         const {startX} = this.state;
+        console.log(startX);
         let deltaWidth = startX - ev.clientX;
         let newWidth = ((width / 100) * schedulerData.config.schedulerContentWidth) + deltaWidth;
         let deltaX = ev.clientX - startX;
@@ -136,14 +137,15 @@ class EventItem extends Component {
                 end = localeMoment(eventItem.end),
                 slotId = schedulerData._getEventSlotId(eventItem);
 
-            events.forEach((e) => {
+            for (let e of events) {
                 if (schedulerData._getEventSlotId(e) === slotId && e.id !== eventItem.id) {
+                    if (config.layers && e.layer !== eventItem.layer) break;
                     let eStart = localeMoment(e.start),
                         eEnd = localeMoment(e.end);
                     if ((start >= eStart && start < eEnd) || (end > eStart && end <= eEnd) || (eStart >= start && eStart < end) || (eEnd > start && eEnd <= end))
                         hasConflict = true;
                 }
-            });
+            }
         }
 
         if (hasConflict) {

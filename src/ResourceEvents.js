@@ -187,7 +187,6 @@ class ResourceEvents extends Component {
                 const leftCorrection = (index === 0) ? 0 : 2;
                 const widthCorrection = (index !== 0) ? 2 : 0;
                 headerItem.events.forEach((evt, idx) => {
-                    console.log(evt, idx);
                     if(idx < renderEventsMaxIndex && evt !== undefined && evt.render) {
                         let durationStart = localeMoment(startDate);
                         let durationEnd = localeMoment(endDate).add(1, 'days');

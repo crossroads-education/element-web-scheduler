@@ -76,7 +76,7 @@ class HeaderView extends Component {
         }
 
         return (
-            <div style={{height: headerHeight, display: "flex"}}>
+            <div style={{height: headerHeight, display: "flex", borderBottom: "none"}}>
                 {headerList}
             </div>
         );

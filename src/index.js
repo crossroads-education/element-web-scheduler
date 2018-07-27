@@ -70,13 +70,7 @@ class Scheduler extends Component {
         nonAgendaCellHeaderTemplateResolver: PropTypes.func,
     }
 
-    componentDidMount(props, state){
-        this.resolveScrollbarSize();
-    }
-
     componentDidUpdate(props, state) {
-        this.resolveScrollbarSize();
-
         const { schedulerData } = this.props;
         const { localeMoment} = schedulerData;
         if(schedulerData.getScrollToToday()){
@@ -133,10 +127,6 @@ class Scheduler extends Component {
                                 dndSource={eventDndSource}
                 />
             });
-
-            let browserScrollbarHeight = this.state.browserScrollbarHeight,
-                browserScrollbarWidth = this.state.browserScrollbarWidth,
-                contentHeight = this.state.contentHeight;
             let schedulerContentStyle = {margin: "0px, 0px, 0px, 0px", position: "relative", width: schedulerContentWidth };
             let resourceContentStyle = {overflowX: "auto", overflowY: "auto"};
             if (config.schedulerMaxHeight > 0) {
@@ -166,7 +156,6 @@ class Scheduler extends Component {
                         <div style={resourceContentStyle} ref={this.schedulerResourceRef} onMouseOver={this.onSchedulerResourceMouseOver} onMouseOut={this.onSchedulerResourceMouseOut} onScroll={this.onSchedulerResourceScroll}>
                             <ResourceView
                                 {...this.props}
-                                browserScrollbarHeight={browserScrollbarHeight}
                             />
                         </div>
                     </div>
@@ -255,35 +244,6 @@ class Scheduler extends Component {
                 </div>
             </div>
         )
-    }
-
-    resolveScrollbarSize = () => {
-        // const { schedulerData } = this.props;
-        // let browserScrollbarHeight = 17, browserScrollbarWidth = 17, contentHeight = schedulerData.getSchedulerContentDesiredHeight();
-        // if (!!this.schedulerContent) {
-        //     browserScrollbarHeight = this.schedulerContent.offsetHeight - this.schedulerContent.clientHeight;
-        //     browserScrollbarWidth = this.schedulerContent.offsetWidth - this.schedulerContent.clientWidth;
-        // }
-        // if(!!this.schedulerContentBgTable && !!this.schedulerContentBgTable.offsetHeight){
-        //     contentHeight = this.schedulerContentBgTable.offsetHeight;
-        // }
-
-        // let tmpState = {};
-        // let needSet = false;
-        // if (browserScrollbarHeight != this.state.browserScrollbarHeight) {
-        //     tmpState = {...tmpState, browserScrollbarHeight: browserScrollbarHeight};
-        //     needSet = true;
-        // }
-        // if (browserScrollbarWidth != this.state.browserScrollbarWidth) {
-        //     tmpState = {...tmpState, browserScrollbarWidth: browserScrollbarWidth};
-        //     needSet = true;
-        // }
-        // if(contentHeight != this.state.contentHeight){
-        //     tmpState = {...tmpState, contentHeight: contentHeight};
-        //     needSet = true;
-        // }
-        // if (needSet)
-        //     this.setState(tmpState);
     }
 
     schedulerHeadRef = (element) => {

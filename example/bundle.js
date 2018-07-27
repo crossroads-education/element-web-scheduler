@@ -19,6 +19,7 @@ import ResourceClickable from './ResourceClickable'
 import ComingSoon from './ComingSoon'
 import Availabiltiy from './Availabiltiy';
 import RollCall from './RollCall';
+import Master from "./Master";
 
 render((
     <Router history={hashHistory}>
@@ -40,6 +41,7 @@ render((
         <Route path="/resourceclickable" component={ResourceClickable} />
         <Route path="/comingsoon" component={ComingSoon}/>
         <Route path="/customtableheaders" component={CustomTableHeaders}/>
+        <Route path="/master" component={Master}/>
     </Router>
 ), document.getElementById('root'))
 
