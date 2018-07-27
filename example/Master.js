@@ -198,7 +198,6 @@ class MasterSchedule extends Component {
     }
 
     eventItemTemplateResolver = (schedulerData, event, bgColor, isStart, isEnd, mustAddCssClass, mustBeHeight, agendaMaxEventWidth) => {
-        console.log(mustBeHeight);
         const Component = event.component;
         return <Component {...event.componentProps} mustAddCssClass={mustAddCssClass} mustBeHeight={mustBeHeight} event={event}/>;
     }
