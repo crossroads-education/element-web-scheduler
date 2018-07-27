@@ -15,7 +15,6 @@ class SelectedArea extends Component {
     render() {
         const {left, width, schedulerData} = this.props;
         const {config} = schedulerData;
-        console.log(left, width);
         return (
             <div className="selected-area" style={{ border: config.selectedAreaBorder, left: left+1, width: width-1, top: 1, bottom: 0, zIndex: config.selectedAreaZIndex, background: config.selectedAreaBackground || config.selectedAreaColor }}>
             </div>

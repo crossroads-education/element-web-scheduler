@@ -27,7 +27,8 @@ class MasterSchedule extends Component {
             selectedAreaBorder: '1px solid #aaa',
             customEventComponents: true,
             layers: [1, 3],
-            interactiveLayer: 3
+            interactiveLayer: 3,
+            creatable: false
         }, {
                 isNonWorkingTimeFunc: () => false
             });

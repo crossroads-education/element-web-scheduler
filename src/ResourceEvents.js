@@ -110,7 +110,6 @@ class ResourceEvents extends Component {
         const { leftIndex, rightIndex } = this.state;
         document.documentElement.removeEventListener('mousemove', this.doDrag, false);
         document.documentElement.removeEventListener('mouseup', this.stopDrag, false);
-        console.log(leftIndex, rightIndex);
         let startTime = headers[leftIndex].time;
         let endTime = resourceEvents.headerItems[rightIndex - 1].end;
         if(viewType !== ViewTypes.Day)
@@ -173,7 +172,7 @@ class ResourceEvents extends Component {
         let rowWidth = schedulerData.getContentTableWidth();
         let DnDEventItem = dndSource.getDragSource();
 
-        let selectedArea = isSelecting ? <SelectedArea {...this.props} left={left} width={width} /> : <div />;
+        let selectedArea = isSelecting ? <SelectedArea {...this.props} left={left} width={width} /> : null;
 
         let eventList = {};
 

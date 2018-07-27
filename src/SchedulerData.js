@@ -274,8 +274,8 @@ export default class SchedulerData {
         return width;
     }
 
-    getContentCellWidthInPixels(){
-        return (config.schedulerContentWidth - this.getResourceTableWidth()) * (this.getContentCellWidth() / 100);
+    getContentCellWidthInPixels(){ 
+        return (this.config.schedulerContentWidth - this.getResourceTableWidth()) / this.headers.length;
     }
 
 
