@@ -185,7 +185,7 @@ class ResourceEvents extends Component {
                 let marginTop = resourceEvents.hasSummary && isTop ? config.eventItemTopMargin + config.eventItemLineHeight : config.eventItemTopMargin;
                 let renderEventsMaxIndex = headerItem.addMore === 0 ? cellMaxEvents : headerItem.addMoreIndex;
                 const leftCorrection = (index === 0) ? 1 : 2;
-                const widthCorrection = (index === 0) ? 1 : 2;
+                const widthCorrection = (index === 0) ? 1 : 0;
                 headerItem.events.forEach((evt, idx) => {
                     if(idx < renderEventsMaxIndex && evt !== undefined && evt.render) {
                         let durationStart = localeMoment(startDate);

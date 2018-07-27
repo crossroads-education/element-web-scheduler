@@ -48,7 +48,7 @@ class AvailablitySchedule extends Component{
             selectedAreaZIndex: 2,
             backgroundLayer: 3,
             selectedAreaBorder: '1px solid #aaa',
-            schedulerContentWidth: 1200
+            schedulerContentWidth: 1600
         }, {
             isNonWorkingTimeFunc: () => false
         });
