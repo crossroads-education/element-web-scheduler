@@ -38,11 +38,11 @@ class HeaderView extends Component {
                     }
                     else {
                         const pList = pFormattedList.map((item, index) => (
-                            <div key={index}>{item}</div>
+                            <div key={index} style={{width: "100%"}}>{item}</div>
                         ));
 
                         element = (
-                            <div key={item.time} className="header3-text" style={style}>
+                            <div key={item.time} className="header3-text" style={style} style={{ borderBottom: "none", borderRight: "none", width: "100%" }}>
                                 {pList}
                             </div>
                         );
@@ -64,11 +64,11 @@ class HeaderView extends Component {
                 }
 
                 const pList = pFormattedList.map((item, index) => (
-                    <div key={index}>{item}</div>
+                    <div key={index} style={{borderRight: "none"}}>{item}</div>
                 ));
 
                 return (
-                    <div key={item.time} style={style}>
+                    <div key={item.time} style={{...style, borderRight: "none", borderBottom: "none"}}>
                         {pList}
                     </div>
                 );

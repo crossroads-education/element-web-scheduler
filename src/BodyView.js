@@ -24,19 +24,19 @@ class BodyView extends Component {
                 if(!!header.nonWorkingTime)
                     style = {...style, backgroundColor: config.nonWorkingTimeBodyBgColor};
                 return (
-                    <div key={key} style={style}><div/></div>
+                    <div key={key} style={style}><div style={{borderBottom: "none"}}/></div>
                 )
             });
 
             return (
-                <div key={item.slotId} style={{height: item.rowHeight, display:"flex", borderBottom: "none"}}>
+                <div key={item.slotId} style={{height: item.rowHeight, display:"flex", borderBottom: "none", borderRight: "none"}}>
                     {rowCells}
                 </div>
             );
         });
 
         return (
-            <div>
+            <div style={{borderRight: "none", borderBottom: "none"}}>
                 {tableRows}
             </div>
         );
