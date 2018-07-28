@@ -60,7 +60,7 @@ class HeaderView extends Component {
                 let pFormattedList = config.nonAgendaOtherCellHeaderFormat.split('|').map(item => datetime.format(item));
 
                 if (typeof nonAgendaCellHeaderTemplateResolver === 'function') {
-                    return nonAgendaCellHeaderTemplateResolver(schedulerData, item, pFormattedList, style)
+                    return nonAgendaCellHeaderTemplateResolver(schedulerData, item, pFormattedList[index], style)
                 }
 
                 const pList = pFormattedList.map((item, index) => (

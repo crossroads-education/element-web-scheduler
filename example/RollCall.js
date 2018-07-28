@@ -5,12 +5,17 @@ import Nav from './Nav'
 import ViewSrcCode from './ViewSrcCode'
 import withDragDropContext from './withDnDContext'
 import uuid from 'uuid/v4';
+import DayTimeOverlay from './DayTimeOverlay';
+import moment from "moment";
+
+const start = "2018-7-28 6:00"
+const end = "2018-7-28 17:00"
 
 class RollCallSchedule extends Component{
     constructor(props){
         super(props);
 
-        let schedulerData = new SchedulerData('2017-12-18', ViewTypes.Day, false, false, { 
+        let schedulerData = new SchedulerData(start, ViewTypes.Day, false, false, { 
             minuteStep: 15,
             eventItemTopMargin: 0,
             rowHeight: 38,
@@ -44,17 +49,26 @@ class RollCallSchedule extends Component{
                 <Nav />
                 <div>
                     <h3 style={{textAlign: 'center'}}>Custom event style<ViewSrcCode srcCodeUrl="https://github.com/StephenChou1017/react-big-scheduler/blob/master/example/CustomEventStyle.js" /></h3>
-                    <Scheduler schedulerData={viewModel}
-                               prevClick={this.prevClick}
-                               nextClick={this.nextClick}
-                               onSelectDate={this.onSelectDate}
-                               eventItemClick={this.eventClicked}
-                               updateEventStart={this.updateEventStart}
-                               updateEventEnd={this.updateEventEnd}
-                               moveEvent={this.moveEvent}
-                               newEvent={this.newEvent}
-                               eventItemTemplateResolver={this.eventItemTemplateResolver}
-                    />
+                    <DayTimeOverlay
+                        start={start}
+                        end={end}
+                        containerWidth={viewModel.config.schedulerContentWidth}
+                        contentWidth={viewModel.getContentTableWidth()}
+                        left={viewModel.getResourceTableWidth()}
+                    >
+                        <Scheduler schedulerData={viewModel}
+                            prevClick={this.prevClick}
+                            nextClick={this.nextClick}
+                            onSelectDate={this.onSelectDate}
+                            eventItemClick={this.eventClicked}
+                            updateEventStart={this.updateEventStart}
+                            updateEventEnd={this.updateEventEnd}
+                            moveEvent={this.moveEvent}
+                            newEvent={this.newEvent}
+                            eventItemTemplateResolver={this.eventItemTemplateResolver}
+                            nonAgendaCellHeaderTemplateResolver={this.headerRender}
+                        />
+                    </DayTimeOverlay>
                 </div>
             </div>
         )
@@ -97,6 +111,20 @@ class RollCallSchedule extends Component{
         return <div key={event.id} className={mustAddCssClass} style={{ ...this.getAttendanceStyle(event), margin: "4px 0"}}>
             <span style={{marginLeft: '4px', lineHeight: `${mustBeHeight}px`, color: "black"}}>{titleText}</span>
         </div>;
+    }
+
+    headerRender = (schedulerData, item, pFormattedListItem, style) => {
+        let color = "black";
+        const momentTime = moment(item.time);
+        const now = moment.now();
+        if(momentTime.isSameOrBefore(now, "hour")) {
+            color = momentTime.isSame(now, "hour") ? "#A187F8" : "rgba(0,0,0,.25)";
+        }
+        return (
+            <div key={item.time} style={{width: "100%", color}}>
+                {pFormattedListItem}
+            </div>
+        );
     }
 }
 

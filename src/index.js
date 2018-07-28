@@ -144,15 +144,17 @@ class Scheduler extends Component {
             const resourceView = (
                 <div style={{ width: resourceTableWidth, display: "inline-block"}}>
                     <div className="resource-view">
-                        <div style={{ overflow: "hidden", borderBottom: "1px solid #e9e9e9", height: config.tableHeaderHeight }}>
-                            <div>
-                                <div className="resource-table">
-                                    <div className="header3-text">
-                                        {resourceName}
+                        {config.displayHeader && 
+                            <div style={{ overflow: "hidden", borderBottom: "1px solid #e9e9e9", height: config.tableHeaderHeight }}>
+                                <div>
+                                    <div className="resource-table">
+                                        <div className="header3-text">
+                                            {resourceName}
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        }
                         <div style={resourceContentStyle} ref={this.schedulerResourceRef} onMouseOver={this.onSchedulerResourceMouseOver} onMouseOut={this.onSchedulerResourceMouseOut} onScroll={this.onSchedulerResourceScroll}>
                             <ResourceView
                                 {...this.props}
@@ -170,15 +172,17 @@ class Scheduler extends Component {
                     <div style={{ width: schedulerContainerWidth, display: "inline-block"}}>
                         <div className="scheduler-view" style={overflow}>
                             <div style={{width: schedulerContentWidth}}> 
-                                <div style={{ overflow: "hidden", borderBottom: "1px solid #e9e9e9", height: config.tableHeaderHeight }}>
-                                    <div  ref={this.schedulerHeadRef} onMouseOver={this.onSchedulerHeadMouseOver} onMouseOut={this.onSchedulerHeadMouseOut} onScroll={this.onSchedulerHeadScroll}>
-                                        <div>
-                                            <div className="scheduler-bg-table">
-                                                <HeaderView {...this.props} />
+                                {config.displayHeader && 
+                                    <div style={{ overflow: "hidden", borderBottom: "1px solid #e9e9e9", height: config.tableHeaderHeight }}>
+                                        <div  ref={this.schedulerHeadRef} onMouseOver={this.onSchedulerHeadMouseOver} onMouseOut={this.onSchedulerHeadMouseOut} onScroll={this.onSchedulerHeadScroll}>
+                                            <div>
+                                                <div className="scheduler-bg-table">
+                                                    <HeaderView {...this.props} />
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                }
                                 <div style={schedulerContentStyle} ref={this.schedulerContentRef} onMouseOver={this.onSchedulerContentMouseOver} onMouseOut={this.onSchedulerContentMouseOut} onScroll={this.onSchedulerContentScroll} >
                                     <div>
                                         <div className="scheduler-content">
