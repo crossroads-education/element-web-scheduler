@@ -8,8 +8,8 @@ import uuid from 'uuid/v4';
 import DayTimeOverlay from './DayTimeOverlay';
 import moment from "moment";
 
-const start = "2018-7-28 6:00"
-const end = "2018-7-28 17:00"
+const start = "2018-8-1 6:00"
+const end = "2018-8-1 17:00"
 
 class RollCallSchedule extends Component{
     constructor(props){

@@ -21,7 +21,7 @@ export default class DayTimeOverlay extends React.Component {
     }
 
     componentDidMount() {
-        this.interval = setInterval(this.tick(), 1000);
+        this.interval = setInterval(() => this.tick(), 1000);
     }
 
     componentWillUnmount() {
@@ -32,19 +32,20 @@ export default class DayTimeOverlay extends React.Component {
         this.setState({time: new Date()})
     }
     
-    width = memoize((start, end, current) => {
-        const s = moment(start), 
-                e = moment(end).add(1, "hour"),
-                c = moment(current);
-        console.log(s, e, c);
-        console.log(c.diff(s, "minutes"), e.diff(s, "minutes"));
-        const percentage = c.diff(s) / e.diff(s)    
-        console.log(percentage);
+    width = (start, end, current) => {
+        const s = this.minutes(start), 
+                e = this.minutes(moment(end).add(1 , "hours")),
+                c = this.minutes(current);
+        const percentage = (c - s) / (e - s);
         return percentage * 100;
-    });
+    };
+
+    minutes(date) {
+        return moment(date).startOf("day").diff(moment(date), "minutes");
+    }
 
     render() {
-        const { start, end, containerWidth, contentWidth ,left } = this.props;
+        const { start, end, containerWidth, contentWidth , left } = this.props;
         const { time } = this.state;
         const percentage = this.width(start, end, time);
         return (
