@@ -1,6 +1,7 @@
+import * as React from "react";
 import * as moment from "moment";
 
-export interface SchedulerEvent {
+export type SchedulerEvent = {
     id: number;
     start: string; // ex. 2017-12-19 12:30:00
     end: string; // ex. 2017-12-20 23:30:00
@@ -14,12 +15,12 @@ export interface SchedulerEvent {
     component?: React.ComponentClass<any>;
     componentProps: {[props: string]: any};
     layer?: number;
-}
+};
 
-export interface SchedulerResource {
+export type SchedulerResource = {
     id: number;
     name: string;
-}
+};
 
 export enum ViewTypes {
     Day = 0,
@@ -29,7 +30,7 @@ export enum ViewTypes {
     Year = 4
 }
 
-export enum SummaryPos {
+export enum SummaryPosition {
     Top = 0,
     TopRight = 1,
     TopLeft = 2,
@@ -38,8 +39,7 @@ export enum SummaryPos {
     BottomLeft = 5
 }
 
-
-export interface config {
+export type SchedulerConfiguration = {
     schedulerWidth?: number;
     schedulerMaxHeight?: number;
     tableHeaderHeight?: number;
@@ -70,7 +70,7 @@ export interface config {
     nonWorkingTimeHeadBgColor?: string;
     nonWorkingTimeBodyBgColor?: string;
     summaryColor?: string;
-    summaryPos?: SummaryPos;
+    summaryPos?: SummaryPosition;
     startResizable?: boolean;
     endResizable?: boolean;
     movable?: boolean;
@@ -92,11 +92,11 @@ export interface config {
     minuteStep?: 0 | 12 | 15 | 20 | 30 | 60;
 
     views?: [
-        { viewName: 'Day', viewType: ViewTypes.Day, showAgenda: false, isEventPerspective: false },
-        { viewName: 'Week', viewType: ViewTypes.Week, showAgenda: false, isEventPerspective: false },
-        { viewName: 'Month', viewType: ViewTypes.Month, showAgenda: false, isEventPerspective: false },
-        { viewName: 'Quarter', viewType: ViewTypes.Quarter, showAgenda: false, isEventPerspective: false },
-        { viewName: 'Year', viewType: ViewTypes.Year, showAgenda: false, isEventPerspective: false }
+        { viewName: "Day", viewType: ViewTypes.Day, showAgenda: false, isEventPerspective: false },
+        { viewName: "Week", viewType: ViewTypes.Week, showAgenda: false, isEventPerspective: false },
+        { viewName: "Month", viewType: ViewTypes.Month, showAgenda: false, isEventPerspective: false },
+        { viewName: "Quarter", viewType: ViewTypes.Quarter, showAgenda: false, isEventPerspective: false },
+        { viewName: "Year", viewType: ViewTypes.Year, showAgenda: false, isEventPerspective: false }
     ]
 
     interactiveLayer?: number,
@@ -107,23 +107,42 @@ export interface config {
     resourcesComponent?: React.ComponentClass<any> | false;
     popoverComponent?: React.ComponentClass<any> | false;
     displayHeader?: boolean;
-}
+};
 
-export interface behaviors {
-    getSummaryFunc?(schedulerData: SchedulerData, headerEvents: any[], slotId: number, headerStart: any, headerEnd: any): any;
-    getDateLabelFunc?(schedulerData: SchedulerData, viewType: ViewTypes, startDate: moment.MomentInput, endDate: moment.MomentInput): string;
+export type Behaviors = {
+    getSummaryFunc?(
+        schedulerData: SchedulerData,
+        headerEvents: any[],
+        slotId: number,
+        headerStart: any,
+        headerEnd: any
+    ): any;
+    getDateLabelFunc?(
+        schedulerData: SchedulerData,
+        viewType: ViewTypes,
+        startDate: moment.MomentInput,
+        endDate: moment.MomentInput
+    ): string;
     getEventTextFunc?(schedulerData: SchedulerData, event: SchedulerEvent): string;
     isNonWorkingTimeFunc?(schedulerData: SchedulerData, time: moment.MomentInput): boolean;
-}
+};
 
-export interface SchedulerData {
-    constructor(data: string, viewType: ViewTypes, showAgenda?: boolean, isEventPerspective?: boolean, newConfig?: config, newBehaviors?: behaviors, localMoment?: moment.LocaleSpecifier);
+export class SchedulerData {
+    constructor(
+        data: string,
+        viewType: ViewTypes,
+        showAgenda?: boolean,
+        isEventPerspective?: boolean,
+        newConfig?: SchedulerConfiguration,
+        newBehaviors?: Behaviors,
+        localMoment?: moment.LocaleSpecifier
+    );
     setLocaleMoment(localeMoment: moment.LocaleSpecifier): void;
     setResources(resources: SchedulerResource[]): void;
     setEvents(events: SchedulerEvent[]): void;
 }
 
-export interface SchedulerProps {
+export type SchedulerProps = {
     schedulerData: SchedulerData;
     prevClick(...args: any[]): any;
     nextClick(...args: any[]): any;
@@ -148,5 +167,8 @@ export interface SchedulerProps {
     slotClickedFunc?(...args: any[]): any;
     slotItemTemplateResolver?(...args: any[]): any;
     nonAgendaCellHeaderTemplateResolver?(...args: any[]): any;
+};
+
+export class Scheduler extends React.Component<SchedulerProps> {
 
 }
