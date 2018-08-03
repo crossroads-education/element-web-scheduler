@@ -1,29 +1,25 @@
 {
-  "name": "react-big-scheduler",
-  "version": "0.2.0",
-  "description": "A scheduler and resource planning component built for React and made for modern browsers (IE10+)",
-  "keywords": [
-    "scheduler",
-    "react-component",
-    "react",
-    "react-big-scheduler",
-    "resource planning",
-    "antd"
-  ],
+  "name": "@xroadsed/react-scheduler",
+  "version": "1.0.0",
+  "description": "A fork of a scheduler and resource planning component built for React and made for modern browsers (IE10+)",
   "files": [
     "lib/",
     "LICENSE",
     "README.md"
   ],
   "main": "lib/index",
-  "homepage": "https://github.com/StephenChou1017/react-big-scheduler",
+  "homepage": "https://github.com/crossroads-education/element-web-scheduler",
   "author": "Stephen Chou <27788280@qq.com> (https://github.com/StephenChou1017)",
+  "contributors": [
+    "Brian Huntley <brian@crossroadseducation.org>",
+    "Erik Weitnauer <erik@crossroadseducation.org>"
+  ],
   "repository": {
     "type": "git",
-    "url": "git@github.com:StephenChou1017/react-big-scheduler.git"
+    "url": "git@github.com:crossroads-education/element-web-scheduler.git"
   },
   "bugs": {
-    "url": "http://github.com/StephenChou1017/react-big-scheduler/issues"
+    "url": "http://github.com/crossroads-education/element-web-scheduler/issues"
   },
   "license": "MIT",
   "config": {},
@@ -36,6 +32,7 @@
     "analyz": "cross-env NODE_ENV=production npm_config_report=true npm run build",
     "build:dll": "cross-env NODE_ENV=production webpack --config ./webpack/webpack.dll.config.js"
   },
+  "typings": "./index.d.ts",
   "pre-commit": [
     "lint"
   ],
@@ -53,6 +50,7 @@
     "uuid": "^3.3.2"
   },
   "devDependencies": {
+    "@types/react": "^16.4.7",
     "babel": "6.23.0",
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.0",
@@ -80,8 +78,8 @@
     "style-loader": "0.14.1",
     "url-loader": "0.5.8",
     "webpack": "^4.5.0",
-    "webpack-cli": "^2.0.14",
     "webpack-bundle-analyzer": "^2.11.1",
+    "webpack-cli": "^2.0.14",
     "webpack-dev-server": "^3.1.1"
   }
 }
