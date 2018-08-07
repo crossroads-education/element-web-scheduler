@@ -2,9 +2,9 @@ import * as React from "react";
 import * as moment from "moment";
 
 export type SchedulerEvent = {
-    id: number;
-    start: string; // ex. 2017-12-19 12:30:00
-    end: string; // ex. 2017-12-20 23:30:00
+    id: sting | number;
+    start: string | moment; // ex. 2017-12-19 12:30:00
+    end: string | moment; // ex. 2017-12-20 23:30:00
     resourceId: string | number;
     title?: string;
     resizable?: boolean;
@@ -12,13 +12,15 @@ export type SchedulerEvent = {
     groupName?: string;
     movable?: boolean;
     type?: number | string;
-    component?: React.ComponentClass<any>;
-    componentProps: {[props: string]: any};
+    component?: React.ComponentClass<any> | React.SFC<any>;
+    componentProps?: {[props: string]: any};
+    data?: any;
     layer?: number;
+    disableInteractions?: boolean;
 };
 
 export type SchedulerResource = {
-    id: number;
+    id: number | string;
     name: string;
 };
 
@@ -40,6 +42,11 @@ export enum SummaryPosition {
 }
 
 export type SchedulerConfiguration = {
+    // new ones:
+    selectedAreaBackground?: string;
+    selectedAreaZIndex?: number;
+
+    // old ones:
     schedulerWidth?: number;
     schedulerMaxHeight?: number;
     tableHeaderHeight?: number;
@@ -91,13 +98,7 @@ export type SchedulerConfiguration = {
 
     minuteStep?: 0 | 12 | 15 | 20 | 30 | 60;
 
-    views?: [
-        { viewName: "Day", viewType: ViewTypes.Day, showAgenda: false, isEventPerspective: false },
-        { viewName: "Week", viewType: ViewTypes.Week, showAgenda: false, isEventPerspective: false },
-        { viewName: "Month", viewType: ViewTypes.Month, showAgenda: false, isEventPerspective: false },
-        { viewName: "Quarter", viewType: ViewTypes.Quarter, showAgenda: false, isEventPerspective: false },
-        { viewName: "Year", viewType: ViewTypes.Year, showAgenda: false, isEventPerspective: false }
-    ]
+    views?: { viewName: string, viewType: ViewTypes, showAgenda: boolean, isEventPerspective: boolean}[];
 
     interactiveLayer?: number,
     backgroundLayer?: number,
@@ -135,25 +136,32 @@ export class SchedulerData {
         isEventPerspective?: boolean,
         newConfig?: SchedulerConfiguration,
         newBehaviors?: Behaviors,
-        localMoment?: moment.LocaleSpecifier
+        localMoment?: moment
     );
-    setLocaleMoment(localeMoment: moment.LocaleSpecifier): void;
+    setLocaleMoment(localeMoment: moment): void;
     setResources(resources: SchedulerResource[]): void;
     setEvents(events: SchedulerEvent[]): void;
+    prev(): void;
+    next(): void;
+    setDate(date: string): void;
+    config: SchedulerConfiguration;
+    localeMoment: moment;
+    events: SchedulerEvent[];
 }
 
 export type SchedulerProps = {
     schedulerData: SchedulerData;
-    prevClick(...args: any[]): any;
-    nextClick(...args: any[]): any;
-    onViewChange(...args: any[]): any;
-    onSelectData(...args: any[]): any;
+    prevClick?(...args: any[]): any;
+    nextClick?(...args: any[]): any;
+    onViewChange?(...args: any[]): any;
+    onSelectData?(...args: any[]): any;
+    onSelectDate?(data: SchedulerData, date: string): void;
     onSetAddMoreState?(...args: any[]): any;
     updateEventStart?(...args: any[]): any;
     updateEventEnd?(...args: any[]): any;
     moveEvent?(...args: any[]): any;
-    leftCustomHeader: any;
-    rightCustomHeader: any;
+    leftCustomHeader?: any;
+    rightCustomHeader?: any;
     newEvent?(...args: any[]): any;
     subtitleGetter?(...args: any[]): any;
     eventItemClick?(...args: any[]): any;
@@ -163,7 +171,7 @@ export type SchedulerProps = {
     viewEventClick?(...args: any[]): any;
     conflictOccured?(...args: any[]): any;
     eventItemTemplateResolver?(...args: any[]): any;
-    dndSources: any[];
+    dndSources?: any[];
     slotClickedFunc?(...args: any[]): any;
     slotItemTemplateResolver?(...args: any[]): any;
     nonAgendaCellHeaderTemplateResolver?(...args: any[]): any;
