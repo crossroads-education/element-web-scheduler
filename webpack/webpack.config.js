@@ -8,10 +8,10 @@ const root = path.resolve(__dirname, '..')
 module.exports = {
     mode:'production',
     entry: {
-        bundle: [root + "/example/bundle.js"],
+        Scheduler: [root + "/src/index.js"],
     },
     output: {
-        path: root + "/exampledist/static",
+        path: root + "/lib/",
         filename: '[name].js'
     },
     resolve: {
@@ -25,16 +25,13 @@ module.exports = {
     },
     module: {
         rules: [
-            { test: /\.jsx$|\.es6$|\.js$/, loaders: ['babel-loader'], exclude: /node_modules/ },
+            { test: /\.jsx$|\.es6$|\.js$/, loader: 'babel-loader', exclude: /node_modules/ },
             { test: /\.scss$|\.css$/, loader: 'style-loader!style-loader!css-loader!sass-loader' },
             { test: /\.(jpe?g|png|gif)$/i, loader: 'url?limit=10000!img?progressive=true' },
-            { test: /\.json/, loader: 'json-loader' }
+            { test: /\.json/, exclude: /node_modules/, loader: 'raw-loader' }
         ]
     },
     plugins: [
-        //new HtmlWebpackPlugin({
-        //    template: root + "/example/index.html"
-        //}),
         new webpack.DefinePlugin({
             'process.env': {
                 NODE_ENV: JSON.stringify(process.env.NODE_ENV),
@@ -44,21 +41,7 @@ module.exports = {
             /moment[\\\/]locale$/,
             /^\.\/(zh-cn)$/
         ),
-        // new webpack.DllReferencePlugin({
-        //     context: root,
-        //     manifest: require('../exampledist/static/vendors-manifest.json')
-        // }),
-        new webpack.optimize.OccurrenceOrderPlugin(),
-        // new webpack.optimize.UglifyJsPlugin({
-        //     output: {
-        //         comments: false,  // remove all comments
-        //     },
-        //     compress: {
-        //         warnings: false
-        //     }
-        // }),
-        //new webpack.optimize.CommonsChunkPlugin({ name: 'vendor', filename: 'vendor.js' }),
-        //new BundleAnalyzerPlugin()
-        //new ExtractTextPlugin("bundle.css")
-    ]
+        new webpack.optimize.OccurrenceOrderPlugin()
+    ],
+    
 };

@@ -1,5 +1,5 @@
-lib/
-exampledist/static/
+dist/
+exampledist
 
 # Logs
 logs

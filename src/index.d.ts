@@ -2,9 +2,9 @@ import * as React from "react";
 import * as moment from "moment";
 
 export type SchedulerEvent = {
-    id: sting | number;
-    start: string | moment; // ex. 2017-12-19 12:30:00
-    end: string | moment; // ex. 2017-12-20 23:30:00
+    id: string | number;
+    start: string | moment.Moment; // ex. 2017-12-19 12:30:00
+    end: string | moment.Moment; // ex. 2017-12-20 23:30:00
     resourceId: string | number;
     title?: string;
     resizable?: boolean;
@@ -136,16 +136,16 @@ export class SchedulerData {
         isEventPerspective?: boolean,
         newConfig?: SchedulerConfiguration,
         newBehaviors?: Behaviors,
-        localMoment?: moment
+        localMoment?: moment.Moment
     );
-    setLocaleMoment(localeMoment: moment): void;
+    setLocaleMoment(localeMoment: moment.Moment): void;
     setResources(resources: SchedulerResource[]): void;
     setEvents(events: SchedulerEvent[]): void;
     prev(): void;
     next(): void;
     setDate(date: string): void;
     config: SchedulerConfiguration;
-    localeMoment: moment;
+    localeMoment: moment.Moment;
     events: SchedulerEvent[];
 }
 
@@ -177,6 +177,6 @@ export type SchedulerProps = {
     nonAgendaCellHeaderTemplateResolver?(...args: any[]): any;
 };
 
-export class Scheduler extends React.Component<SchedulerProps> {
+declare const Scheduler: React.ComponentType<SchedulerProps>;
 
-}
+export default Scheduler;

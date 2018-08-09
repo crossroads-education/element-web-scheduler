@@ -1,4 +1,8 @@
 exampledist/static
+exampled
+webpack
+.babelrc
+src
 node_modules
 .idea
 .git
