@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import { PropTypes } from 'prop-types'
 import { Row, Col, Icon, Radio, Popover, Calendar } from 'antd'
+import { DragDropContext } from "react-dnd";
+import HTML5Backend from "react-dnd-html5-backend";
 import DnDSource from './DnDSource'
 import DnDContext from './DnDContext'
 import EventItem from './EventItem'
@@ -14,7 +16,7 @@ const RadioGroup = Radio.Group;
 import "./css/style.css";
 import 'antd/dist/antd.css';
 
-export class Scheduler extends Component {
+class Scheduler extends Component {
 
     constructor(props) {
         super(props);
@@ -337,3 +339,5 @@ export class Scheduler extends Component {
         onSelectDate(schedulerData, date);
     }
 }
+
+export default DragDropContext(HTML5Backend)(Scheduler);
