@@ -1,6 +1,22 @@
 import React, {Component} from 'react'
 import {PropTypes} from 'prop-types' 
+import injectSheet from "react-jss";
 
+const styles = theme => ({
+    timeLineEvent: props => ({
+        ...theme.timelineEvent,
+        left: props.left + "%",
+        width: props.width,
+        top: props.top
+    }),
+    timelineEventContent: {
+        height: props => props.schedulerData.config.eventItemHeight, 
+        color: "#999",
+        textAlign: "center"
+    }
+})
+
+@injectSheet(styles)
 class AddMore extends Component {
     constructor(props) {
         super(props);
@@ -19,13 +35,11 @@ class AddMore extends Component {
     }
 
     render() {
-        const {number, left, width, top, clickAction, headerItem, schedulerData, widthExtra, leftExtra} = this.props;
-        const {config} = schedulerData;
+        const {number, clickAction, headerItem, classes} = this.props;
         let content = '+'+number+'more';
-        const displayLeft = left + "%";
         return (
-        <a className="timeline-event" style={{left: displayLeft, width: width, top: top}} onClick={() => {clickAction(headerItem);}} >
-            <div style={{height: config.eventItemHeight, color: '#999', textAlign: 'center'}}>
+        <a className={classes.timeLineEvent} onClick={() => {clickAction(headerItem);}} >
+            <div className={classes.timelineEventContent}>
                 {content}
             </div>
         </a>

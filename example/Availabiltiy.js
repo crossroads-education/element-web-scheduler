@@ -91,6 +91,13 @@ class AvailablitySchedule extends Component{
                                moveEvent={this.moveEvent}
                                newEvent={this.newEvent}
                                eventItemTemplateResolver={this.eventItemTemplateResolver}
+                               schedulerStyle={{
+                                   root:{
+                                       "& .header3-text": {
+                                           fontFamily: "nunito"
+                                       }
+                                   }
+                               }}
                     />
                 </div>
             </div>

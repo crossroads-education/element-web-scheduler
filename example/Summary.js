@@ -26,7 +26,7 @@ class Summary extends Component{
         let leftCustomHeader = (
             <div><span style={{fontWeight: 'bold'}}><a onClick={this.changeSummaryPos}>Change summary position</a></span></div>
         );
-
+        console.log(viewModel);
         return (
             <div>
                 <Nav />

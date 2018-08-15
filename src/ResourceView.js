@@ -1,7 +1,23 @@
 import React, {Component} from 'react'
 import {PropTypes} from 'prop-types'
 import DefaultResourceComponent from "./DefaultResourceComponent";
+import injectSheet from "react-jss"
+import classNames from "classnames"
 
+const styles = theme => ({
+    slotItem: {
+        ...theme.overFlowText,
+        ...theme.header2Text,
+        width: "100%", 
+        height: "100%"
+    },
+    resourceListContainer: {
+        ...theme.schedulerDisplayTable,
+        width: props => props.schedulerData.getResourceTableWidth()
+    },
+});
+
+@injectSheet(styles)
 class ResourceView extends Component {
 
     constructor(props) {
@@ -17,39 +33,50 @@ class ResourceView extends Component {
 
     render() {
 
-        const {schedulerData, slotClickedFunc, slotItemTemplateResolver} = this.props;
+        const {schedulerData, slotClickedFunc, slotItemTemplateResolver, classes} = this.props;
         const {renderData, config} = schedulerData;
-        let width = schedulerData.getResourceTableWidth() - 2;
         let DisplayComponent = (config.resourceComponent) ? config.resourceComponent : DefaultResourceComponent;
         let resourceList = renderData.map((item) => {
             let a = <DisplayComponent slotName={item.slotName} {...item.componentProps}/>;
-           
-            let slotItem = (
-                <div style={{width: "100%", height: "100%"}} title={item.slotName} className="overflow-text header2-text">
-                    {a}
-                </div>
-            );
-            if(!!slotItemTemplateResolver) {
-                let temp = slotItemTemplateResolver(schedulerData, item, slotClickedFunc, width, "overflow-text header2-text");
-                if(!!temp)
-                    slotItem = temp;
-            }
 
-            return (
-                <div key={item.slotId}>
-                    <div data-resource-id={item.slotId} style={{height: item.rowHeight - 1, borderRight: "none"}}>
-                        {slotItem}
+            const slotItem = (slotItemTemplateResolver) ? 
+                slotItemTemplateResolver(schedulerData, item, slotClickedFunc, width, "overflow-text header2-text") 
+                : (
+                    <div className={classes.slotItem}>
+                        {a}
                     </div>
-                </div>
-            );
+                );
+
+            return <ResourceItem itemHeight={item.rowHeight} slotId={item.slotId}> {slotItem} </ResourceItem>
         });
 
         return (
-            <div className="resource-table" style={{width}}>
+            <div className={classes.resourceListContainer}>
                 {resourceList}
             </div>
         )
     }
 }
+
+const resourceItemStyles = {
+    slotItemWrapper: {
+        borderLeft: "solid 1px #e9e9e9",
+        borderTop: "solid 1px #e9e9e9",
+        height: "100%"
+    },
+    resourceItem: {
+        height: props => props.itemHeight
+    },  
+}
+
+const resource = ({ classes, slotId, children }) => (
+    <div key={slotId} className={classes.resourceItem}>
+        <div data-resource-id={slotId} className={classes.slotItemWrapper}>
+            {children}
+        </div>
+    </div>
+);
+
+const ResourceItem = injectSheet(resourceItemStyles)(resource);
 
 export default ResourceView

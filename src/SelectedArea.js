@@ -1,6 +1,21 @@
 import React, {Component} from 'react'
 import {PropTypes} from 'prop-types'
+import injectSheet from "react-jss"
 
+const styles = theme => ({
+    selectedArea: props => ({
+        position: "absolute",
+        border: props.schedulerData.config.selectedAreaBorder,
+        left: props.left,
+        width: props.width,
+        top: 1,
+        bottom: 0,
+        zIndex: props.schedulerData.config.selectedAreaZIndex,
+        background: props.schedulerData.config.selectedAreaBackground || props.schedulerData.config.selectedAreaColor
+    })
+})
+
+@injectSheet(styles)
 class SelectedArea extends Component {
     constructor(props){
         super(props);
@@ -13,11 +28,9 @@ class SelectedArea extends Component {
     }
 
     render() {
-        const {left, width, schedulerData} = this.props;
-        const {config} = schedulerData;
+        const { classes } = this.props;
         return (
-            <div className="selected-area" style={{ border: config.selectedAreaBorder, left: left+1, width: width-1, top: 1, bottom: 0, zIndex: config.selectedAreaZIndex, background: config.selectedAreaBackground || config.selectedAreaColor }}>
-            </div>
+            <div className={classes.selectedArea} />
         );
     }
 }

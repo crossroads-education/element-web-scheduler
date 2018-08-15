@@ -10,4 +10,4 @@ import DemoData from './DemoData'
 export const DATE_FORMAT = 'YYYY-MM-DD';
 export const DATETIME_FORMAT = 'YYYY-MM-DD HH:mm:ss';
 export {SchedulerData, ViewTypes, SummaryPos, DnDSource, DnDContext, AddMorePopover, DemoData}
-export {default as default} from "./Scheduler";
+export {default as default} from "./StylesWrapper";

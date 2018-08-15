@@ -3,7 +3,47 @@ import {PropTypes} from 'prop-types'
 import {Popover} from 'antd';
 import EventItemPopover from './EventItemPopover'
 import {ViewTypes, DATETIME_FORMAT} from './index'
+import injectSheet from "react-jss";
+import classNames from "classnames";
 
+const styles = theme => ({
+    roundClass: props => {
+        return {...props.isStart ? 
+            (props.isEnd ? 
+                theme.roundAll : 
+                theme.roundHead
+            ) : 
+            (props.isEnd ? 
+                theme.roundTail : 
+                theme.roundNone 
+            )
+        };
+    },
+    eventItem: props => ({
+        height: props.schedulerData.config.eventItemHeight,
+        backgroundColor: props.eventItem.bgColor || props.schedulerData.config.defaultEventBgColor
+    }),
+    eventItemTitle: {
+        marginLeft: "10px",
+        lineHeight: props => props.schedulerData.config.eventItemHeight + "px",
+        whiteSpace: "nowrap",
+        overflow: "hidden",
+        overflowText: "ellipsis"
+    },
+    eventItemContainer: {
+        ...theme.timelineEvent
+    },
+    startResizer: {
+        ...theme.eventResizer,
+        ...theme.eventStartResizer
+    },
+    endResizer: {
+        ...theme.eventResizer,
+        ...theme.eventEndResizer
+    }
+});
+
+@injectSheet(styles)
 class EventItem extends Component {
     constructor(props) {
         super(props);
@@ -75,7 +115,7 @@ class EventItem extends Component {
     doStartDrag = (ev) => {
         ev.stopPropagation();
 
-        const {left, width, leftIndex, rightIndex, schedulerData} = this.props;
+        const {left, width, rightIndex, schedulerData} = this.props;
         const { startX } = this.state;  
         const tableWidth = schedulerData.getContentTableWidth();
         let delta = (ev.clientX - startX); 
@@ -265,15 +305,9 @@ class EventItem extends Component {
     }
 
     render() {
-        const {eventItem, isStart, isEnd, isInPopover, eventItemClick, schedulerData, isDragging, connectDragSource, connectDragPreview, eventItemTemplateResolver} = this.props;
+        const {classes, eventItem, isStart, isEnd, isInPopover, eventItemClick, schedulerData, isDragging, connectDragSource, connectDragPreview, eventItemTemplateResolver} = this.props;
         const {config, localeMoment} = schedulerData;
         const {left, width, top} = this.state;
-        const widthExtra = this.props.widthExtra || 0;
-        const leftExtra = this.props.leftExtra || 0;
-        let roundCls = isStart ? (isEnd ? 'round-all' : 'round-head') : (isEnd ? 'round-tail' : 'round-none');
-        let bgColor = config.defaultEventBgColor;
-        if (eventItem.bgColor !== undefined)
-            bgColor = eventItem.bgColor;
 
         let titleText = schedulerData.behaviors.getEventTextFunc(schedulerData, eventItem);
         let content = (
@@ -283,33 +317,25 @@ class EventItem extends Component {
                 title={eventItem.title}
                 startTime={eventItem.start}
                 endTime={eventItem.end}
-                statusColor={bgColor}/>
+                statusColor={classes.eventItem.backgroundColor}/>
         );
 
         let start = localeMoment(eventItem.start);
         let eventTitle = isInPopover ? `${start.format('HH:mm')} ${titleText}` : titleText;
-        let startResizeDiv = <div />;
-        if (this.startResizable(this.props))
-            startResizeDiv = <div className="event-resizer event-start-resizer" ref='startResizer'></div>;
-        let endResizeDiv = <div />;
-        if (this.endResizable(this.props))
-            endResizeDiv = <div className="event-resizer event-end-resizer" ref='endResizer'></div>;
+        let startResizeDiv = (this.startResizable(this.props)) ? <div className={classes.startResizer} ref='startResizer'/>: null;
+        let endResizeDiv = (this.endResizable(this.props)) ? <div className={classes.endResizer} ref='endResizer'/> : null;
 
-        let eventItemTemplate = (
-            <div className={roundCls + ' event-item'} key={eventItem.id}
-                 style={{height: config.eventItemHeight, backgroundColor: bgColor}}>
-                <span style={{marginLeft: '10px', lineHeight: `${config.eventItemHeight}px` }}>{eventTitle}</span>
-            </div>
-        );
-        if(eventItemTemplateResolver != undefined)
-            eventItemTemplate = eventItemTemplateResolver(schedulerData, eventItem, bgColor, isStart, isEnd, 'event-item', config.eventItemHeight, undefined);
-
-        let displayWidth = "calc(" + width + "% + " + widthExtra + "px)";
-        let displayLeft = "calc(" + left + "% + " + leftExtra + "px)";
-        const aStyle = {left: displayLeft, width: displayWidth, top: top};
+        let eventItemTemplate = eventItemTemplateResolver ?
+            eventItemTemplate = eventItemTemplateResolver(schedulerData, eventItem, eventItem.bgColor || config.defaultEventBgColor , isStart, isEnd, 'event-item', config.eventItemHeight, undefined) 
+            : (
+                <div className={classNames(classes.roundClass, classes.eventItem)} key={eventItem.id}>
+                    <span className={classes.eventItemTitle}>{eventTitle}</span>
+                </div>
+            );
+        const aStyle = {left: left + "%", width: width + "%", top};
         if (this.props.eventItem.disableInteractions) aStyle.pointerEvents = "none";
         
-        let a = <a className="timeline-event" style={aStyle} onClick={() => { if(!!eventItemClick) eventItemClick(schedulerData, eventItem);}}>
+        let a = <a className={classes.eventItemContainer} style={aStyle} onClick={() => { if(!!eventItemClick) eventItemClick(schedulerData, eventItem);}}>
             {eventItemTemplate}
             {startResizeDiv}
             {endResizeDiv}

@@ -22,6 +22,7 @@ export type SchedulerEvent = {
 export type SchedulerResource = {
     id: number | string;
     name: string;
+    componentProps?: {[props: string]: any};
 };
 
 export enum ViewTypes {
@@ -45,6 +46,15 @@ export type SchedulerConfiguration = {
     // new ones:
     selectedAreaBackground?: string;
     selectedAreaZIndex?: number;
+    rowHeight?: string | number;
+    interactiveLayer?: number,
+    backgroundLayer?: number,
+    layers?: false,
+    viewResources?: true,
+    popoverTrigger?: "hover" | "click",
+    resourcesComponent?: React.ComponentClass<any> | false;
+    popoverComponent?: React.ComponentClass<any> | false;
+    displayHeader?: boolean;
 
     // old ones:
     schedulerWidth?: number;
@@ -100,14 +110,7 @@ export type SchedulerConfiguration = {
 
     views?: { viewName: string, viewType: ViewTypes, showAgenda: boolean, isEventPerspective: boolean}[];
 
-    interactiveLayer?: number,
-    backgroundLayer?: number,
-    layers?: false,
-    viewResources?: true,
-    popoverTrigger?: "hover" | "click",
-    resourcesComponent?: React.ComponentClass<any> | false;
-    popoverComponent?: React.ComponentClass<any> | false;
-    displayHeader?: boolean;
+    
 };
 
 export type Behaviors = {
@@ -151,6 +154,7 @@ export class SchedulerData {
 
 export type SchedulerProps = {
     schedulerData: SchedulerData;
+    schedulerStyles: React.CSSProperties;
     prevClick?(...args: any[]): any;
     nextClick?(...args: any[]): any;
     onViewChange?(...args: any[]): any;

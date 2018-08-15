@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import {PropTypes} from 'prop-types'
 import DefaultEventItemPopover from "./DefaultEventItemPopover";
- 
+
 class EventItemPopover extends Component {
     constructor(props) {
         super(props);
@@ -11,7 +11,7 @@ class EventItemPopover extends Component {
         schedulerData: PropTypes.object.isRequired,
         eventItem: PropTypes.object.isRequired,
         title: PropTypes.string.isRequired,
-        statusColor: PropTypes.string.isRequired,
+        statusColor: PropTypes.string,
         subtitleGetter: PropTypes.func,
         viewEventClick: PropTypes.func,
         viewEventText:PropTypes.string,

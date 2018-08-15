@@ -5,7 +5,25 @@ import Summary from './Summary'
 import SelectedArea from './SelectedArea'
 import {ViewTypes, DATETIME_FORMAT, SummaryPos} from './index'
 import {getPos} from './Util'
+import injectSheet from "react-jss";
+import classNames from "classnames";
 
+const styles = theme => ({
+    eventContainer: {
+        ...theme.eventContainer,
+        height: props => props.resourceEvents.rowHeight, 
+    },
+    inactiveLayerContainer: {
+        position: "absolute", 
+        pointerEvents: "none", 
+        width: "100%"
+    },
+    eventContentContainer: {
+        position: "relative"
+    }
+});
+
+@injectSheet(styles)
 class ResourceEvents extends Component {
 
     constructor(props) {
@@ -164,12 +182,11 @@ class ResourceEvents extends Component {
     }
 
     render() {
-        const {resourceEvents, schedulerData, connectDropTarget, dndSource} = this.props;
+        const {resourceEvents, schedulerData, connectDropTarget, dndSource, classes} = this.props;
         const {viewType, startDate, endDate, config, localeMoment} = schedulerData;
         const {isSelecting, left, width} = this.state;
         let cellWidth = schedulerData.getContentCellWidth();
         let cellMaxEvents = schedulerData.getCellMaxEvents();
-        let rowWidth = schedulerData.getContentTableWidth();
         let DnDEventItem = dndSource.getDragSource();
 
         let selectedArea = isSelecting ? <SelectedArea {...this.props} left={left} width={width} /> : null;
@@ -253,15 +270,15 @@ class ResourceEvents extends Component {
                 }
 
                 if(headerItem.summary != undefined) {
-                    let top = isTop ? 1 : resourceEvents.rowHeight - config.eventItemLineHeight + 1;
-                    let left = index * cellWidth + config.eventItemLeftMargin + xCorrection;
-                    let width = Math.max(0, evt.span * cellWidth + 1 - config.eventItemRightMargin - config.eventItemLeftMargin - xCorrection);
+                    const cellWidth = schedulerData.getContentCellWidthInPixels();
+                    let top = isTop ? 1 : resourceEvents.rowHeight - config.eventItemLineHeight;
+                    let left = index * cellWidth + config.eventItemLeftMargin;
+                    let width = Math.max(0, cellWidth - config.eventItemRightMargin - config.eventItemLeftMargin);
                     let key = `${resourceEvents.slotId}_${headerItem.time}`;
                     let summary = <Summary key={key} schedulerData={schedulerData} summary={headerItem.summary} left={left} width={width} top={top} />;
-                    
-
-                    const layer = (config.layers) ? config.interactiveLayer : 0;
-                    
+                
+                    const layer = (config.layers) ? config.interactiveLayer : 0;            
+                    if (!eventList[layer]) eventList[layer] = [];
                     eventList[layer].push(summary);
                 }
             }
@@ -273,7 +290,7 @@ class ResourceEvents extends Component {
                 if (layer !== config.interactiveLayer) {
                     return (
                         (eventList[layer]) ? (
-                            <div ref={this.eventContainerRef} className="event-container" style={{ position: "absolute", height: resourceEvents.rowHeight, zIndex: layer, pointerEvents: "none", width: "100%" }}>
+                            <div ref={this.eventContainerRef} className={classNames(classes.eventContainer, classes.inactiveLayerContainer)} style={{ zIndex: layer }}>
                                 {eventList[layer]}
                             </div>
                         ) : null
@@ -282,7 +299,7 @@ class ResourceEvents extends Component {
             });
             content.push(
                 connectDropTarget(
-                    <div ref={this.eventContainerRef} className="event-container" style={{ height: resourceEvents.rowHeight, zIndex: config.interactiveLayer}}>
+                    <div ref={this.eventContainerRef} className={classes.eventContainer} style={{zIndex: config.interactiveLayer}}>
                         {selectedArea}
                         {eventList[config.interactiveLayer]}
                     </div>
@@ -291,7 +308,7 @@ class ResourceEvents extends Component {
             eventContent = content;
         } else {
             eventContent = connectDropTarget(
-                <div ref={this.eventContainerRef} className="event-container" style={{ height: resourceEvents.rowHeight }}>
+                <div ref={this.eventContainerRef} className={classes.eventContainer}>
                     {selectedArea}
                     {eventList[0]}
                 </div>
@@ -299,7 +316,7 @@ class ResourceEvents extends Component {
         }
 
         return (
-            <div style={{position: "relative" }}>
+            <div className={classes.eventContentContainer}>
                 {eventContent}
             </div>
         );

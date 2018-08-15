@@ -3,6 +3,7 @@ import { PropTypes } from 'prop-types'
 import { Row, Col, Icon, Radio, Popover, Calendar } from 'antd'
 import { DragDropContext } from "react-dnd";
 import HTML5Backend from "react-dnd-html5-backend";
+import injectSheet from "react-jss";
 import DnDSource from './DnDSource'
 import DnDContext from './DnDContext'
 import EventItem from './EventItem'
@@ -11,11 +12,60 @@ import HeaderView from './HeaderView'
 import BodyView from './BodyView'
 import ResourceEvents from './ResourceEvents'
 import AgendaView from './AgendaView'
+import classNames from "classnames";
 const RadioButton = Radio.Button;
 const RadioGroup = Radio.Group;
-import "./css/style.css";
 import 'antd/dist/antd.css';
 
+const styles = theme => ({
+    scheduler: {
+        ...theme.scheduler
+    },
+    resourceContainer: {
+        width: props => props.schedulerData.getResourceTableWidth(),
+        display: "inline-block",
+        overflow: "hidden",
+        borderBottom: "solid 1px #e9e9e9"
+    },
+    resourceHeaderContainer: {
+        overflow: "hidden",
+        height: props => props.schedulerData.config.tableHeaderHeight
+    },
+    resourceHeader: {
+        height: "100%",
+        borderTop: "solid 1px #e9e9e9",
+        borderLeft: "solid 1px #e9e9e9",
+        textAlign: "center"
+    },
+    header3Text: {
+        ...theme.header3Text
+    },
+    schedulerContainer: {
+        width: props => props.schedulerData.config.schedulerContainerWidth - props.schedulerData.getResourceTableWidth(),
+        display: "inline-block",
+        overflowX: props => (props.schedulerData.config.schedulerContainerWidth < props.schedulerData.config.schedulerContentWidth) ? "scroll" : "hidden",
+        overflowY: "hidden"
+    },
+    schedulerContentContainer: { 
+        width: props => props.schedulerData.config.schedulerContentWidth - props.schedulerData.getResourceTableWidth()
+    },
+    schedulerContentHeader: {
+        height: props => props.schedulerData.config.tableHeaderHeight,
+        borderRight: "solid 1px #e9e9e9"
+    },
+    schedulerRowsContainer: {
+        position: "relative",
+        borderBottom: "solid 1px #e9e9e9",
+        borderRight: "solid 1px #e9e9e9"
+    },
+    schedulerBackground: {
+        ...theme.schedulerBackground,
+        zIndex: props => props.schedulerData.config.backgroundLayer,
+        pointerEvents: "none"
+    }
+})
+
+@injectSheet(styles)
 class Scheduler extends Component {
 
     constructor(props) {
@@ -66,7 +116,7 @@ class Scheduler extends Component {
         dndSources: PropTypes.array,
         slotClickedFunc: PropTypes.func,
         slotItemTemplateResolver: PropTypes.func,
-        nonAgendaCellHeaderTemplateResolver: PropTypes.func,
+        nonAgendaCellHeaderTemplateResolver: PropTypes.func
     }
 
     componentDidUpdate(props, state) {
@@ -93,10 +143,9 @@ class Scheduler extends Component {
     }
 
     render() {
-        const { schedulerData, leftCustomHeader, rightCustomHeader } = this.props;
+        const { schedulerData, leftCustomHeader, rightCustomHeader, classes} = this.props;
         const { renderData, viewType, showAgenda, isEventPerspective, config } = schedulerData;
         const calendarPopoverEnabled = config.calendarPopoverEnabled;
-
         let dateLabel = schedulerData.getDateLabel();
         let defaultValue = `${viewType}${showAgenda ? 1 : 0}${isEventPerspective ? 1 : 0}`;
         let radioButtonList = config.views.map(item => {
@@ -126,39 +175,23 @@ class Scheduler extends Component {
                     dndSource={eventDndSource}
                 />
             });
-            let schedulerContentStyle = { margin: "0px, 0px, 0px, 0px", position: "relative", width: schedulerContentWidth };
-            let resourceContentStyle = { overflowX: "auto", overflowY: "auto" };
-            if (config.schedulerMaxHeight > 0) {
-                schedulerContentStyle = {
-                    ...schedulerContentStyle,
-                    maxHeight: config.schedulerMaxHeight - config.tableHeaderHeight
-                };
-                resourceContentStyle = {
-                    ...resourceContentStyle,
-                    maxHeight: config.schedulerMaxHeight - config.tableHeaderHeight
-                };
-            }
-
+            
             let resourceName = schedulerData.isEventPerspective ? config.taskName : config.resourceName;
             const resourceView = (
-                <div style={{ width: resourceTableWidth, display: "inline-block" }}>
-                    <div className="resource-view">
-                        {config.displayHeader &&
-                            <div style={{ overflow: "hidden", borderBottom: "1px solid #e9e9e9", height: config.tableHeaderHeight }}>
-                                <div>
-                                    <div className="resource-table">
-                                        <div className="header3-text">
-                                            {resourceName}
-                                        </div>
-                                    </div>
+                <div className={classes.resourceContainer}>
+                    {config.displayHeader &&
+                        <div className={classes.resourceHeaderContainer}>
+                            <div className={classes.resourceHeader}>
+                                <div className={classes.header3Text}>
+                                    {resourceName}
                                 </div>
                             </div>
-                        }
-                        <div style={resourceContentStyle} ref={this.schedulerResourceRef} onMouseOver={this.onSchedulerResourceMouseOver} onMouseOut={this.onSchedulerResourceMouseOut} onScroll={this.onSchedulerResourceScroll}>
-                            <ResourceView
-                                {...this.props}
-                            />
                         </div>
+                    }
+                    <div ref={this.schedulerResourceRef} onMouseOver={this.onSchedulerResourceMouseOver} onMouseOut={this.onSchedulerResourceMouseOut} onScroll={this.onSchedulerResourceScroll}>
+                        <ResourceView
+                            {...this.props}
+                        />
                     </div>
                 </div>
             );
@@ -168,35 +201,17 @@ class Scheduler extends Component {
             tbodyContent = (
                 <React.Fragment>
                     {config.viewResources && resourceView}
-                    <div style={{ width: schedulerContainerWidth, display: "inline-block" }}>
-                        <div className="scheduler-view" style={overflow}>
-                            <div style={{ width: schedulerContentWidth }}>
-                                {config.displayHeader &&
-                                    <div style={{ overflow: "hidden", borderBottom: "1px solid #e9e9e9", height: config.tableHeaderHeight }}>
-                                        <div ref={this.schedulerHeadRef} onMouseOver={this.onSchedulerHeadMouseOver} onMouseOut={this.onSchedulerHeadMouseOut} onScroll={this.onSchedulerHeadScroll}>
-                                            <div>
-                                                <div className="scheduler-bg-table">
-                                                    <HeaderView {...this.props} />
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                }
-                                <div style={schedulerContentStyle} ref={this.schedulerContentRef} onMouseOver={this.onSchedulerContentMouseOver} onMouseOut={this.onSchedulerContentMouseOut} onScroll={this.onSchedulerContentScroll} >
-                                    <div>
-                                        <div className="scheduler-content">
-                                            <div className="scheduler-content-table" >
-                                                <div>
-                                                    {resourceEventsList}
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="scheduler-bg" style={{ zIndex: config.backgroundLayer, pointerEvents: "none" }}>
-                                            <div className="scheduler-bg-table" ref={this.schedulerContentBgTableRef} >
-                                                <BodyView {...this.props} />
-                                            </div>
-                                        </div>
-                                    </div>
+                    <div className={classes.schedulerContainer}>
+                        <div className={classes.schedulerContentContainer}>
+                            {config.displayHeader &&
+                                <div className={classes.schedulerContentHeader} ref={this.schedulerHeadRef} onMouseOver={this.onSchedulerHeadMouseOver} onMouseOut={this.onSchedulerHeadMouseOut} onScroll={this.onSchedulerHeadScroll}>
+                                    <HeaderView {...this.props} />
+                                </div>
+                            }
+                            <div className={classNames(classes.schedulerRowsContainer, classes.schedulerContentContainer)} ref={this.schedulerContentRef} onMouseOver={this.onSchedulerContentMouseOver} onMouseOut={this.onSchedulerContentMouseOut} onScroll={this.onSchedulerContentScroll} >
+                                {resourceEventsList}
+                                <div className={classes.schedulerBackground} ref={this.schedulerContentBgTableRef} >
+                                    <BodyView {...this.props} />
                                 </div>
                             </div>
                         </div>
@@ -208,44 +223,43 @@ class Scheduler extends Component {
         };
 
         let popover = <div className="popover-calendar"><Calendar fullscreen={false} onSelect={this.onSelect} /></div>;
-
         return (
-            <div className="scheduler" style={{ width: config.schedulerContainerWidth }}>
-                <div>
-                    <div colSpan="2">
-                        <Row type="flex" align="middle" justify="space-between" style={{ marginBottom: '24px' }}>
-                            {leftCustomHeader}
-                            <Col>
-                                <div className='header2-text'>
-                                    <Icon type="left" style={{ marginRight: "8px" }} className="icon-nav"
-                                        onClick={this.goBack} />
-                                    {
-                                        calendarPopoverEnabled
-                                            ?
-                                            <Popover content={popover} placement="bottom" trigger="click"
-                                                visible={this.state.visible}
-                                                onVisibleChange={this.handleVisibleChange}>
-                                                <span className={'header2-text-label'} style={{ cursor: 'pointer' }}>{dateLabel}</span>
-                                            </Popover>
-                                            : <span className={'header2-text-label'}>{dateLabel}</span>
-                                    }
-                                    <Icon type="right" style={{ marginLeft: "8px" }} className="icon-nav"
-                                        onClick={this.goNext} />
-                                </div>
-                            </Col>
-                            <Col>
-                                <RadioGroup defaultValue={defaultValue} size="default" onChange={this.onViewChange}>
-                                    {radioButtonList}
-                                </RadioGroup>
-                            </Col>
-                            {rightCustomHeader}
-                        </Row>
+                <div className={this.props.classes.scheduler} style={{ width: config.schedulerContainerWidth }}>
+                    <div >
+                        <div colSpan="2">
+                            <Row type="flex" align="middle" justify="space-between" style={{ marginBottom: '24px' }}>
+                                {leftCustomHeader}
+                                <Col>
+                                    <div className='header2-text'>
+                                        <Icon type="left" style={{ marginRight: "8px" }} className="icon-nav"
+                                            onClick={this.goBack} />
+                                        {
+                                            calendarPopoverEnabled
+                                                ?
+                                                <Popover content={popover} placement="bottom" trigger="click"
+                                                    visible={this.state.visible}
+                                                    onVisibleChange={this.handleVisibleChange}>
+                                                    <span className={'header2-text-label'} style={{ cursor: 'pointer' }}>{dateLabel}</span>
+                                                </Popover>
+                                                : <span className={'header2-text-label'}>{dateLabel}</span>
+                                        }
+                                        <Icon type="right" style={{ marginLeft: "8px" }} className="icon-nav"
+                                            onClick={this.goNext} />
+                                    </div>
+                                </Col>
+                                <Col>
+                                    <RadioGroup defaultValue={defaultValue} size="default" onChange={this.onViewChange}>
+                                        {radioButtonList}
+                                    </RadioGroup>
+                                </Col>
+                                {rightCustomHeader}
+                            </Row>
+                        </div>
+                    </div>
+                    <div>
+                        {tbodyContent}
                     </div>
                 </div>
-                <div>
-                    {tbodyContent}
-                </div>
-            </div>
         )
     }
 

@@ -3,7 +3,22 @@ import {PropTypes} from 'prop-types'
 import {Row, Col, Icon} from 'antd'
 import EventItem from './EventItem'
 import DnDSource from './DnDSource'
+import injectSheet from "react-jss";
 
+const styles = theme => ({
+    addMorePopoverOverlay: props => ({
+        ...theme.addMorePopoverOverlay,
+        left: props.left,
+        top: props.top,
+        height: props.height,
+        width: 170,
+    }),
+    baseText: {
+        ...theme.baseText
+    }
+})
+
+@injectSheet(styles)
 class AddMorePopover extends Component {
     constructor(props) {
         super(props);
@@ -31,7 +46,7 @@ class AddMorePopover extends Component {
     }
 
     render() {
-        const {headerItem, left, top, height, closeAction, schedulerData} = this.props;
+        const {headerItem, closeAction, schedulerData, classes} = this.props;
         const {config, localeMoment} = schedulerData;
         const {time, start, end, events} = headerItem;
         let header = localeMoment(time).format(config.addMorePopoverHeaderFormat);
@@ -68,10 +83,10 @@ class AddMorePopover extends Component {
         });
 
         return (
-            <div className="add-more-popover-overlay"  style={{left: left, top: top, height: height, width: '170px'}}>
+            <div className={classes.addMorePopoverOverlay}>
                 <Row type="flex" justify="space-between" align="middle">
                     <Col span="22">
-                        <span className="base-text">{header}</span>
+                        <span className={classes.baseText}>{header}</span>
                     </Col>
                     <Col span="2">
                         <span onClick={() => {closeAction(undefined);}}><Icon type="cross"></Icon></span>

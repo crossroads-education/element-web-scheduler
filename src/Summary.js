@@ -1,7 +1,31 @@
 import React, {Component} from 'react'
 import {PropTypes} from 'prop-types'
 import {SummaryPos} from './index'
+import {SummaryPosMap} from "./SummaryPos";
+import injectSheet from "react-jss";
 
+const styles = theme => ({
+
+    summaryContainer: props => {
+        const { left, width, top, schedulerData, summary } = props;
+        const {config} = schedulerData;
+        return {
+            color: config.summaryColor | summary.color,
+            textAlign: SummaryPosMap[config.summaryPos],
+            height: config.eventItemHeight,
+            fontSize: summary.fontSize | 12,
+            cursor: "default",
+            left,
+            width,
+            top,
+            ...theme.timelineEvent,
+            ...theme.header2Text
+        }
+    }
+
+})
+
+@injectSheet(styles)
 class Summary extends Component {
     constructor(props) {
         super(props);
@@ -16,25 +40,11 @@ class Summary extends Component {
     }
 
     render() {
-        const {summary, left, width, top, schedulerData} = this.props;
-        const {config} = schedulerData;
-        let color = config.summaryColor;
-        if(summary.color != undefined)
-            color = summary.color;
-        let textAlign = 'center';
-        if(config.summaryPos === SummaryPos.TopRight || config.summaryPos === SummaryPos.BottomRight)
-            textAlign = 'right';
-        else if(config.summaryPos === SummaryPos.TopLeft || config.summaryPos === SummaryPos.BottomLeft)
-            textAlign = 'left';
-        let style = {height: config.eventItemHeight, color: color, textAlign: textAlign, marginLeft: '6px', marginRight: '6px'};
-        if(summary.fontSize != undefined)
-            style = {...style, fontSize: summary.fontSize};
+        const {summary, classes} = this.props;
 
         return (
-            <a className="timeline-event header2-text" style={{left: left, width: width, top: top, cursor: 'default'}} >
-                <div style={style}>
-                    {summary.text}
-                </div>
+            <a className={classes.summaryContainer}>
+                {summary.text}
             </a>
         );
     }
