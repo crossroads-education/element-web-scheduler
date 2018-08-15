@@ -26,7 +26,7 @@
   "scripts": {
     "example": "webpack-dev-server --config ./webpack/webpack-dev.config.js --hot",
     "analyz": "cross-env NODE_ENV=production npm_config_report=true npm run build",
-    "build": "rimraf dist && mkdir dist && babel src --out-dir dist && cpy src/css/style.css dist/css && cpy src/index.d.ts dist"
+    "build": "rimraf dist && mkdir dist && babel src --out-dir dist && cpy src/index.d.ts dist"
   },
   "types": "./dist/index.d.ts",
   "pre-commit": [
