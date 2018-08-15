@@ -5,14 +5,16 @@ import injectSheet from "react-jss"
 import classNames from "classnames"
 
 const styles = theme => ({
+    text: {
+        extend: [{...theme.overFlowText}, {...theme.header2Text}]
+    },
     slotItem: {
-        ...theme.overFlowText,
-        ...theme.header2Text,
         width: "100%", 
-        height: "100%"
+        height: "100%",
+        extend: props => props.userStyle.slotItem
     },
     resourceListContainer: {
-        ...theme.schedulerDisplayTable,
+        extend: theme.schedulerDisplayTable,
         width: props => props.schedulerData.getResourceTableWidth()
     },
 });
@@ -26,7 +28,6 @@ class ResourceView extends Component {
 
     static propTypes = {
         schedulerData: PropTypes.object.isRequired,
-        browserScrollbarHeight: PropTypes.number.isRequired,
         slotClickedFunc: PropTypes.func,
         slotItemTemplateResolver: PropTypes.func
     }
@@ -42,12 +43,12 @@ class ResourceView extends Component {
             const slotItem = (slotItemTemplateResolver) ? 
                 slotItemTemplateResolver(schedulerData, item, slotClickedFunc, width, "overflow-text header2-text") 
                 : (
-                    <div className={classes.slotItem}>
+                    <div className={classNames(classes.slotItem, classes.text)}>
                         {a}
                     </div>
                 );
 
-            return <ResourceItem itemHeight={item.rowHeight} slotId={item.slotId}> {slotItem} </ResourceItem>
+            return <ResourceItem key={item.slotName} itemHeight={item.rowHeight} slotId={item.slotId}> {slotItem} </ResourceItem>
         });
 
         return (

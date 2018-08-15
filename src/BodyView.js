@@ -5,20 +5,24 @@ import injectSheet from "react-jss";
 
 const styles = theme => ({
     cell: {
-        width: "calc(100% + 2px)",
-        height: "100%"
+        width: "100%",
+        height: "100%",
+        extend: props => props.userStyle.cell
     },
     nonWorking: {
-        backgroundColor: props => props.schedulerData.config.nonWorkingTimeBodyBgColor
+        backgroundColor: props => props.schedulerData.config.nonWorkingTimeBodyBgColor,
+        extend: props => props.userStyle.nonWorking
     },
-    innerCell: {
+    innerCell: props => ({
         borderTop: "1px solid #e9e9e9",
         borderLeft: "1px solid #e9e9e9",
         width: "100%",
-        height: "100%"
-    },
+        height: "100%",
+        extend: props.userStyle.innerCell
+    }),
     row: {
-        display: "flex"
+        display: "flex",
+        extend: props => props.userStyle.row
     }
 })
 
@@ -34,7 +38,6 @@ class BodyView extends Component {
     }
 
     render() {
-
         const {schedulerData, classes} = this.props;
         const {renderData, headers} = schedulerData;
         const { cell, innerCell, row} = classes;

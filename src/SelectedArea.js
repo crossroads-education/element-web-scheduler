@@ -11,7 +11,8 @@ const styles = theme => ({
         top: 1,
         bottom: 0,
         zIndex: props.schedulerData.config.selectedAreaZIndex,
-        background: props.schedulerData.config.selectedAreaBackground || props.schedulerData.config.selectedAreaColor
+        background: props.schedulerData.config.selectedAreaBackground || props.schedulerData.config.selectedAreaColor,
+        extend: props.userStyle.selectedArea
     })
 })
 

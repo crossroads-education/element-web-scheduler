@@ -5,6 +5,13 @@ import Nav from './Nav'
 import ViewSrcCode from './ViewSrcCode'
 import withDragDropContext from './withDnDContext'
 
+const userStyle = {
+    opSpan: {
+        fontSize: "64px",
+        fontStyle: "italic"
+    }
+}
+
 class Readonly extends Component{
     constructor(props){
         super(props);
@@ -40,6 +47,7 @@ class Readonly extends Component{
                                viewEventText="Ops 1"
                                viewEvent2Text="Ops 2"
                                viewEvent2Click={this.ops2}
+                               userStyle={userStyle}
                     />
                 </div>
             </div>

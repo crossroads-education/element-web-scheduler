@@ -19,7 +19,8 @@ const styles = theme => ({
             width,
             top,
             ...theme.timelineEvent,
-            ...theme.header2Text
+            ...theme.header2Text,
+            extend: props.userStyle.summary
         }
     }
 

@@ -10,6 +10,18 @@ import withDragDropContext from './withDnDContext'
 import ResourceComponent from "./BasicResourceComponent";
 import PopoverComponent from "./BasicPopoverComponent";
 
+const userStyle = {
+    addMorePopoverOverlay: {
+        border: "none"
+    },
+    timelineEventContent: {
+        color: "#ff7f00"
+    },
+    timelineEvent: {
+        color: "red"
+    }
+}
+
 class Basic extends Component{
     constructor(props){
         super(props);
@@ -45,6 +57,7 @@ class Basic extends Component{
                                updateEventEnd={this.updateEventEnd}
                                moveEvent={this.moveEvent}
                                newEvent={this.newEvent}
+                               userStyle={userStyle}
                     />
                 </div>
                 <Tips />

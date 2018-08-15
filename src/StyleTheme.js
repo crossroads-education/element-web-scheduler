@@ -10,7 +10,7 @@ const theme = {
     },
     header3Text: {
         fontSize: 12,
-        fontWeight: 500
+        fontWeight: 500,
     },
     baseText: {
         fontSize: 12

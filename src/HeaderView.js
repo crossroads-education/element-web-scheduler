@@ -9,26 +9,30 @@ const styles = theme => ({
         width: "100%",
         borderTop: "solid 1px #e9e9e9",
         borderLeft: "solid 1px #e9e9e9",
-        textAlign: "center"
+        textAlign: "center",
+        extend: props => props.userStyle.headerItem
     },
     nonWorkingElement: props =>  ({
         color: props.schedulerData.config.nonWorkingTimeHeadColor,
-        backgroundColor: props.schedulerData.config.nonWorkingTimeHeadBgColor
+        backgroundColor: props.schedulerData.config.nonWorkingTimeHeadBgColor,
+        extend: props.userStyle.headerNonWorkingItem
     }),
     header3Text: {
-        ...theme.header3Text
+        extend: theme.header3Text
     },
     headerContainer: {
         height: props => props.schedulerData.getTableHeaderHeight(),
-        display: "flex"
+        display: "flex",
+        extend: props => props.userStyle.headerContainer
     }
 });
 
 @injectSheet(styles)
 class HeaderView extends Component {
-
+    
     constructor(props) {
         super(props);
+        console.log(props);
     }
 
     static propTypes = {

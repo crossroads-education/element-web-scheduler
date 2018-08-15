@@ -7,14 +7,14 @@ import injectSheet from "react-jss";
 
 const styles = theme => ({
     addMorePopoverOverlay: props => ({
-        ...theme.addMorePopoverOverlay,
         left: props.left,
         top: props.top,
         height: props.height,
         width: 170,
+        extend: [theme.addMorePopoverOverlay, props.userStyle.addMorePopoverOverlay]
     }),
     baseText: {
-        ...theme.baseText
+        extend: theme.baseText
     }
 })
 

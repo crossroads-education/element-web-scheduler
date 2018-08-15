@@ -21,25 +21,25 @@ const styles = theme => ({
     },
     eventItem: props => ({
         height: props.schedulerData.config.eventItemHeight,
-        backgroundColor: props.eventItem.bgColor || props.schedulerData.config.defaultEventBgColor
+        backgroundColor: props.eventItem.bgColor || props.schedulerData.config.defaultEventBgColor,
+        extend: props.userStyle.eventItem
     }),
     eventItemTitle: {
         marginLeft: "10px",
         lineHeight: props => props.schedulerData.config.eventItemHeight + "px",
         whiteSpace: "nowrap",
         overflow: "hidden",
-        overflowText: "ellipsis"
+        overflowText: "ellipsis",
+        extend: props => props.userStyle.eventItemTitle
     },
     eventItemContainer: {
-        ...theme.timelineEvent
+        extend: theme.timelineEvent
     },
     startResizer: {
-        ...theme.eventResizer,
-        ...theme.eventStartResizer
+        extend: [{...theme.eventResizer}, {...theme.eventStartResizer}]
     },
     endResizer: {
-        ...theme.eventResizer,
-        ...theme.eventEndResizer
+        extend: [{...theme.eventResizer}, {...theme.eventEndResizer}]
     }
 });
 

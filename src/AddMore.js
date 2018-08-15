@@ -3,16 +3,17 @@ import {PropTypes} from 'prop-types'
 import injectSheet from "react-jss";
 
 const styles = theme => ({
-    timeLineEvent: props => ({
-        ...theme.timelineEvent,
+    timelineEvent: props => ({
         left: props.left + "%",
         width: props.width,
-        top: props.top
+        top: props.top,
+        extend: theme.timelineEvent
     }),
     timelineEventContent: {
         height: props => props.schedulerData.config.eventItemHeight, 
         color: "#999",
-        textAlign: "center"
+        textAlign: "center",
+        extend: props => props.userStyle.timelineEventContent
     }
 })
 
@@ -38,7 +39,7 @@ class AddMore extends Component {
         const {number, clickAction, headerItem, classes} = this.props;
         let content = '+'+number+'more';
         return (
-        <a className={classes.timeLineEvent} onClick={() => {clickAction(headerItem);}} >
+        <a className={classes.timelineEvent} onClick={() => {clickAction(headerItem);}} >
             <div className={classes.timelineEventContent}>
                 {content}
             </div>

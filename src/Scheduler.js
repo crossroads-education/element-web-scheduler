@@ -19,17 +19,19 @@ import 'antd/dist/antd.css';
 
 const styles = theme => ({
     scheduler: {
-        ...theme.scheduler
+        extend: theme.scheduler,
     },
     resourceContainer: {
         width: props => props.schedulerData.getResourceTableWidth(),
         display: "inline-block",
         overflow: "hidden",
-        borderBottom: "solid 1px #e9e9e9"
+        borderBottom: "solid 1px #e9e9e9",
+        extend: props => props.userStyle.resourceContainer
     },
     resourceHeaderContainer: {
         overflow: "hidden",
-        height: props => props.schedulerData.config.tableHeaderHeight
+        height: props => props.schedulerData.config.tableHeaderHeight,
+        extend: props => props.userStyle.resourceHeaderContainer
     },
     resourceHeader: {
         height: "100%",
@@ -38,25 +40,29 @@ const styles = theme => ({
         textAlign: "center"
     },
     header3Text: {
-        ...theme.header3Text
+        extend: theme.header3Text
     },
     schedulerContainer: {
         width: props => props.schedulerData.config.schedulerContainerWidth - props.schedulerData.getResourceTableWidth(),
         display: "inline-block",
         overflowX: props => (props.schedulerData.config.schedulerContainerWidth < props.schedulerData.config.schedulerContentWidth) ? "scroll" : "hidden",
-        overflowY: "hidden"
+        overflowY: "hidden",
+        extend: props => props.userStyle.schedulerContainer
     },
     schedulerContentContainer: { 
-        width: props => props.schedulerData.config.schedulerContentWidth - props.schedulerData.getResourceTableWidth()
+        width: props => props.schedulerData.config.schedulerContentWidth - props.schedulerData.getResourceTableWidth(),
+        extend: props => props.userStyle.schedulerContainer
     },
     schedulerContentHeader: {
         height: props => props.schedulerData.config.tableHeaderHeight,
-        borderRight: "solid 1px #e9e9e9"
+        borderRight: "solid 1px #e9e9e9",
+        extend: props => props.userStyle.schedulerContentHeader
     },
     schedulerRowsContainer: {
         position: "relative",
         borderBottom: "solid 1px #e9e9e9",
-        borderRight: "solid 1px #e9e9e9"
+        borderRight: "solid 1px #e9e9e9",
+        extend: props => props.userStyle.schedulerRowsContainer
     },
     schedulerBackground: {
         ...theme.schedulerBackground,
@@ -352,6 +358,10 @@ class Scheduler extends Component {
         const { onSelectDate, schedulerData } = this.props;
         onSelectDate(schedulerData, date);
     }
+}
+
+Scheduler.defaultProps = {
+    userStyle: {}
 }
 
 export default DragDropContext(HTML5Backend)(Scheduler);

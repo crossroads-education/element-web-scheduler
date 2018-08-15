@@ -53,7 +53,8 @@ class EventItemPopover extends Component {
                 opOne: viewEventText,
                 opTwo: viewEvent2Text,
                 opOneClick: this.opOne,
-                opTwoClick: this.opTwo
+                opTwoClick: this.opTwo, 
+                userStyle: this.props.userStyle
             };
         return (
             <Content

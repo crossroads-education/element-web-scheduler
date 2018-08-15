@@ -5,10 +5,15 @@ import Theme from "./StyleTheme";
 
 console.log(Theme);
 
-const StyledScheduler = (props) => (
-    <ThemeProvider theme={Theme}>
-        <Scheduler {...props} />
-    </ThemeProvider>
-);
+const StyledScheduler = (props) => {
+    console.log(props)
+    return (
+        <ThemeProvider theme={Theme}>
+            <ThemeProvider theme={props.userStyle || {}}>
+                <Scheduler {...props} />
+            </ThemeProvider>
+        </ThemeProvider>
+    );
+};
 
 export default StyledScheduler;

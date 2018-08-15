@@ -8,25 +8,25 @@ const styles = theme => ({
         width: "300px"
     },
     statusDot: {
-        ...theme.statusDot,
-        backgroundColor: props => props.statusColor
+        backgroundColor: props => props.statusColor,
+        extend: theme.statusDot
     },
     header2Text: {
-        ...theme.header2Text
+        extend: theme.header2Text
     },
     overflowText: {
-        ...theme.overflowText
+        extend: theme.overflowText
     },
     helpText: {
-        ...theme.helpText
+        extend: theme.helpText
     },
-    opSpan: {
-        ...theme.header2Text,
+    opSpan: props => ({
         color: '#108EE9', 
-        cursor: 'pointer' 
-    },
+        cursor: 'pointer',
+        extend: props.userStyle.opSpan
+    }),
     header1Text: {
-        ...theme.header1Text
+        extend: theme.header1Text
     },
     timeLabel: {
         marginLeft: 8
@@ -80,7 +80,7 @@ export default class DefaultEventItemPopover extends React.Component {
                         <Col span={22}>
                             {this.props.opOne &&
                                 <span
-                                    className={classes.opSpan}
+                                    className={classNames(classes.header2Text, classes.opSpan)}
                                     onClick={this.props.opOneClick}
                                 >
                                     {this.props.opOne}
@@ -89,7 +89,7 @@ export default class DefaultEventItemPopover extends React.Component {
                             <Col span={2} />    
                             {this.props.opTwo &&
                                 <span
-                                    className={classes.opSpan}
+                                    className={classNames(classes.header2Text, classes.opSpan)}
                                     onClick={this.props.opTwoClick}
                                 >
                                     {this.props.opTwo}

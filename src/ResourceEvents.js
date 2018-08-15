@@ -10,16 +10,21 @@ import classNames from "classnames";
 
 const styles = theme => ({
     eventContainer: {
-        ...theme.eventContainer,
-        height: props => props.resourceEvents.rowHeight, 
+        extend: theme.eventContainer
+    },
+    resourceEventContainer: {
+        height: props => props.resourceEvents.rowHeight,
+        extend: props => props.userStyle.resourceEventContainer
     },
     inactiveLayerContainer: {
         position: "absolute", 
         pointerEvents: "none", 
-        width: "100%"
+        width: "100%",
+        extend: props => props.userStyle.inactiveLayerContainer
     },
     eventContentContainer: {
-        position: "relative"
+        position: "relative",
+        extend: props => props.userStyle.eventContentContainer
     }
 });
 
@@ -275,7 +280,7 @@ class ResourceEvents extends Component {
                     let left = index * cellWidth + config.eventItemLeftMargin;
                     let width = Math.max(0, cellWidth - config.eventItemRightMargin - config.eventItemLeftMargin);
                     let key = `${resourceEvents.slotId}_${headerItem.time}`;
-                    let summary = <Summary key={key} schedulerData={schedulerData} summary={headerItem.summary} left={left} width={width} top={top} />;
+                    let summary = <Summary key={key} schedulerData={schedulerData} summary={headerItem.summary} left={left} width={width} top={top} userStyle={this.props.userStyle}/>;
                 
                     const layer = (config.layers) ? config.interactiveLayer : 0;            
                     if (!eventList[layer]) eventList[layer] = [];
@@ -290,7 +295,7 @@ class ResourceEvents extends Component {
                 if (layer !== config.interactiveLayer) {
                     return (
                         (eventList[layer]) ? (
-                            <div ref={this.eventContainerRef} className={classNames(classes.eventContainer, classes.inactiveLayerContainer)} style={{ zIndex: layer }}>
+                            <div key={layer} ref={this.eventContainerRef} className={classNames(classes.eventContainer, classes.inactiveLayerContainer, classes.resourceEventContainer)} style={{ zIndex: layer }}>
                                 {eventList[layer]}
                             </div>
                         ) : null
@@ -299,7 +304,7 @@ class ResourceEvents extends Component {
             });
             content.push(
                 connectDropTarget(
-                    <div ref={this.eventContainerRef} className={classes.eventContainer} style={{zIndex: config.interactiveLayer}}>
+                    <div key={config.interactiveLayer} ref={this.eventContainerRef} className={classNames(classes.eventContainer, classes.resourceEventContainer)} style={{zIndex: config.interactiveLayer}}>
                         {selectedArea}
                         {eventList[config.interactiveLayer]}
                     </div>
@@ -308,7 +313,7 @@ class ResourceEvents extends Component {
             eventContent = content;
         } else {
             eventContent = connectDropTarget(
-                <div ref={this.eventContainerRef} className={classes.eventContainer}>
+                <div ref={this.eventContainerRef} className={classNames(classes.eventContainer, classes.resourceEventContainer)}>
                     {selectedArea}
                     {eventList[0]}
                 </div>
