@@ -107,7 +107,7 @@ export type SchedulerConfiguration = {
     layers?: false | number[],
     viewResources?: true,
     popoverTrigger?: "hover" | "click",
-    resourcesComponent?: React.ComponentClass<any> | false;
+    resourceComponent?: React.ComponentClass<any> | false;
     popoverComponent?: React.ComponentClass<any> | false;
     displayHeader?: boolean;
     schedulerContentWidth?: number;

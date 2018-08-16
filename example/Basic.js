@@ -19,6 +19,9 @@ const userStyle = {
     },
     timelineEvent: {
         color: "red"
+    },
+    slotItem: {
+        border: "none"
     }
 }
 

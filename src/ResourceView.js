@@ -11,6 +11,8 @@ const styles = theme => ({
     slotItem: {
         width: "100%", 
         height: "100%",
+        borderTop: "solid 1px #e9e9e9",
+        borderLeft: "solid 1px #e9e9e9",
         extend: props => props.userStyle.slotItem
     },
     resourceListContainer: {
@@ -41,7 +43,7 @@ class ResourceView extends Component {
             let a = <DisplayComponent slotName={item.slotName} {...item.componentProps}/>;
 
             const slotItem = (slotItemTemplateResolver) ? 
-                slotItemTemplateResolver(schedulerData, item, slotClickedFunc, width, "overflow-text header2-text") 
+                slotItemTemplateResolver(schedulerData, item, slotClickedFunc, width) 
                 : (
                     <div className={classNames(classes.slotItem, classes.text)}>
                         {a}
@@ -60,21 +62,14 @@ class ResourceView extends Component {
 }
 
 const resourceItemStyles = {
-    slotItemWrapper: {
-        borderLeft: "solid 1px #e9e9e9",
-        borderTop: "solid 1px #e9e9e9",
-        height: "100%"
-    },
     resourceItem: {
         height: props => props.itemHeight
     },  
 }
 
 const resource = ({ classes, slotId, children }) => (
-    <div key={slotId} className={classes.resourceItem}>
-        <div data-resource-id={slotId} className={classes.slotItemWrapper}>
-            {children}
-        </div>
+    <div key={slotId} className={classes.resourceItem} data-resource-id={slotId}>
+        {children}
     </div>
 );
 

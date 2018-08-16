@@ -186,12 +186,8 @@ class Scheduler extends Component {
             const resourceView = (
                 <div className={classes.resourceContainer}>
                     {config.displayHeader &&
-                        <div className={classes.resourceHeaderContainer}>
-                            <div className={classes.resourceHeader}>
-                                <div className={classes.header3Text}>
-                                    {resourceName}
-                                </div>
-                            </div>
+                        <div className={classNames(classes.resourceHeaderContainer, classes.resourceHeader, classes.header3Text)}>
+                            {resourceName}
                         </div>
                     }
                     <div ref={this.schedulerResourceRef} onMouseOver={this.onSchedulerResourceMouseOver} onMouseOut={this.onSchedulerResourceMouseOut} onScroll={this.onSchedulerResourceScroll}>
