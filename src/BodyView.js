@@ -27,7 +27,12 @@ const styles = theme => ({
     }),
     row: {
         display: "flex",
-        extend: props => props.userStyle.row
+        extend: props => props.userStyle.row,
+        "&:nth-child(1)": {
+            "& $cell": {
+                borderTop: "none"
+            }
+        }
     }
 })
 
