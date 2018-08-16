@@ -109,9 +109,11 @@ export type SchedulerConfiguration = {
     popoverTrigger?: "hover" | "click",
     resourceComponent?: React.ComponentClass<any> | false;
     popoverComponent?: React.ComponentClass<any> | false;
-    displayHeader?: boolean;
+    displayTableHeaders?: boolean;
     schedulerContentWidth?: number;
     schedulerContainerWidth?: number;
+    displayResourceHeader?: boolean;
+    schedulerHeader?: boolean;
 
     // old ones:
     schedulerMaxHeight?: number;

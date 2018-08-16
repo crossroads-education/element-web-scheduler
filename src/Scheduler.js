@@ -185,7 +185,7 @@ class Scheduler extends Component {
             let resourceName = schedulerData.isEventPerspective ? config.taskName : config.resourceName;
             const resourceView = (
                 <div className={classes.resourceContainer}>
-                    {config.displayHeader &&
+                    {config.displayResourceHeader &&
                         <div className={classNames(classes.resourceHeaderContainer, classes.resourceHeader, classes.header3Text)}>
                             {resourceName}
                         </div>
@@ -198,14 +198,12 @@ class Scheduler extends Component {
                 </div>
             );
 
-            let overflow = (schedulerContainerWidth < schedulerContentWidth) ? { overflowX: "scroll", overflowY: "hidden" } : { overflow: "hidden" };
-
             tbodyContent = (
                 <React.Fragment>
                     {config.viewResources && resourceView}
                     <div className={classes.schedulerContainer}>
                         <div className={classes.schedulerContentContainer}>
-                            {config.displayHeader &&
+                            {config.displayTableHeaders &&
                                 <div className={classes.schedulerContentHeader} ref={this.schedulerHeadRef} onMouseOver={this.onSchedulerHeadMouseOver} onMouseOut={this.onSchedulerHeadMouseOut} onScroll={this.onSchedulerHeadScroll}>
                                     <HeaderView {...this.props} />
                                 </div>
@@ -225,44 +223,47 @@ class Scheduler extends Component {
         };
 
         let popover = <div className="popover-calendar"><Calendar fullscreen={false} onSelect={this.onSelect} /></div>;
+        const tableHeader = (
+            <div >
+                <div colSpan="2">
+                    <Row type="flex" align="middle" justify="space-between" style={{ marginBottom: '24px' }}>
+                        {leftCustomHeader}
+                        <Col>
+                            <div className='header2-text'>
+                                <Icon type="left" style={{ marginRight: "8px" }} className="icon-nav"
+                                    onClick={this.goBack} />
+                                {
+                                    calendarPopoverEnabled
+                                        ?
+                                        <Popover content={popover} placement="bottom" trigger="click"
+                                            visible={this.state.visible}
+                                            onVisibleChange={this.handleVisibleChange}>
+                                            <span className={'header2-text-label'} style={{ cursor: 'pointer' }}>{dateLabel}</span>
+                                        </Popover>
+                                        : <span className={'header2-text-label'}>{dateLabel}</span>
+                                }
+                                <Icon type="right" style={{ marginLeft: "8px" }} className="icon-nav"
+                                    onClick={this.goNext} />
+                            </div>
+                        </Col>
+                        <Col>
+                            <RadioGroup defaultValue={defaultValue} size="default" onChange={this.onViewChange}>
+                                {radioButtonList}
+                            </RadioGroup>
+                        </Col>
+                        {rightCustomHeader}
+                    </Row>
+                </div>
+            </div>
+        );
         return (
                 <div className={this.props.classes.scheduler} style={{ width: config.schedulerContainerWidth }}>
-                    <div >
-                        <div colSpan="2">
-                            <Row type="flex" align="middle" justify="space-between" style={{ marginBottom: '24px' }}>
-                                {leftCustomHeader}
-                                <Col>
-                                    <div className='header2-text'>
-                                        <Icon type="left" style={{ marginRight: "8px" }} className="icon-nav"
-                                            onClick={this.goBack} />
-                                        {
-                                            calendarPopoverEnabled
-                                                ?
-                                                <Popover content={popover} placement="bottom" trigger="click"
-                                                    visible={this.state.visible}
-                                                    onVisibleChange={this.handleVisibleChange}>
-                                                    <span className={'header2-text-label'} style={{ cursor: 'pointer' }}>{dateLabel}</span>
-                                                </Popover>
-                                                : <span className={'header2-text-label'}>{dateLabel}</span>
-                                        }
-                                        <Icon type="right" style={{ marginLeft: "8px" }} className="icon-nav"
-                                            onClick={this.goNext} />
-                                    </div>
-                                </Col>
-                                <Col>
-                                    <RadioGroup defaultValue={defaultValue} size="default" onChange={this.onViewChange}>
-                                        {radioButtonList}
-                                    </RadioGroup>
-                                </Col>
-                                {rightCustomHeader}
-                            </Row>
-                        </div>
-                    </div>
+                    {config.schedulerHeader && tableHeader}
                     <div>
                         {tbodyContent}
                     </div>
                 </div>
-        )
+        );
     }
 
     schedulerHeadRef = (element) => {
