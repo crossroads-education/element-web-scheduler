@@ -41,7 +41,6 @@ export type SchedulerStyles = {
     nonWorking?: React.CSSProperties,
     innerCell?: React.CSSProperties,
     row?: React.CSSProperties,
-    eventItem?: React.CSSProperties
     eventItemTitle?: React.CSSProperties,
     headerItem?: React.CSSProperties,
     headerNonWorkingItem?: React.CSSProperties,
@@ -111,9 +110,10 @@ export type SchedulerConfiguration = {
     resourcesComponent?: React.ComponentClass<any> | false;
     popoverComponent?: React.ComponentClass<any> | false;
     displayHeader?: boolean;
+    schedulerContentWidth?: number;
+    schedulerContainerWidth?: number;
 
     // old ones:
-    schedulerWidth?: number;
     schedulerMaxHeight?: number;
     tableHeaderHeight?: number;
     agendaResourceTableWidth?: number;
@@ -210,7 +210,6 @@ export class SchedulerData {
 
 export type SchedulerProps = {
     schedulerData: SchedulerData;
-    schedulerStyles: React.CSSProperties;
     prevClick?(...args: any[]): any;
     nextClick?(...args: any[]): any;
     onViewChange?(...args: any[]): any;
