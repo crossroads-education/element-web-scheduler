@@ -7,6 +7,12 @@ const styles = theme => ({
     cell: {
         width: "100%",
         height: "100%",
+        "&:nth-child(2n)": {
+            "& $innerCell": {
+                borderLeft: props => (props.schedulerData.config.minuteStep == 15) ? "1px dashed #c2c2c2" : "1px solid #ABABAB"
+            }
+        },
+        borderTop: "1px solid #FFFFFF",
         extend: props => props.userStyle.cell
     },
     nonWorking: {
@@ -14,8 +20,7 @@ const styles = theme => ({
         extend: props => props.userStyle.nonWorking
     },
     innerCell: props => ({
-        borderTop: "1px solid #e9e9e9",
-        borderLeft: "1px solid #e9e9e9",
+        borderLeft: "1px solid #ABABAB",
         width: "100%",
         height: "100%",
         extend: props.userStyle.innerCell
@@ -41,6 +46,7 @@ class BodyView extends Component {
         const {schedulerData, classes} = this.props;
         const {renderData, headers} = schedulerData;
         const { cell, innerCell, row} = classes;
+
         let tableRows = renderData.map((item) => {
             let rowCells = headers.map((header, index) => {
                 let key = item.slotId + '_' + header.time;
@@ -59,7 +65,7 @@ class BodyView extends Component {
         });
 
         return (
-            <div style={{borderRight: "none", borderBottom: "none"}}>
+            <div>
                 {tableRows}
             </div>
         );

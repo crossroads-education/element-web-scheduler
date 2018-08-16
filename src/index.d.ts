@@ -104,7 +104,7 @@ export type SchedulerConfiguration = {
     rowHeight?: string | number;
     interactiveLayer?: number,
     backgroundLayer?: number,
-    layers?: false,
+    layers?: false | number[],
     viewResources?: true,
     popoverTrigger?: "hover" | "click",
     resourcesComponent?: React.ComponentClass<any> | false;
