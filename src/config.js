@@ -80,6 +80,7 @@ export default {
     displayTableHeaders: true,
     displayResourceHeader: true,
     schedulerHeader: true,
+    headerComponent: false,
 
     views: [
         {viewName: 'Day', viewType: ViewTypes.Day, showAgenda: false, isEventPerspective: false},

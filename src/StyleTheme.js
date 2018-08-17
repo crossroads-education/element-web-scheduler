@@ -24,8 +24,9 @@ const theme = {
         color: "#ccc"
     },
     scheduler: {
-        margin: "20px auto",
-        borderSpacing: 0
+        display: "flex",
+        alignItems: "flex-end",
+        justifyContent: "center "
     },
     resourceView: {
         border: "1px solid #e9e9e9",

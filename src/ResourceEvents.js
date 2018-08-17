@@ -78,10 +78,10 @@ class ResourceEvents extends Component {
         ev.stopPropagation();
         if(ev.buttons !== undefined && ev.buttons !== 1) return;
         if((ev.srcElement || ev.target) !== this.eventContainer) return;
-
         const {schedulerData} = this.props;
         let cellWidth = schedulerData.getContentCellWidthInPixels();
         let pos = getPos(this.eventContainer);
+        
         let startX = ev.clientX - pos.x;
         let leftIndex = Math.floor(startX/cellWidth);
         let left = leftIndex*cellWidth;
@@ -139,7 +139,6 @@ class ResourceEvents extends Component {
             endTime = localeMoment(resourceEvents.headerItems[rightIndex - 1].start).hour(23).minute(59).second(59).format(DATETIME_FORMAT);
         let slotId = resourceEvents.slotId;
         let slotName = resourceEvents.slotName;
-
         this.setState({
             startX: 0,
             leftIndex: 0,
@@ -294,12 +293,12 @@ class ResourceEvents extends Component {
             const content = config.layers.map(layer => {
                 if (layer !== config.interactiveLayer) {
                     return (
-                        (eventList[layer]) ? (
+                        connectDropTarget(
                             <div key={layer} ref={this.eventContainerRef} className={classNames(classes.eventContainer, classes.inactiveLayerContainer, classes.resourceEventContainer)} style={{ zIndex: layer }}>
                                 {eventList[layer]}
                             </div>
-                        ) : null
-                    )
+                        )
+                    );
                 }
             });
             content.push(

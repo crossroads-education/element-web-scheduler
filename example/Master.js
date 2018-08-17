@@ -28,7 +28,8 @@ class MasterSchedule extends Component {
             customEventComponents: true,
             layers: [1, 3],
             interactiveLayer: 3,
-            creatable: false
+            creatable: false,
+            movable: false
         }, {
                 isNonWorkingTimeFunc: () => false
             });

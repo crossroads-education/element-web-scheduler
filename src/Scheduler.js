@@ -24,12 +24,10 @@ const styles = theme => ({
     resourceContainer: {
         width: props => props.schedulerData.getResourceTableWidth(),
         display: "inline-block",
-        overflow: "hidden",
         borderBottom: "solid 1px #e9e9e9",
         extend: props => props.userStyle.resourceContainer
     },
     resourceHeaderContainer: {
-        overflow: "hidden",
         height: props => props.schedulerData.config.tableHeaderHeight,
         extend: props => props.userStyle.resourceHeaderContainer
     },
@@ -45,12 +43,11 @@ const styles = theme => ({
     schedulerContainer: {
         width: props => props.schedulerData.config.schedulerContainerWidth - props.schedulerData.getResourceTableWidth(),
         display: "inline-block",
-        overflowX: props => (props.schedulerData.config.schedulerContainerWidth < props.schedulerData.config.schedulerContentWidth) ? "scroll" : "hidden",
-        overflowY: "hidden",
         extend: props => props.userStyle.schedulerContainer
     },
     schedulerContentContainer: { 
         width: props => props.schedulerData.config.schedulerContentWidth - props.schedulerData.getResourceTableWidth(),
+        overflowX: props => (props.schedulerData.config.schedulerContainerWidth < props.schedulerData.config.schedulerContentWidth) ? "scroll" : "visible",
         extend: props => props.userStyle.schedulerContainer
     },
     schedulerContentHeader: {
@@ -168,8 +165,6 @@ class Scheduler extends Component {
         }
         else {
             let resourceTableWidth = schedulerData.getResourceTableWidth();
-            let schedulerContainerWidth = (config.viewResources) ? config.schedulerContainerWidth - resourceTableWidth : width;
-            let schedulerContentWidth = (config.viewResources) ? config.schedulerContentWidth - resourceTableWidth : width;
             let DndResourceEvents = this.state.dndContext.getDropTarget();
             let eventDndSource = this.state.dndContext.getDndSource();
 
@@ -184,17 +179,15 @@ class Scheduler extends Component {
             
             let resourceName = schedulerData.isEventPerspective ? config.taskName : config.resourceName;
             const resourceView = (
-                <div className={classes.resourceContainer}>
+                <div className={classes.resourceContainer} ref={this.schedulerResourceRef} onMouseOver={this.onSchedulerResourceMouseOver} onMouseOut={this.onSchedulerResourceMouseOut} onScroll={this.onSchedulerResourceScroll}>
                     {config.displayResourceHeader &&
                         <div className={classNames(classes.resourceHeaderContainer, classes.resourceHeader, classes.header3Text)}>
                             {resourceName}
                         </div>
                     }
-                    <div ref={this.schedulerResourceRef} onMouseOver={this.onSchedulerResourceMouseOver} onMouseOut={this.onSchedulerResourceMouseOut} onScroll={this.onSchedulerResourceScroll}>
-                        <ResourceView
-                            {...this.props}
-                        />
-                    </div>
+                    <ResourceView
+                        {...this.props}
+                    />
                 </div>
             );
 
@@ -257,11 +250,9 @@ class Scheduler extends Component {
             </div>
         );
         return (
-                <div className={this.props.classes.scheduler} style={{ width: config.schedulerContainerWidth }}>
+                <div className={this.props.classes.scheduler}>
                     {config.schedulerHeader && tableHeader}
-                    <div>
-                        {tbodyContent}
-                    </div>
+                    {tbodyContent}
                 </div>
         );
     }

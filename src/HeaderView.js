@@ -32,7 +32,6 @@ class HeaderView extends Component {
     
     constructor(props) {
         super(props);
-        console.log(props);
     }
 
     static propTypes = {
@@ -52,15 +51,11 @@ class HeaderView extends Component {
             headers.forEach((item, index) => {
                 if(index % minuteStepsInHour === 0){
                     let datetime = localeMoment(item.time);
-
-                    let pFormattedList = config.nonAgendaDayCellHeaderFormat.split('|').map(item => datetime.format(item));
-                    let element = (nonAgendaCellHeaderTemplateResolver) ?
-                        nonAgendaCellHeaderTemplateResolver(schedulerData, item, pFormattedList)
+                    let element = (config.headerComponent) ?
+                        <config.headerComponent time={item.time} workingHour={!item.nonWorkingTime} itemIndex={index} schedulerData={schedulerData}/>
                     : (
-                            <div key={item.time} className={classNames(classes.listElement, { nonWorkingElement: !!item.nonWorkingTime})}>
-                            {pFormattedList.map((item, index) => (
-                                <div key={index}>{item}</div>
-                            ))}
+                        <div key={item.time} className={classNames(classes.listElement, { nonWorkingElement: !!item.nonWorkingTime})}>
+                            <span>{config.nonAgendaDayCellHeaderFormat.split('|').map(item => datetime.format(item))[0]}</span>
                         </div>
                     );
                     headerList.push(element);
@@ -73,7 +68,7 @@ class HeaderView extends Component {
                 let pFormattedList = config.nonAgendaOtherCellHeaderFormat.split('|').map(item => datetime.format(item));
 
                 return (nonAgendaCellHeaderTemplateResolver) ? 
-                nonAgendaCellHeaderTemplateResolver(schedulerData, item, pFormattedList[index]) 
+                    nonAgendaCellHeaderTemplateResolver(schedulerData, item, pFormattedList[index]) 
                 : (
                         <div key={item.time} className={classNames(classes.listElement, { nonWorkingElement: !!item.nonWorkingTime })}>
                         {pFormattedList.map((item, index) => (

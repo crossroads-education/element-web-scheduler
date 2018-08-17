@@ -9,6 +9,7 @@ import ViewSrcCode from './ViewSrcCode'
 import withDragDropContext from './withDnDContext'
 import ResourceComponent from "./BasicResourceComponent";
 import PopoverComponent from "./BasicPopoverComponent";
+import moment from "moment";
 
 const userStyle = {
     addMorePopoverOverlay: {
@@ -25,12 +26,36 @@ const userStyle = {
     }
 }
 
+class basicHeader extends Component {
+    constructor(props) {
+        super(props);
+    }
+
+    render() {
+        const { time, workingHour, itemIndex, schedulerData} = this.props;
+        return (
+            <div key={time} style={{width: "100%", position: "relative"}}>
+                <span style={{position:"absolute", left: "-5px"}}> {moment(time).format("ha").slice(0, -1)} </span>
+            </div>
+        )
+    }
+}
+
 class Basic extends Component{
     constructor(props){
         super(props);
 
         //let schedulerData = new SchedulerData(new moment("2017-12-18").format(DATE_FORMAT), ViewTypes.Week);
-        let schedulerData = new SchedulerData('2017-12-20', ViewTypes.Day, false, false, { interactiveLayer: 5, layers: [1, 4, 5], eventItemLeftMargin: 0, resourceComponent: ResourceComponent, popoverComponent: PopoverComponent, displayResourceHeader: false, schedulerHeader: false});
+        let schedulerData = new SchedulerData('2017-12-20', ViewTypes.Day, false, false, { 
+            interactiveLayer: 4, 
+            layers: [1, 4], 
+            eventItemLeftMargin: 0, 
+            resourceComponent: ResourceComponent, 
+            popoverComponent: PopoverComponent, 
+            displayResourceHeader: false, 
+            schedulerHeader: false, 
+            headerComponent: basicHeader
+        });
         schedulerData.localeMoment.locale('en');
         schedulerData.setResources(DemoData.resources);
         schedulerData.setEvents(DemoData.events);
