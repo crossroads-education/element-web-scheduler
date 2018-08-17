@@ -114,7 +114,7 @@ export type SchedulerConfiguration = {
     schedulerContainerWidth?: number;
     displayResourceHeader?: boolean;
     schedulerHeader?: boolean;  
-    headerComponent: React.ComponentClass<any> | false;
+    headerComponent?: React.ComponentClass<any> | false;
 
     // old ones:
     schedulerMaxHeight?: number;
