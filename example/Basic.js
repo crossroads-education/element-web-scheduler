@@ -85,7 +85,7 @@ class Basic extends Component{
         super(props);
 
         //let schedulerData = new SchedulerData(new moment("2017-12-18").format(DATE_FORMAT), ViewTypes.Week);
-        let schedulerData = new SchedulerData({events:DemoData.events, resources:DemoData.resources, adornments:DemoData.adornments, date:'2017-12-20'},
+        let schedulerData = new SchedulerData({events:DemoData.events, resources:DemoData.resources},
             ViewTypes.Day, false, false, { 
             interactiveLayer: 4, 
             layers: [1, 4], 
@@ -101,6 +101,7 @@ class Basic extends Component{
 
     render(){
         const {viewModel} = this.state;
+        
         return (
             <div>
                 <Nav />

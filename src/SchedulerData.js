@@ -149,7 +149,6 @@ export default class SchedulerData {
 
     setDate(date=moment().format(DATE_FORMAT)){
         this._resolveDate(0, date);
-        this.events = [];
         this._createHeaders();
         this._createRenderData();
     }
