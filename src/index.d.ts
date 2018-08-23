@@ -100,10 +100,6 @@ export enum SummaryPosition {
     BottomLeft = 5
 }
 
-export type SchedulerResourceComponent {
-
-}
-
 export type SchedulerConfiguration = {
     // new ones:
     selectedAreaBackground?: string;
