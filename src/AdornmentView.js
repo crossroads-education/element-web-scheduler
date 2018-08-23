@@ -44,7 +44,7 @@ export default class AdornmentView extends Component {
                 <div className={classes.adornmentListContainer}>
                     {renderData.map(item => (
                         <div key={item.slotId} className={classes.adornmentWrapper} style={{ height: item.rowHeight }}>
-                            <AdornmentComponent {...item.adornmentProps} adornmentItem={item}/>
+                            <AdornmentComponent {...item.adornmentProps} adornmentItem={item} schedulerData={schedulerData}/>
                         </div>
                     ))}
                 </div>

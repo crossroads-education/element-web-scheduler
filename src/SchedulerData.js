@@ -557,7 +557,7 @@ export default class SchedulerData {
 
             let adornment;
 
-            if (adornments.length > 0) {
+            if (adornments && adornments.length > 0) {
                 adornment = adornments.filter(adornment => adornment.resourceId === resource.id);
                 (adornment.length > 1) ? 
                     console.error("resource id found multiple times.") 
