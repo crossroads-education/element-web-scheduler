@@ -275,6 +275,7 @@ export type SchedulerHeader = {
 
 export type SchedulerAdornmentProps = {
     adornmentItem?: SchedulerRenderData;
+    schedulerData?: SchedulerData;
 }
 
 export type SchedulerResourceProps = {
