@@ -28,18 +28,18 @@ class EventItemPopover extends Component {
     }
 
     render(){
-        const {schedulerData, eventItem, title, startTime, endTime, statusColor,subtitleGetter, viewEventClick, viewEventText, viewEvent2Click, viewEvent2Text} = this.props;
+        const {schedulerData, eventItem, title, startTime, endTime, statusColor,subtitleGetter, viewEventClick, viewEventText, viewEvent2Click, viewEvent2Text, popoverComponent} = this.props;
         const {localeMoment, config} = schedulerData;
         let start = localeMoment(startTime), end = localeMoment(endTime);
         let dateFormat = config.eventItemPopoverDateFormat;
-        let Content = (config.popoverComponent) ? config.popoverComponent : DefaultEventItemPopover;
-        let contentProps = (config.popoverComponent) ? 
+        let PopoverComponent = (popoverComponent) ? popoverComponent : DefaultEventItemPopover;
+        let contentProps = (popoverComponent) ? 
             {
                 schedulerData,  
                 eventItem,
                 eventOne: viewEventClick,
                 eventTwo: viewEvent2Click,
-                ...eventItem.popoverProps
+                popoverProps: eventItem.popoverProps
             } :
             {
                 statusColor,
@@ -57,7 +57,7 @@ class EventItemPopover extends Component {
                 userStyle: this.props.userStyle
             };
         return (
-            <Content
+            <PopoverComponent
                 {...contentProps}
             />
         )

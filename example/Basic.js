@@ -41,24 +41,59 @@ class basicHeader extends Component {
     }
 }
 
+class Adornment extends Component {
+    constructor(props) {
+        super(props);
+    }
+
+    render() {
+        return (
+            <div style={{ display: "flex", width: 100 }}>
+                <div style={{ height: "100%" }}>
+                    <p> {this.props.message} </p>
+                </div>
+                <div style={{ height: "100%" }}>
+                    <p> {this.props.message2} </p>
+                </div>
+            </div>
+        );
+    }
+}
+
+class AdornmentHeader extends Component {
+    constructor(props) {
+        super(props);
+    }
+
+    render() {
+        return (
+            <div style={{ display: "flex", width: 100 }}>
+                <div style={{ height: "100%" }}>
+                    <p> Message 1 </p>
+                </div>
+                <div style={{ height: "100%" }}>
+                    <p> Message 2 </p>
+                </div>
+            </div>
+        );
+        
+    }
+}
+
 class Basic extends Component{
     constructor(props){
         super(props);
 
         //let schedulerData = new SchedulerData(new moment("2017-12-18").format(DATE_FORMAT), ViewTypes.Week);
-        let schedulerData = new SchedulerData('2017-12-20', ViewTypes.Day, false, false, { 
+        let schedulerData = new SchedulerData({events:DemoData.events, resources:DemoData.resources, adornments:DemoData.adornments, date:'2017-12-20'},
+            ViewTypes.Day, false, false, { 
             interactiveLayer: 4, 
             layers: [1, 4], 
             eventItemLeftMargin: 0, 
-            resourceComponent: ResourceComponent, 
-            popoverComponent: PopoverComponent, 
-            displayResourceHeader: false, 
-            schedulerHeader: false, 
-            headerComponent: basicHeader
+            
+            displayResourceHeader: false
         });
         schedulerData.localeMoment.locale('en');
-        schedulerData.setResources(DemoData.resources);
-        schedulerData.setEvents(DemoData.events);
         this.state = {
             viewModel: schedulerData
         }
@@ -71,22 +106,28 @@ class Basic extends Component{
                 <Nav />
                 <div>
                     <h3 style={{textAlign: 'center'}}>Basic example<ViewSrcCode srcCodeUrl="https://github.com/StephenChou1017/react-big-scheduler/blob/master/example/Basic.js" /></h3>
-                    <Scheduler schedulerData={viewModel}
-                               prevClick={this.prevClick}
-                               nextClick={this.nextClick}
-                               onSelectDate={this.onSelectDate}
-                               onViewChange={this.onViewChange}
-                               eventItemClick={this.eventClicked}
-                               viewEventClick={this.ops1}
-                               viewEventText="Ops 1"
-                               viewEvent2Text="Ops 2"
-                               viewEvent2Click={this.ops2}
-                               updateEventStart={this.updateEventStart}
-                               updateEventEnd={this.updateEventEnd}
-                               moveEvent={this.moveEvent}
-                               newEvent={this.newEvent}
-                               userStyle={userStyle}
-                    />
+                    <Scheduler 
+                        schedulerData={viewModel}
+                        prevClick={this.prevClick}
+                        nextClick={this.nextClick}
+                        onSelectDate={this.onSelectDate}
+                        onViewChange={this.onViewChange}
+                        eventItemClick={this.eventClicked}
+                        viewEventClick={this.ops1}
+                        viewEventText="Ops 1"
+                        viewEvent2Text="Ops 2"
+                        viewEvent2Click={this.ops2}
+                        updateEventStart={this.updateEventStart}
+                        updateEventEnd={this.updateEventEnd}
+                        moveEvent={this.moveEvent}
+                        newEvent={this.newEvent}
+                        userStyle={userStyle}
+                        adornmentHeader={<AdornmentHeader/>}
+                        adornmentComponent={Adornment}
+                        headerComponent={basicHeader}
+                        resourceComponent={ResourceComponent}
+                        popoverComponent={PopoverComponent}
+            />
                 </div>
                 <Tips />
             </div>
@@ -95,7 +136,6 @@ class Basic extends Component{
 
     prevClick = (schedulerData)=> {
         schedulerData.prev();
-        schedulerData.setEvents(DemoData.events);
         this.setState({
             viewModel: schedulerData
         })
@@ -103,7 +143,6 @@ class Basic extends Component{
 
     nextClick = (schedulerData)=> {
         schedulerData.next();
-        schedulerData.setEvents(DemoData.events);
         this.setState({
             viewModel: schedulerData
         })

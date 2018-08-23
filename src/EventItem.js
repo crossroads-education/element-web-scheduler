@@ -317,7 +317,11 @@ class EventItem extends Component {
                 title={eventItem.title}
                 startTime={eventItem.start}
                 endTime={eventItem.end}
-                statusColor={classes.eventItem.backgroundColor}/>
+                statusColor={classes.eventItem.backgroundColor}
+                userStyle={this.props.userStyle}
+            />
+                
+
         );
 
         let start = localeMoment(eventItem.start);

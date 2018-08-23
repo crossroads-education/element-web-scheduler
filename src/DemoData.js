@@ -3,6 +3,57 @@ import * as React from "react";
 
 
 const DemoData = {
+    adornments: [
+        {
+            resourceId: "r1",
+            componentProps: { 
+                message: "wow",
+                message2: "haha"
+            }
+        },
+        {
+            resourceId: "r2",
+            componentProps: {
+                message: "wowz",
+                message2: "haha"
+            }
+        },
+        {
+            resourceId: "r3",
+            componentProps: {
+                message: "wowfsaf",
+                message2: "hahagsadfas"
+            }
+        },
+        {
+            resourceId: "r4",
+            componentProps: {
+                message: "wow man",
+                message2: " cool haha"
+            }
+        },
+        {
+            resourceId: "r5",
+            componentProps: {
+                message: "wOw",
+                message2: "haHa"
+            }
+        },
+        {
+            resourceId: "r6",
+            componentProps: {
+                message: "woah",
+                message2: "hey"
+            }
+        },
+        {
+            resourceId: "r7",
+            componentProps: {
+                message: "wah",
+                message2: "hoho"
+            }
+        },
+    ],
     resources: [
         {
             id: 'r1',

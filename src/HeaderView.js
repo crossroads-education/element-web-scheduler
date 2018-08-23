@@ -3,6 +3,7 @@ import {PropTypes} from 'prop-types'
 import {ViewTypes} from './index'
 import injectSheet from "react-jss";
 import classNames from "classnames";
+import Header from 'antd/lib/calendar/Header';
 
 const styles = theme => ({
     listElement: {
@@ -40,19 +41,17 @@ class HeaderView extends Component {
     }
 
     render() {
-        const {schedulerData, nonAgendaCellHeaderTemplateResolver, classes} = this.props;
+        const {schedulerData, nonAgendaCellHeaderTemplateResolver, classes, headerComponent } = this.props;
         const {headers, viewType, config, localeMoment} = schedulerData;
-        let headerHeight = schedulerData.getTableHeaderHeight();
         let minuteStepsInHour = schedulerData.getMinuteStepsInHour();
-        const {nonWorkingElement } = classes;
+        let HeaderComponent = headerComponent;
         let headerList = [];
-        let style = {};
         if(viewType === ViewTypes.Day){
             headers.forEach((item, index) => {
                 if(index % minuteStepsInHour === 0){
                     let datetime = localeMoment(item.time);
-                    let element = (config.headerComponent) ?
-                        <config.headerComponent time={item.time} workingHour={!item.nonWorkingTime} itemIndex={index} schedulerData={schedulerData}/>
+                    let element = (HeaderComponent) ?
+                        <HeaderComponent key={item.time} time={item.time} workingHour={!item.nonWorkingTime} itemIndex={index} schedulerData={schedulerData}/>
                     : (
                         <div key={item.time} className={classNames(classes.listElement, { nonWorkingElement: !!item.nonWorkingTime})}>
                             <span>{config.nonAgendaDayCellHeaderFormat.split('|').map(item => datetime.format(item))[0]}</span>

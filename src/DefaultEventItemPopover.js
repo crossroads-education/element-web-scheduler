@@ -41,6 +41,7 @@ export default class DefaultEventItemPopover extends React.Component {
     }
 
     render() {
+        console.log(this.props);
         const {classes} = this.props;
         return (
             <div className={classes.container}>

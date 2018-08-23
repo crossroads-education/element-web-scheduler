@@ -13,6 +13,7 @@ import BodyView from './BodyView'
 import ResourceEvents from './ResourceEvents'
 import AgendaView from './AgendaView'
 import classNames from "classnames";
+import AdornmentView from "./AdornmentView";
 const RadioButton = Radio.Button;
 const RadioGroup = Radio.Group;
 import 'antd/dist/antd.css';
@@ -118,8 +119,9 @@ class Scheduler extends Component {
         eventItemTemplateResolver: PropTypes.func,
         dndSources: PropTypes.array,
         slotClickedFunc: PropTypes.func,
-        slotItemTemplateResolver: PropTypes.func,
-        nonAgendaCellHeaderTemplateResolver: PropTypes.func
+        nonAgendaCellHeaderTemplateResolver: PropTypes.func,
+        adornmentComponent: PropTypes.func,
+        adornmentHeader: PropTypes.object
     }
 
     componentDidUpdate(props, state) {
@@ -146,7 +148,7 @@ class Scheduler extends Component {
     }
 
     render() {
-        const { schedulerData, leftCustomHeader, rightCustomHeader, classes} = this.props;
+        const { schedulerData, leftCustomHeader, rightCustomHeader, classes, adornmentComponent, adornmentHeader, userStyle } = this.props;
         const { renderData, viewType, showAgenda, isEventPerspective, config } = schedulerData;
         const calendarPopoverEnabled = config.calendarPopoverEnabled;
         let dateLabel = schedulerData.getDateLabel();
@@ -209,6 +211,14 @@ class Scheduler extends Component {
                             </div>
                         </div>
                     </div>
+                    {adornmentComponent && 
+                        <AdornmentView 
+                            schedulerData={schedulerData} 
+                            userStyle={userStyle} 
+                            adornmentComponent={adornmentComponent}
+                            adornmentHeader={adornmentHeader}
+                        />
+                    }
                 </React.Fragment>
             );
 

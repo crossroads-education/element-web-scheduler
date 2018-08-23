@@ -30,28 +30,24 @@ class ResourceView extends Component {
 
     static propTypes = {
         schedulerData: PropTypes.object.isRequired,
-        slotClickedFunc: PropTypes.func,
-        slotItemTemplateResolver: PropTypes.func
+        slotClickedFunc: PropTypes.func
     }
 
     render() {
 
-        const {schedulerData, slotClickedFunc, slotItemTemplateResolver, classes} = this.props;
+        const {schedulerData, classes, resourceComponent} = this.props;
         const {renderData, config} = schedulerData;
-        let DisplayComponent = (config.resourceComponent) ? config.resourceComponent : DefaultResourceComponent;
-        let resourceList = renderData.map((item) => {
-            let a = <DisplayComponent slotName={item.slotName} {...item.componentProps}/>;
-
-            const slotItem = (slotItemTemplateResolver) ? 
-                slotItemTemplateResolver(schedulerData, item, slotClickedFunc, width) 
-                : (
-                    <div className={classNames(classes.slotItem, classes.text)}>
-                        {a}
-                    </div>
-                );
-
-            return <ResourceItem key={item.slotName} itemHeight={item.rowHeight} slotId={item.slotId}> {slotItem} </ResourceItem>
-        });
+        let DisplayComponent = (resourceComponent) ? resourceComponent : DefaultResourceComponent;
+        let resourceList = renderData.map((item) => (
+            <div 
+                key={item.slotName} 
+                data-resource-id={item.slotId} 
+                style={{ height: item.rowHeight}}
+                className={classNames(classes.slotItem, classes.text)}
+            > 
+                <DisplayComponent {...item.componentProps} resourceItem={item}/>
+            </div>
+        ));
 
         return (
             <div className={classes.resourceListContainer}>
@@ -60,19 +56,5 @@ class ResourceView extends Component {
         )
     }
 }
-
-const resourceItemStyles = {
-    resourceItem: {
-        height: props => props.itemHeight
-    },  
-}
-
-const resource = ({ classes, slotId, children }) => (
-    <div key={slotId} className={classes.resourceItem} data-resource-id={slotId}>
-        {children}
-    </div>
-);
-
-const ResourceItem = injectSheet(resourceItemStyles)(resource);
 
 export default ResourceView
