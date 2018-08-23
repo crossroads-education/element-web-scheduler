@@ -557,9 +557,8 @@ export default class SchedulerData {
 
             let adornment;
 
-            if (adornments) {
+            if (adornments.length > 0) {
                 adornment = adornments.filter(adornment => adornment.resourceId === resource.id);
-                console.log(adornment);
                 (adornment.length > 1) ? 
                     console.error("resource id found multiple times.") 
                     : adornment = adornment[0].componentProps;
