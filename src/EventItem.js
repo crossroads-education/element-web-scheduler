@@ -5,6 +5,7 @@ import EventItemPopover from './EventItemPopover'
 import {ViewTypes, DATETIME_FORMAT} from './index'
 import injectSheet from "react-jss";
 import classNames from "classnames";
+import ClickAwayListener from "@material-ui/core/ClickAwayListener";
 
 const styles = theme => ({
     roundClass: props => {
@@ -40,6 +41,15 @@ const styles = theme => ({
     },
     endResizer: {
         extend: [{...theme.eventResizer}, {...theme.eventEndResizer}]
+    },
+    popoverContainer: {
+        "& .ant-popover-inner-content": {
+            padding: 0
+        },
+        "& .ant-popover-arrow": {
+            top: "-3px !important"
+        },
+        padding: 0
     }
 });
 
@@ -47,7 +57,7 @@ const styles = theme => ({
 class EventItem extends Component {
     constructor(props) {
         super(props);
-
+        this.popoverRef = React.createRef();
         const {left, top, width} = props;
         this.state = {
             left: left,
@@ -96,6 +106,19 @@ class EventItem extends Component {
 
     componentDidMount() {
         this.subscribeResizeEvent(this.props);
+    }
+
+    handleOpen = (event) => {
+        this.setState({popoverVisible: true});
+    }
+    
+    handleClose = () => {
+        this.setState({popoverVisible: false});
+    }
+
+    eventClickHandler = () => {
+        if (!!this.props.eventItemClick) this.props.eventItemClick(this.props.schedulerData, this.props.eventItem);
+        this.handleOpen();
     }
 
     initStartDrag = (ev) => {
@@ -319,6 +342,7 @@ class EventItem extends Component {
                 endTime={eventItem.end}
                 statusColor={classes.eventItem.backgroundColor}
                 userStyle={this.props.userStyle}
+                closePopover={this.handleClose}
             />
                 
 
@@ -339,7 +363,7 @@ class EventItem extends Component {
         const aStyle = {left: left + "%", width: width + "%", top};
         if (this.props.eventItem.disableInteractions) aStyle.pointerEvents = "none";
         
-        let a = <a className={classes.eventItemContainer} style={aStyle} onClick={() => { if(!!eventItemClick) eventItemClick(schedulerData, eventItem);}}>
+        let a = <a className={classes.eventItemContainer} style={aStyle} onClick={this.eventClickHandler}>
             {eventItemTemplate}
             {startResizeDiv}
             {endResizeDiv}
@@ -360,7 +384,18 @@ class EventItem extends Component {
                 );
             } else {
                 renderContent = (
-                    <Popover placement="bottomLeft" content={content} trigger={config.popoverTrigger}>
+                    <Popover 
+                        visible={this.state.popoverVisible} 
+                        placement="bottomLeft" 
+                        content={
+                            this.state.popoverVisible && (
+                                <ClickAwayListener onClickAway={this.handleClose}>
+                                    {content}
+                                </ClickAwayListener>
+                            )
+                        }
+                        overlayClassName={this.props.classes.popoverContainer}
+                    >
                         {
                             connectDragPreview(
                                 connectDragSource(a)

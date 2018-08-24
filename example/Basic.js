@@ -101,7 +101,7 @@ class Basic extends Component{
 
     render(){
         const {viewModel} = this.state;
-        
+        viewModel.setDate("12-20-2017");
         return (
             <div>
                 <Nav />
@@ -166,7 +166,6 @@ class Basic extends Component{
     }
 
     eventClicked = (schedulerData, event) => {
-        alert(`You just clicked an event: {id: ${event.id}, title: ${event.title}}`);
     };
 
     ops1 = (schedulerData, event) => {

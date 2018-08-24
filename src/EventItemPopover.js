@@ -19,6 +19,10 @@ class EventItemPopover extends Component {
         viewEvent2Text: PropTypes.string,
     }
 
+    handleClick = (e) => {
+        this.props.closePopover();
+    }
+
     opOne = () => {
         this.props.viewEventClick(schedulerData, eventItem);
     }
@@ -39,7 +43,8 @@ class EventItemPopover extends Component {
                 eventItem,
                 eventOne: viewEventClick,
                 eventTwo: viewEvent2Click,
-                popoverProps: eventItem.popoverProps
+                popoverProps: eventItem.popoverProps,
+                closePopover: this.props.closePopover,
             } :
             {
                 statusColor,
