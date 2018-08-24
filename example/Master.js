@@ -6,6 +6,14 @@ import ViewSrcCode from './ViewSrcCode'
 import withDragDropContext from './withDnDContext'
 import { extendMoment } from 'moment-range';
 import uuid from 'uuid/v4';
+import CreatedShift from "./CreatedShift";
+
+const schedulerStyles = {
+    selectedArea: {
+        background: "none",
+        border: "none"
+    }
+}
 
 class MasterSchedule extends Component {
     constructor(props) {
@@ -28,7 +36,6 @@ class MasterSchedule extends Component {
             customEventComponents: true,
             layers: [1, 3],
             interactiveLayer: 3,
-            creatable: false,
             movable: false
         }, {
                 isNonWorkingTimeFunc: () => false
@@ -62,6 +69,8 @@ class MasterSchedule extends Component {
                         moveEvent={this.moveEvent}
                         newEvent={this.newEvent}
                         eventItemTemplateResolver={this.eventItemTemplateResolver}
+                        selectedAreaComponent={CreatedShift}
+                        userStyle={schedulerStyles}
                     />
                 </div>
             </div>

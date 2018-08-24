@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import {PropTypes} from 'prop-types'
 import injectSheet from "react-jss"
 
+
 const styles = theme => ({
     selectedArea: props => ({
         position: "absolute",
@@ -29,10 +30,13 @@ class SelectedArea extends Component {
     }
 
     render() {
-        const { classes } = this.props;
+        const { classes, selectedAreaComponent, schedulerData, left, width } = this.props;
+        let SelectedAreaComponent = selectedAreaComponent || false;
         return (
-            <div className={classes.selectedArea} />
-        );
+                <div className={classes.selectedArea}>
+                    {SelectedAreaComponent && <SelectedAreaComponent schedulerData={schedulerData} left={left} width={width}/>}
+                </div>
+        )
     }
 }
 
