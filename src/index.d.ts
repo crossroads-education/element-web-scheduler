@@ -293,6 +293,12 @@ export type SchedulerPopoverProps = {
     closePopover(): void;
 }
 
+export type SchedulerSelectedAreaProps = {
+    schedulerData: SchedulerData,
+    left: number,
+    width: number
+}
+
 export type SchedulerProps = {
     schedulerData: SchedulerData;
     prevClick?(...args: any[]): any;
@@ -325,6 +331,7 @@ export type SchedulerProps = {
     popoverComponent?: React.ComponentType<SchedulerPopoverProps>;
     headerComponent?: React.ComponentType<SchedulerHeaderProps>;
     popoverProps?: { [prop: string]: any };
+    selectedAreaComponent?: React.ComponentType<SchedulerSelectedAreaProps>;
 };
 
 declare const Scheduler: React.ComponentType<SchedulerProps>;
