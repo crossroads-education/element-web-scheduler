@@ -290,6 +290,7 @@ export type SchedulerPopoverProps = {
     eventOne: any,
     eventTwo: any,
     popoverProps: { [prop: string]: any };
+    closePopover(): void;
 }
 
 export type SchedulerProps = {
@@ -323,7 +324,7 @@ export type SchedulerProps = {
     resourceComponent?: React.ComponentType<SchedulerResourceProps>;
     popoverComponent?: React.ComponentType<SchedulerPopoverProps>;
     headerComponent?: React.ComponentType<SchedulerHeaderProps>;
-    popoverProps: { [prop: string]: any };
+    popoverProps?: { [prop: string]: any };
 };
 
 declare const Scheduler: React.ComponentType<SchedulerProps>;

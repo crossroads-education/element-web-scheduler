@@ -43,8 +43,7 @@ class EventItemPopover extends Component {
                 eventItem,
                 eventOne: viewEventClick,
                 eventTwo: viewEvent2Click,
-                popoverProps: eventItem.popoverProps,
-                closePopover: this.props.closePopover,
+                
             } :
             {
                 statusColor,
@@ -64,6 +63,8 @@ class EventItemPopover extends Component {
         return (
             <PopoverComponent
                 {...contentProps}
+                closePopover={this.handleClick}
+                popoverProps={this.props.popoverProps}
             />
         )
     }

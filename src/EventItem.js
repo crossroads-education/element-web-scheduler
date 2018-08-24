@@ -342,7 +342,7 @@ class EventItem extends Component {
                 endTime={eventItem.end}
                 statusColor={classes.eventItem.backgroundColor}
                 userStyle={this.props.userStyle}
-                closePopover={this.handleClose}
+                closePopover={() => {this.handleClose()}}
             />
                 
 
