@@ -140,13 +140,18 @@ class EventItem extends Component {
 
         const {left, width, rightIndex, schedulerData} = this.props;
         const { startX } = this.state;  
-        const tableWidth = schedulerData.getContentTableWidth();
-        let delta = (ev.clientX - startX); 
+        const tableWidth = schedulerData.getContentTableWidth();    
+
+        let delta = (ev.clientX - startX);
         
         let cellWidth = schedulerData.getContentCellWidthInPixels();
+
+        let cellDelta  = Math.floor(delta / cellWidth);
+
+        let cellWidthDelta = cellDelta * cellWidth;
         
-        let newLeft = (((left / 100 * tableWidth) + delta) / tableWidth) * 100;
-        let newWidth = ((((width / 100) * tableWidth) - delta) / tableWidth) * 100;
+        let newLeft = (((left / 100 * tableWidth) + cellWidthDelta) / tableWidth) * 100;
+        let newWidth = ((((width / 100) * tableWidth) - cellWidthDelta) / tableWidth) * 100;
         let offset = 0.5;
         let minWidth = ((cellWidth) / tableWidth) * 100;
         let maxWidth = ((rightIndex * cellWidth) / tableWidth) * 100 - offset;
@@ -251,7 +256,12 @@ class EventItem extends Component {
         const tableWidth = schedulerData.getContentTableWidth();
         let delta = (ev.clientX - endX);
         let cellWidth = schedulerData.getContentCellWidthInPixels();
-        let newWidth = ((((width/100) * tableWidth) + delta) / tableWidth) * 100;
+
+        let cellDelta = Math.ceil(delta / cellWidth);
+
+        let cellWidthDelta = cellDelta * cellWidth;
+
+        let newWidth = ((((width/100) * tableWidth) + cellWidthDelta) / tableWidth) * 100;
         let offset = 0.5;
         let minWidth = (cellWidth + offset) / tableWidth * 100;
         let maxWidth = (((headers.length - leftIndex) * cellWidth ) / tableWidth * 100) - offset;
@@ -288,7 +298,6 @@ class EventItem extends Component {
         else if (newWidth > maxWidth)
             count = headers.length - rightIndex;
         let newEnd = localeMoment(eventItem.end).add(viewType === ViewTypes.Day ? count * config.minuteStep : count, viewType === ViewTypes.Day ? 'minutes' : 'days').format(DATETIME_FORMAT);
-        console.log(count);
         let hasConflict = false;
         if (config.checkConflict) {
             let start = localeMoment(eventItem.start),

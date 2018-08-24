@@ -11,7 +11,7 @@ class MasterSchedule extends Component {
     constructor(props) {
         super(props);
 
-        let schedulerData = new SchedulerData('2017-12-18', ViewTypes.Day, false, false, {
+        let schedulerData = new SchedulerData({ date: '2017-12-18', resources: MasterDemoData.resources, events: MasterDemoData.events}, ViewTypes.Day, false, false, {
             minuteStep: 15,
             eventItemTopMargin: 0,
             rowHeight: 35,
@@ -32,10 +32,7 @@ class MasterSchedule extends Component {
             movable: false
         }, {
                 isNonWorkingTimeFunc: () => false
-            });
-        schedulerData.localeMoment.locale('en');
-        schedulerData.setResources(MasterDemoData.resources);
-        schedulerData.setEvents(MasterDemoData.events);
+        });
         this.state = {
             viewModel: schedulerData
         }
@@ -49,7 +46,8 @@ class MasterSchedule extends Component {
                 <br />
                 <div>
                     <h3 style={{ textAlign: 'center' }}>Custom event style<ViewSrcCode srcCodeUrl="https://github.com/StephenChou1017/react-big-scheduler/blob/master/example/CustomEventStyle.js" /></h3>
-                    <Scheduler schedulerData={viewModel}
+                    <Scheduler 
+                        schedulerData={viewModel}
                         prevClick={this.prevClick}
                         nextClick={this.nextClick}
                         onSelectDate={this.onSelectDate}
