@@ -231,6 +231,7 @@ export class SchedulerData {
     updateEventEnd?(...args: any[]): any;
     prev(): void;
     next(): void;
+    addEvent(event: SchedulerEvent): void;
 
     // Calculated/generated properties
     headers: SchedulerHeader[];
