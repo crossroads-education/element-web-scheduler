@@ -79,7 +79,7 @@ class ResourceEvents extends Component {
         if(ev.buttons !== undefined && ev.buttons !== 1) return;
         if((ev.srcElement || ev.target) !== this.eventContainer) return;
         const {schedulerData} = this.props;
-        let cellWidth = schedulerData.getContentCellWidthInPixels();
+        let cellWidth = schedulerData.getCellWidthInPixels();
         let pos = getPos(this.eventContainer);
         
         let startX = ev.clientX - pos.x;
@@ -107,7 +107,7 @@ class ResourceEvents extends Component {
         const { startX } = this.state;
         const {schedulerData} = this.props;
         const {headers} = schedulerData;
-        let cellWidth = schedulerData.getContentCellWidthInPixels();
+        let cellWidth = schedulerData.getCellWidthInPixels();
         let pos = getPos(this.eventContainer);
         let currentX = ev.clientX - pos.x;
         let leftIndex = Math.floor(Math.min(startX, currentX)/cellWidth);
@@ -189,7 +189,7 @@ class ResourceEvents extends Component {
         const {resourceEvents, schedulerData, connectDropTarget, dndSource, classes} = this.props;
         const {viewType, startDate, endDate, config, localeMoment} = schedulerData;
         const {isSelecting, left, width} = this.state;
-        let cellWidth = schedulerData.getContentCellWidth();
+        let cellWidth = schedulerData.getCellWidth();
         let cellMaxEvents = schedulerData.getCellMaxEvents();
         let DnDEventItem = dndSource.getDragSource();
 
@@ -274,7 +274,7 @@ class ResourceEvents extends Component {
                 }
 
                 if(headerItem.summary != undefined) {
-                    const cellWidth = schedulerData.getContentCellWidthInPixels();
+                    const cellWidth = schedulerData.getCellWidthInPixels();
                     let top = isTop ? 1 : resourceEvents.rowHeight - config.eventItemLineHeight;
                     let left = index * cellWidth + config.eventItemLeftMargin;
                     let width = Math.max(0, cellWidth - config.eventItemRightMargin - config.eventItemLeftMargin);
@@ -330,7 +330,7 @@ class ResourceEvents extends Component {
         const {onSetAddMoreState, resourceEvents, schedulerData} = this.props;
         if(!!onSetAddMoreState){
             const {config} = schedulerData;
-            let cellWidth = schedulerData.getContentCellWidth();
+            let cellWidth = schedulerData.getCellWidth();
             let index = resourceEvents.headerItems.indexOf(headerItem);
             if(index !== -1){
                 let left = index*(cellWidth -1);

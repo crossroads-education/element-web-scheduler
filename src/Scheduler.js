@@ -139,7 +139,7 @@ class Scheduler extends Component {
                         if (now >= header)
                             index++;
                     })
-                    this.schedulerContent.scrollLeft = (index - 1) * schedulerData.getContentCellWidth();
+                    this.schedulerContent.scrollLeft = (index - 1) * schedulerData.getCellWidth();
 
                     schedulerData.setScrollToToday(false);
                 }

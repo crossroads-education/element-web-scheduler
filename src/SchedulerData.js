@@ -293,7 +293,7 @@ export default class SchedulerData {
         );
     }
 
-    getContentTableWidth(){
+    getContentWidth(){
         return this.config.schedulerContentWidth - this.getResourceTableWidth();
     }
 
