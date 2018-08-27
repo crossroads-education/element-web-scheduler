@@ -7,10 +7,10 @@ const CreatedShift = props => {
 
     const start = moment(schedulerData.selectDate).hour(schedulerData.config.dayStartFrom);
 
-    const offsetInCells = left / schedulerData.getContentCellWidthInPixels();
+    const offsetInCells = left / schedulerData.getCellWidthInPixels();
     const startTime = moment(start).add(offsetInCells * schedulerData.config.minuteStep, "minutes");
 
-    const widthInCells = width / schedulerData.getContentCellWidthInPixels();
+    const widthInCells = width / schedulerData.getCellWidthInPixels();
 
     const endTime = moment(startTime).add(widthInCells * schedulerData.config.minuteStep, "minutes");
 

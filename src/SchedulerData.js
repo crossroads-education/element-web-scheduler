@@ -272,12 +272,12 @@ export default class SchedulerData {
         );
     }
 
-    getContentCellWidth(){
+    getCellWidth(){
         let width = 100 / this.headers.length;
         return width;
     }
 
-    getContentCellWidthInPixels(){ 
+    getCellWidthInPixels(){ 
         return (this.config.schedulerContentWidth - this.getResourceTableWidth()) / this.headers.length;
     }
 

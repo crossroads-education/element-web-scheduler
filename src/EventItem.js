@@ -140,11 +140,11 @@ class EventItem extends Component {
 
         const {left, width, rightIndex, schedulerData} = this.props;
         const { startX } = this.state;  
-        const tableWidth = schedulerData.getContentTableWidth();    
+        const tableWidth = schedulerData.getContentWidth();    
 
         let delta = (ev.clientX - startX);
         
-        let cellWidth = schedulerData.getContentCellWidthInPixels();
+        let cellWidth = schedulerData.getCellWidthInPixels();
 
         let cellDelta  = Math.floor(delta / cellWidth);
 
@@ -175,13 +175,13 @@ class EventItem extends Component {
         const {width, leftIndex, rightIndex, schedulerData, eventItem, updateEventStart} = this.props;
         schedulerData._stopResizing();
         const {viewType, events, config, localeMoment} = schedulerData;
-        let cellWidth = schedulerData.getContentCellWidthInPixels();
+        let cellWidth = schedulerData.getCellWidthInPixels();
         let offset = leftIndex > 0 ? 5 : 6;
         let minWidth = cellWidth - offset;
         let maxWidth = rightIndex * cellWidth - offset;
         const {startX} = this.state;
         let deltaWidth = startX - ev.clientX;
-        let newWidth = ((width / 100) * schedulerData.getContentTableWidth()) + deltaWidth;
+        let newWidth = ((width / 100) * schedulerData.getContentWidth()) + deltaWidth;
         let deltaX = ev.clientX - startX;
         let sign = Math.sign(deltaX);
         let count = Math.abs(deltaX) / cellWidth;
@@ -253,9 +253,9 @@ class EventItem extends Component {
         const {width, leftIndex, schedulerData} = this.props;
         const {headers} = schedulerData;
         const { endX } = this.state;
-        const tableWidth = schedulerData.getContentTableWidth();
+        const tableWidth = schedulerData.getContentWidth();
         let delta = (ev.clientX - endX);
-        let cellWidth = schedulerData.getContentCellWidthInPixels();
+        let cellWidth = schedulerData.getCellWidthInPixels();
 
         let cellDelta = Math.ceil(delta / cellWidth);
 
@@ -279,10 +279,10 @@ class EventItem extends Component {
         document.documentElement.removeEventListener('mouseup', this.stopEndDrag, false);
 
         const {width, leftIndex, rightIndex, schedulerData, eventItem, updateEventEnd} = this.props;
-        const widthInPixels = (width / 100) * schedulerData.getContentTableWidth();
+        const widthInPixels = (width / 100) * schedulerData.getContentWidth();
         schedulerData._stopResizing();
         const {headers, viewType, events, config, localeMoment} = schedulerData;
-        let cellWidth = schedulerData.getContentCellWidthInPixels();
+        let cellWidth = schedulerData.getCellWidthInPixels();
 
         let offset = leftIndex > 0 ? 5 : 6;
         let minWidth = cellWidth - offset;

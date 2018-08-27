@@ -224,6 +224,9 @@ export class SchedulerData {
     setMinuteStep(minuteStep: MinuteSteps): void;
     setAdornments(adornments: SchedulerAdornment[]): void;
 
+    getCellWidth(): number;
+    getCellWidthInPixels(): number;
+
     updateEventStart?(...args: any[]): any;
     updateEventEnd?(...args: any[]): any;
     prev(): void;
