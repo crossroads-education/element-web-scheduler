@@ -6,7 +6,6 @@ const styles = theme => ({
     rowContainer: {
         borderBottom: theme.borders.row,
         boxSizing: "border-box",
-        backgroundColor: theme.rowColors.even,
         width: "100%",
         height: "100%"
     },
@@ -17,9 +16,6 @@ const styles = theme => ({
         alignItems: "center",
         width: "100%",
         height: "100%",
-        "& .rowContainer:nth-child(odd)": {
-            backgroundColor: theme.rowColors.odd
-        }
     }
 });
 

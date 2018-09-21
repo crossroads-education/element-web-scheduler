@@ -18,7 +18,8 @@ const styles = {
     },
     scheduleBodyContainer: {
         width: "100%",
-        height: "100%"
+        height: "100%",
+        position: "relative"
     }
 }
 
@@ -26,7 +27,6 @@ const styles = {
 export default class Scheduler extends React.Component {
 
     static propTypes = {
-        events: PropTypes.arrayOf(PropTypes.object).isRequired,
         resources: PropTypes.arrayOf(PropTypes.object).isRequired,
         resourceComponent: PropTypes.func.isRequired,
         start: PropTypes.string.isRequired,
@@ -38,22 +38,20 @@ export default class Scheduler extends React.Component {
     render() {
 
         const {events, resources, resourceComponent, start, end, minuteStep} = this.props;
+
         const range= moment.range([moment(start), moment(end)]);
 
-        const daysEvents = events.filter(event => range.contains(moment(event.start)) || range.contains(moment(event.end)));
         const rows = resources.map(resource => {
-            
-            const resourceEvents = daysEvents.filter(event => 
-                {
-                    return event.resourceId === resource.id;
-                }
-            );
+
+            const todaysEvents = (resource.events) ? 
+                resource.events.filter(event => range.contains(moment(event.start)) || range.contains(moment(event.end))) :
+                []
 
             return (
                 <Row 
                     start={start}
                     end={end}
-                    events={resourceEvents}
+                    events={todaysEvents}
                 />
             )
         });
@@ -71,7 +69,7 @@ export default class Scheduler extends React.Component {
                             end={end}
                             minutesPerCell={minuteStep}
                             rowCount={resources.length}
-                            layer={props.backgroundLayer}
+                            layer={this.props.backgroundLayer}
                         />
                         <Body
                             rows={rows}

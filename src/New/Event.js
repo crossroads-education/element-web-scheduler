@@ -10,9 +10,9 @@ const styles = theme => ({
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        border: theme.borders.row,
         position: "absolute",
-        height: "100%"
+        height: "100%",
+        zIndex: props.event.layer || 0
     })
 });
 
