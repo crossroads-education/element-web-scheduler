@@ -6,6 +6,7 @@ import Theme from "./Theme";
 import Moment from "moment";
 import { extendMoment } from "moment-range";
 
+
 const moment = extendMoment(Moment);
 
 const styles = {
@@ -25,6 +26,7 @@ const styles = {
 
 @injectSheet(styles)
 export default class Scheduler extends React.Component {
+    bodyRootRef = React.createRef();
 
     static propTypes = {
         resources: PropTypes.arrayOf(PropTypes.object).isRequired,
@@ -32,14 +34,40 @@ export default class Scheduler extends React.Component {
         start: PropTypes.string.isRequired,
         end: PropTypes.string.isRequired,
         minuteStep: PropTypes.number.isRequired,
-        backgroundLayer: PropTypes.number.isRequired
+        backgroundLayer: PropTypes.number.isRequired,
+        activeLayer: PropTypes.number.isRequired,
+        resizeSnap: PropTypes.bool,
+    }
+
+    resizeEvent = (direction , delta, event) => {
+
+        const originalEvent = this.props.resources.reduce((prev, curr) => prev.concat(curr.events), []).filter((value => value && value.id === event.id))[0];
+
+        const percentChange = delta / this.bodyRootRef.current.clientWidth;
+
+        const time = moment.range([moment(this.props.start), moment(this.props.end)]).valueOf();
+
+        const diff = time * percentChange;
+        
+        const timeLabel = direction === "right" ? "end" : "start";
+
+        const oldTime = moment(event[timeLabel]);
+
+        const newEvent = {...originalEvent, [timeLabel]: oldTime.add(diff, "milliseconds").format("YYYY-MM-DD HH:mm:ss")};
+
+        this.props.resizeEvent(newEvent);
+        //const diff = time * delta / this.
+    }
+
+    stopResizeEvent = (direction, delta, event) => {
+        console.log(direction, delta, event);
     }
 
     render() {
 
-        const {events, resources, resourceComponent, start, end, minuteStep} = this.props;
+        const {resources, resourceComponent, start, end, minuteStep} = this.props;
 
-        const range= moment.range([moment(start), moment(end)]);
+        const range = moment.range([moment(start), moment(end)]);
 
         const rows = resources.map(resource => {
 
@@ -52,6 +80,9 @@ export default class Scheduler extends React.Component {
                     start={start}
                     end={end}
                     events={todaysEvents}
+                    resizeEvent={this.resizeEvent}
+                    stopResizeEvent={this.stopResizeEvent}
+                    activeLayer={this.props.activeLayer}
                 />
             )
         });
@@ -63,7 +94,7 @@ export default class Scheduler extends React.Component {
                         resources={resources}
                         resourceComponent={resourceComponent}
                     />
-                    <div className={this.props.classes.scheduleBodyContainer}>
+                    <div className={this.props.classes.scheduleBodyContainer} ref={this.bodyRootRef}>
                         <Background
                             start={start}
                             end={end}

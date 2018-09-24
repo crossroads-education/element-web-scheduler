@@ -30,6 +30,10 @@ export default class Resources extends React.Component {
         resourceComponent: PropTypes.func.isRequired
     };
 
+    shouldComponentUpdate(){
+        return false;
+    }
+
     render() {
         const ResourceComponent = this.props.resourceComponent;
         return (

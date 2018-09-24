@@ -2,6 +2,7 @@ import * as React from "react";
 import injectSheet from "react-jss";
 import {PropTypes} from "prop-types";
 
+
 const styles = theme => ({
     rowContainer: {
         borderBottom: theme.borders.row,
@@ -33,7 +34,6 @@ export default class Body extends React.Component {
                     <div className={this.props.classes.rowContainer} key={index}>
                         {row}
                     </div>
-
                 ))}
             </div>
         )

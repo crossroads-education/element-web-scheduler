@@ -3,6 +3,7 @@ import injectSheet from "react-jss";
 import {PropTypes} from "prop-types";
 import moment from "moment";
 import Event from "./Event";
+import * as _ from "lodash";
 
 const styles = {
     rowEventContainer: {
@@ -21,6 +22,14 @@ export default class Row extends React.Component {
         end: PropTypes.string.isRequired
     }
 
+    shouldComponentUpdate(nextProps, nextState) {
+        return (
+            !_.isEqual(nextProps.events, this.props.events) ||
+            !_.isEqual(nextProps.start, this.props.start) ||
+            !_.isEqual(nextProps.end, this.props.end) 
+        )
+    }
+
     timespan = (start,end) => moment(end).diff(moment(start),"hours");
 
     width = (eventStart, eventEnd, dayLength) => {
@@ -33,26 +42,23 @@ export default class Row extends React.Component {
         let startDiff = this.timespan(scheduleStart, eventStart);
 
         return startDiff/ dayLength;
-
-        
     }
-
     render() {
         const scheduleTimespan = this.timespan(this.props.start, this.props.end);
 
-
         return (
             <div className={this.props.classes.rowEventContainer}>
-                {this.props.events.map(event => {
-                    return (
-                        <Event 
-                            event={event}
-                            width={this.width(event.start, event.end, scheduleTimespan)}
-                            offset={this.offset(event.start, this.props.start, scheduleTimespan)}
-                            key={event.id}
-                        />
-                    )
-                })}
+                {this.props.events.map(event => (
+                    <Event
+                        key={event.id}
+                        event={event}
+                        width={this.width(event.start,event.end,scheduleTimespan)}
+                        offset={this.offset(event.start,this.props.start,scheduleTimespan)}
+                        resize={this.props.resizeEvent}
+                        stopResize={this.props.stopResizeEvent}
+                        active={this.props.activeLayer===event.layer}
+                    />
+                ))}
             </div>
         )
     }

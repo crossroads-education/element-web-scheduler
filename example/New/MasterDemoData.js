@@ -1,5 +1,6 @@
 import * as React from "react";
 import ShiftEvent from "./ShiftEvent";
+import ShiftResizer from "./ShiftResizer";
 
 export const MasterDemoData = {
     resources: [
@@ -14,7 +15,9 @@ export const MasterDemoData = {
                 title: "2:30p-6:30p",
                 backgroundColor: "#3091FF",
                 layer: 3,
-                component: ShiftEvent
+                component: ShiftEvent,
+                resizable: true,
+                resizeComponent: ShiftResizer
             }]
         },
         {
@@ -32,7 +35,9 @@ export const MasterDemoData = {
                 title: "7:30a-3:30p",
                 backgroundColor: "#3091FF",
                 layer: 3,
-                component: ShiftEvent
+                component: ShiftEvent,
+                resizable: true,
+                resizeComponent: ShiftResizer
             }]
         },
         {
@@ -51,9 +56,5 @@ export const MasterDemoData = {
             id: 'd7',
             name: 'Sat',
         },
-    ],
-    events: [
-        ,
-        
-    ],
+    ]
 }
