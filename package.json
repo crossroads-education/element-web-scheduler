@@ -37,6 +37,7 @@
     "antd": "^3.2.3",
     "classnames": "^2.2.6",
     "lodash": "^4.17.10",
+    "mobx": "^5.1.2",
     "moment": "^2.18.1",
     "moment-range": "^4.0.1",
     "prop-types": "^15.6.1",

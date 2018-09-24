@@ -21,8 +21,6 @@ export default class Event extends React.Component {
 
     static propTypes = {
         event: PropTypes.object.isRequired,
-        width: PropTypes.number.isRequired,
-        offset: PropTypes.number.isRequired,
         resizerComponent: PropTypes.object,
     }
 

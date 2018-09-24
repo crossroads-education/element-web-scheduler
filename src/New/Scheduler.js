@@ -26,7 +26,6 @@ const styles = {
 export default class Scheduler extends React.Component {
 
     static propTypes = {
-        events: PropTypes.arrayOf(PropTypes.object).isRequired,
         resources: PropTypes.arrayOf(PropTypes.object).isRequired,
         resourceComponent: PropTypes.func.isRequired,
         start: PropTypes.string.isRequired,
@@ -38,7 +37,7 @@ export default class Scheduler extends React.Component {
     render() {
 
         const {events, resources, resourceComponent, start, end, minuteStep} = this.props;
-        const range= moment.range([moment(start), moment(end)]);
+        const range = moment.range([moment(start), moment(end)]);
 
         const daysEvents = events.filter(event => range.contains(moment(event.start)) || range.contains(moment(event.end)));
         const rows = resources.map(resource => {
@@ -56,7 +55,7 @@ export default class Scheduler extends React.Component {
                     events={resourceEvents}
                 />
             )
-        });
+        }); 
 
         return (
             <ThemeProvider theme={Theme}>
