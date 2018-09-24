@@ -6,19 +6,19 @@ const styles = theme => ({
     resourceContainer: {
         borderBottom: theme.borders.row,
         boxSizing: "border-box",
-        backgroundColor: theme.rowColors.even
+        backgroundColor: theme.rowColors.even,
+        height: "100%"
     },
     resourcesRoot: {
         display: "flex",
         flexDirection: "column",
         justifyContent: "center",
         alignItems: "center",
-        "& .resourceContainer:nth-child(odd)": {
+        "& $resourceContainer:nth-child(odd)": {
             backgroundColor: theme.rowColors.odd//"#F2F1F1"
         },
         height: "100%",
         borderRight: theme.borders.resources,
-        
     }  
 })
 
@@ -29,6 +29,10 @@ export default class Resources extends React.Component {
         resources: PropTypes.arrayOf(PropTypes.object).isRequired,
         resourceComponent: PropTypes.func.isRequired
     };
+
+    shouldComponentUpdate(){
+        return false;
+    }
 
     render() {
         const ResourceComponent = this.props.resourceComponent;

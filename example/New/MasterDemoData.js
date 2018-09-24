@@ -1,11 +1,24 @@
 import * as React from "react";
 import ShiftEvent from "./ShiftEvent";
+import ShiftResizer from "./ShiftResizer";
 
 export const MasterDemoData = {
     resources: [
         {
             id: 'd1',
             name: 'Sun',
+            events: [{
+                id: 9,
+                start: "2017-12-18 14:30:00",
+                end: "2017-12-18 18:30:00",
+                resourceId: "d1",
+                title: "2:30p-6:30p",
+                backgroundColor: "#3091FF",
+                layer: 3,
+                component: ShiftEvent,
+                resizable: true,
+                resizeComponent: ShiftResizer
+            }]
         },
         {
             id: 'd2',
@@ -14,6 +27,18 @@ export const MasterDemoData = {
         {
             id: 'd3',
             name: 'Tue',
+            events: [{
+                id: 8,
+                start: "2017-12-18 07:30:00",
+                end: "2017-12-18 10:30:00",
+                resourceId: "d3",
+                title: "7:30a-3:30p",
+                backgroundColor: "#3091FF",
+                layer: 3,
+                component: ShiftEvent,
+                resizable: true,
+                resizeComponent: ShiftResizer
+            }]
         },
         {
             id: 'd4',
@@ -31,27 +56,5 @@ export const MasterDemoData = {
             id: 'd7',
             name: 'Sat',
         },
-    ],
-    events: [
-        {
-            id: 8,
-            start: "2017-12-18 07:30:00",
-            end: "2017-12-18 10:30:00",
-            resourceId: "d3",
-            title: "7:30a-3:30p",
-            backgroundColor: "#3091FF",
-            layer: 3,
-            component: ShiftEvent
-        },
-        {
-            id: 9,
-            start: "2017-12-18 14:30:00",
-            end: "2017-12-18 18:30:00",
-            resourceId: "d1",
-            title: "2:30p-6:30p",
-            backgroundColor: "#3091FF",
-            layer: 3,
-            component: ShiftEvent
-        }
-    ],
+    ]
 }
