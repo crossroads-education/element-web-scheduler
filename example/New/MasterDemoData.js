@@ -6,55 +6,79 @@ export const MasterDemoData = {
     resources: [
         {
             id: 'd1',
-            name: 'Sun',
-            events: [{
-                id: 9,
-                start: "2017-12-18 14:30:00",
-                end: "2017-12-18 18:30:00",
-                resourceId: "d1",
-                title: "2:30p-6:30p",
-                backgroundColor: "#3091FF",
-                layer: 3,
-                component: ShiftEvent,
-                resizable: true,
-                resizeComponent: ShiftResizer
-            }]
+            componentProps: {
+                name: 'Sun',
+            }   
+            
+            
         },
         {
             id: 'd2',
-            name: 'Mon',
+            componentProps: {
+                name: 'Mon',
+            }
         },
         {
             id: 'd3',
-            name: 'Tue',
-            events: [{
-                id: 8,
-                start: "2017-12-18 07:30:00",
-                end: "2017-12-18 10:30:00",
-                resourceId: "d3",
-                title: "7:30a-3:30p",
-                backgroundColor: "#3091FF",
-                layer: 3,
-                component: ShiftEvent,
-                resizable: true,
-                resizeComponent: ShiftResizer
-            }]
+            componentProps: {
+                name: 'Tue',
+            }
         },
         {
             id: 'd4',
-            name: 'Wed',
+            componentProps: {
+                name: 'Wed',
+            }
         },
         {
             id: 'd5',
-            name: 'Thu',
+            componentProps: {
+                name: 'Thu',
+            },
         },
         {
             id: 'd6',
-            name: 'Fri',
+            componentProps: {
+                name: 'Fri',
+            }
         },
         {
             id: 'd7',
-            name: 'Sat',
+            componentProps: {
+                name: 'Sat',
+            }
         },
+    ],
+    events: [
+        {
+            id: 9,
+            start: "2017-12-18 14:30:00",
+            end: "2017-12-18 18:30:00",
+            resourceId: "d1",
+            componentProps: {
+                start: "2017-12-18 14:30:00",
+                end: "2017-12-18 18:30:00",
+                backgroundColor: "#3091FF",
+            }, 
+            layer: 3,
+            component: ShiftEvent,
+            resizable: true,
+            resizeComponent: ShiftResizer
+        },
+        {
+            id: 8,
+            start: "2017-12-18 07:30:00",
+            end: "2017-12-18 10:30:00",
+            resourceId: "d3",
+            componentProps: {
+                start: "2017-12-18 7:30:00",
+                end: "2017-12-18 10:30:00",
+                backgroundColor: "#3091FF",
+            },
+            layer: 3,
+            component: ShiftEvent,
+            resizable: true,
+            resizeComponent: ShiftResizer
+        }
     ]
 }

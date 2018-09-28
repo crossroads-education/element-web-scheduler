@@ -3,14 +3,13 @@ import injectSheet from "react-jss";
 import {PropTypes} from "prop-types";
 import Resizer from "./Resizer";
 import {Rnd} from "react-rnd";
+import {observer} from "mobx-react";
 
 const styles = theme => ({
     eventRoot: props => ({
-        width: Math.round(props.width * 100) + "%",
-        left: Math.round(props.offset * 100) + "%",
         position: "absolute",
         height: "100%",
-        zIndex: props.event.layer || 0
+        zIndex: props.eventModel.layer || 0
     }),
     eventContainer: {
         width: "100%",
@@ -30,54 +29,58 @@ const styles = theme => ({
 });
 
 @injectSheet(styles)
+@observer
 export default class Event extends React.Component {
+    eventRef;
+
+    constructor(props) {
+        super(props);
+        this.eventRef = React.createRef();
+    }
 
     static propTypes = {
-        event: PropTypes.object.isRequired,
-        width: PropTypes.number.isRequired,
-        offset: PropTypes.number.isRequired
+        eventModel: PropTypes.object.isRequired
     }
 
     resize = (evt, direction, ref, delta) => {
-        this.props.resize(direction, delta.width, this.props.event);
+        this.props.eventModel.resize(delta.width, direction, this.eventRef.current.offsetParent.clientWidth);
     }
 
-    stopResize = (evt,direction,ref,delta) => {
-        this.props.stopResize(direction, delta.width, this.props.event);
+    resizeStop = (evt, direction, ref, delta) => {
+        this.props.eventModel.stopResize();
     }
+
 
     render() {
-        const {active, event} = this.props;
 
-        const {resizable, movable, component, resizeComponent, ...componentProps} = this.props.event;
+        const Component = this.props.eventModel.component;
 
-        const Component = component;
-
-        const content = (active) ? (
+        const width = this.props.eventModel.width;
+        const left = this.props.eventModel.left;
+        const content = this.props.eventModel.active ? 
             <React.Fragment>
-                {resizable &&
-                    <div className={this.props.classes.resizer} style={{left: 1}} >
-                        <Resizer component={resizeComponent} />
+                {this.props.eventModel.resizable &&
+                    <div className={this.props.classes.resizer} style={{ left: 1 }}>
+                        <Resizer component={this.props.eventModel.resizeComponent} />
                     </div>
                 }
-                <Component {...componentProps} />
-                {resizable &&
-                    <div className={this.props.classes.resizer} style={{right: 1}}>
-                        <Resizer component={resizeComponent} />
+                    <Component {...this.props.eventModel.componentProps} eventModel={this.props.eventModel} />
+                {this.props.eventModel.resizable && 
+                    <div className={this.props.classes.resizer} style={{ right: 1 }}>
+                        <Resizer component={this.props.eventModel.resizeComponent} />
                     </div>
                 }
-            </React.Fragment>
-        ) : (
-            <Component {...componentProps} />
-        );
-
+            </React.Fragment> : 
+          <Component {...this.props.eventModel.componentProps} eventModel={this.props.eventModel} />;
+        console.log(this.eventRef);
         return (
-            <div className={this.props.classes.eventRoot}>
+            <div ref={this.eventRef}>
                 <Rnd
-                    default={{ width: "100%", height: "100%" }}
+                    default={{width: width,height: "100%"}}
                     onResize={this.resize}
+                    onResizeStop={this.resizeStop}
                     disableDragging={true}
-                    enableResizing={{top: false, right: true, bottom: false, left: true, topRight: false, bottomRight: false, bottomLeft: false, topLeft: false}}
+                    enableResizing={{top: false,right: true,bottom: false,left: true,topRight: false,bottomRight: false,bottomLeft: false,topLeft: false}}
                     resizeHandleClasses={{
                         right: this.props.classes.resizer,
                         left: this.props.classes.resizer
@@ -86,12 +89,16 @@ export default class Event extends React.Component {
                         right: {right: -1},
                         left: {lefft: -1}
                     }}
+                    style={{
+                        left
+                    }}
+                    className={this.props.classes.eventRoot}
                 >
                     <div className={this.props.classes.eventContainer}>
                         {content}
                     </div>
                 </Rnd>
-            </div>
+            </div>  
         );
     }
 

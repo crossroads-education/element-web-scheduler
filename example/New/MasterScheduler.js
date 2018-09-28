@@ -1,35 +1,37 @@
 import * as React from "react";
-import Scheduler from "../../src/New/Scheduler";
+import Scheduler from "../../src/New/index";
 import {MasterDemoData} from "./MasterDemoData";
 import ResourceComponent from "./ResourceComponent";
 import * as _ from "lodash";
+import DevTools from "mobx-react-devtools";
 
 export default class MasterScheduler extends React.Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            resources: _.cloneDeep(MasterDemoData.resources)
+            resources: _.cloneDeep(MasterDemoData.resources),
+            events: _.cloneDeep(MasterDemoData.events)
         }
     }
 
-    resizeEvent = newEvent => {
-        const resourceIndex = _.findIndex(this.state.resources, resource => _.find(resource.events, event => event.id === newEvent.id));
-
-        const eventIndex = _.findIndex(this.state.resources[resourceIndex].events, event => event.id === newEvent.id);
-
-        
+    resizeEvent = (newTime, event, timeChanged) => {
+        event[timeChanged] = newTime;
+        event.componentProps[timeChanged]=newTime;
     }
 
     render() {
         return (
             <div style={{width: "100%",height: "100%"}}>
+                <DevTools />
                 <div style={{width: 800,height: 400}}>
                     <Scheduler
                         resources={this.state.resources}
+                        events={this.state.events}
                         resourceComponent={ResourceComponent}
-                        start="2017-12-18 06:00:00"
-                        end="2017-12-18 18:00:00"
+                        startTime={6}
+                        endTime={18}
+                        currentDate={"2017-12-18"}
                         minuteStep={15}
                         backgroundLayer={1}
                         activeLayer={3}
@@ -39,5 +41,4 @@ export default class MasterScheduler extends React.Component {
             </div>
         )
     }
-
 }

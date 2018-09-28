@@ -2,6 +2,7 @@ import * as React from "react";
 import injectSheet from "react-jss";
 import {PropTypes} from "prop-types";
 import moment from "moment";
+import {observer} from "mobx-react";
 
 const styles = theme => ({
     backgroundRoot: {
@@ -39,13 +40,12 @@ const styles = theme => ({
     }
 });
 
+@observer
 @injectSheet(styles)
 export default class Background extends React.Component {
 
     static propTypes = {
-        start: PropTypes.string.isRequired,
-        end: PropTypes.string.isRequired,
-        minutesPerCell: PropTypes.number.isRequired,
+        cells: PropTypes.number.isRequired,
         rowCount: PropTypes.number.isRequired,
         layer: PropTypes.number.isRequired
     }
@@ -77,14 +77,7 @@ export default class Background extends React.Component {
     }
 
     render() {
-        const {classes, start, end, minutesPerCell, rowCount} = this.props;
-
-        const totalMinutes = moment(end).diff(moment(start), "minutes");
-
-        const cells = totalMinutes / minutesPerCell;
-
-        console.log(cells, totalMinutes, minutesPerCell, rowCount);
-
+        const {rowCount, cells, classes} = this.props;
         return (
             <div className={classes.backgroundRoot}>
                 {this.rows(rowCount, cells)}

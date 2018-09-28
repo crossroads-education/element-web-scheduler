@@ -1,6 +1,7 @@
 import * as React from "react";
 import moment from "moment";
 import injectSheet from "react-jss";
+import {observer} from "mobx-react";
 
 const styles = {
     shiftEvent: props => ({
@@ -15,15 +16,14 @@ const styles = {
     }
 }
 
-const ShiftEvent= props => {
+const ShiftEvent = observer(props => {
     const start = moment(props.start).format("h:mm A");
     const end = moment(props.end).format("h:mm A");
-
     return (
         <div className={props.classes.shiftEvent}>
             <span className={props.classes.shiftTitle}> {start} - {end} </span>
         </div>
     )
-};
+});
 
 export default injectSheet(styles)(ShiftEvent);
