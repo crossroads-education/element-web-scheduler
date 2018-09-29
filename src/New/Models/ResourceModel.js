@@ -5,8 +5,8 @@ import {extendMoment} from "moment-range";
 const moment=extendMoment( Moment );
 
 class ResourceModel {
-    @observable events;
     @observable componentProps;
+    events;
     schedule;
     id;
 

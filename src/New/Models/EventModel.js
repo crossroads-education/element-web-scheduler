@@ -33,41 +33,57 @@ class EventModel {
     }
 
     timespan(start, end) {
-        return moment(end).diff(moment(start), "hours");
+        return moment(end).diff(moment(start), "second");
     }
 
-    @computed({name: "width"}) get width() {
-        console.log( "width" );
+    @computed get width() {
         let daySpan = this.timespan(this.schedule.start, this.schedule.end);
 
         let eventSpan = this.timespan(this.start, this.end);
 
-        return ((eventSpan / daySpan) * 100) + "%";
+        return ((eventSpan / daySpan) * 100);
     }
 
-    @computed({name: "left"}) get left() {
-        console.log("left");
+    @computed get left() {
         let daySpan = this.timespan(this.schedule.start, this.schedule.end);
 
         let eventStartOffset = this.timespan(this.schedule.start, this.start);
 
-        return ((eventStartOffset / daySpan) * 100) + "%";
+        return ((eventStartOffset / daySpan) * 100);
     }
 
-    @computed({name: "active"}) get active() {
+    @computed get active() {
         return this.schedule.activeLayer === this.layer;
     }
 
-    @action.bound resize(delta, direction, parentWidth) {       
-        const incrementalDelta = delta - this.sizeDelta;
-        const percentAdjusted = incrementalDelta/parentWidth;
-        const percentTimeChange = percentAdjusted * (this.schedule.endTime - this.schedule.startTime)
-        const changeTime = (direction === "left") ? "start" : "end";
-        const newTime=moment( this[changeTime] ).add( percentTimeChange,"hour" );
-        runInAction(() => {this.schedule.doResize( newTime.format( "YYYY-MM-DD hh:mm" ), this, changeTime)});
+    @action resize(delta, direction, parentWidth) {
+ 
+        let incrementalDelta = delta - this.sizeDelta;
+
+        this.sizeDelta = delta;
+
+        const percentShift = incrementalDelta / parentWidth;
+
+        const hours = this.schedule.endTime - this.schedule.startTime;
+    
+        const timeChange = percentShift * hours;
+
+        const startOrEnd = (direction === "right") ? "end" : "start";
+
+        const oldTime = moment(this[startOrEnd]);
+
+        let newTime;
+
+        if (startOrEnd === "end") {
+            newTime = oldTime.add(timeChange, "hours");
+        } else {
+            newTime = oldTime.subtract(timeChange, "hours");
+        }
+
+        runInAction(this.schedule.doResize(newTime,this,startOrEnd));
     }
 
-    @action.bound stopResize() {
+    @action stopResize() {
         this.sizeDelta = 0;
     }
 }

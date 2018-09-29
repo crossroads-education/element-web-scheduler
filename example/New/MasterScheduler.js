@@ -16,11 +16,12 @@ export default class MasterScheduler extends React.Component {
     }
 
     resizeEvent = (newTime, event, timeChanged) => {
-        event[timeChanged] = newTime;
-        event.componentProps[timeChanged]=newTime;
+        event[timeChanged] = newTime.format();
+        event.componentProps[timeChanged]=newTime.format();
     }
 
     render() {
+        console.log(this.state.events);
         return (
             <div style={{width: "100%",height: "100%"}}>
                 <DevTools />
@@ -36,6 +37,7 @@ export default class MasterScheduler extends React.Component {
                         backgroundLayer={1}
                         activeLayer={3}
                         resizeEvent={this.resizeEvent}
+                        resizeSnap={true}
                     />
                 </div>
             </div>

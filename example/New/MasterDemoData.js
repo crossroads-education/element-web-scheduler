@@ -53,11 +53,11 @@ export const MasterDemoData = {
         {
             id: 9,
             start: "2017-12-18 14:30:00",
-            end: "2017-12-18 18:30:00",
+            end: "2017-12-18 18:00:00",
             resourceId: "d1",
             componentProps: {
                 start: "2017-12-18 14:30:00",
-                end: "2017-12-18 18:30:00",
+                end: "2017-12-18 18:00:00",
                 backgroundColor: "#3091FF",
             }, 
             layer: 3,
