@@ -48,11 +48,11 @@ export default class Event extends React.Component {
     }
 
     resize = (evt, direction, ref, delta) => {
-        this.props.eventModel.resize(delta.width, direction, this.parentWidth());
+        this.props.resize(delta.width, direction);
     }
 
     resizeStop = (evt, direction, ref, delta) => {
-        this.props.eventModel.stopResize();
+        this.props.stopResize();
     }
 
     render() {
@@ -61,7 +61,7 @@ export default class Event extends React.Component {
         const width = this.props.eventModel.width;
         const left = this.props.eventModel.left;
 
-        const resizeSize = (this.props.eventModel.schedule.resizeSnap)? this.parentWidth()/this.props.eventModel.schedule.cells : 1;
+        const resizeAmount = 
         
         const content = this.props.eventModel.active ? 
             <React.Fragment>

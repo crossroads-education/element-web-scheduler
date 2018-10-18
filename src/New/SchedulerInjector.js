@@ -2,6 +2,9 @@ import * as React from "react";
 import SchedulerStore from "./Stores/SchedulerStore";
 
 const SchedulerInjector = (Scheduler) => (props) => {
+
+
+    
     const store = new SchedulerStore(
             props.resources, 
             props.events, 

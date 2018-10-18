@@ -1,8 +1,6 @@
 import * as React from "react";
 import injectSheet from "react-jss";
 import {PropTypes} from "prop-types";
-import Event from "./Event";
-import * as _ from "lodash";
 import {observer} from "mobx-react";
 
 const styles = {
@@ -28,12 +26,18 @@ export default class Row extends React.Component {
         
         return (
             <div className={this.props.classes.rowEventContainer}>
-                {events.map(event => (
-                    <Event
+                {events.map(event => {
+                    return (<event.component
                         key={event.id}
                         eventModel={event}
-                    />
-                ))}
+                        active={event.active}
+                        componentProps={event.componentProps}
+                        resizable={event.resizable}
+                        width={event.width}
+                        left={event.left}
+                        resizeAmount={event.resizeAmount}
+                    />);
+                })}
             </div>
         )
     }

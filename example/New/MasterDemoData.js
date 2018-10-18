@@ -9,8 +9,6 @@ export const MasterDemoData = {
             componentProps: {
                 name: 'Sun',
             }   
-            
-            
         },
         {
             id: 'd2',

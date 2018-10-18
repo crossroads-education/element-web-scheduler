@@ -25,10 +25,20 @@ const styles = {
 @injectSheet(styles)
 @observer
 class Scheduler extends React.Component {
+    bodyRootRef;
+
+    constructor(props) {
+        super(props);
+        this.bodyRootRef = React.createRef();
+    }
 
     static propTypes = {
         schedulerStore: PropTypes.object.isRequired,
         resourceComponent: PropTypes.func.isRequired,
+    }
+
+    componentDidMount() {
+        this.props.schedulerStore.setBodySize(this.bodyRootRef);
     }
 
     render() {
@@ -63,5 +73,4 @@ class Scheduler extends React.Component {
     }
 }
 
-const InjectedScheduler = SchedulerInjector(Scheduler);
-export default InjectedScheduler;
+export default Scheduler;

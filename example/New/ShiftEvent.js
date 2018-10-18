@@ -2,6 +2,7 @@ import * as React from "react";
 import moment from "moment";
 import injectSheet from "react-jss";
 import {observer} from "mobx-react";
+import { EventWrapper } from "../../src/New/"
 
 const styles = {
     shiftEvent: props => ({
@@ -16,7 +17,7 @@ const styles = {
     }
 }
 
-const ShiftEvent = observer(props => {
+const ShiftEvent = props => {
     const start = moment(props.start).format("h:mm A");
     const end = moment(props.end).format("h:mm A");
     return (
@@ -24,6 +25,8 @@ const ShiftEvent = observer(props => {
             <span className={props.classes.shiftTitle}> {start} - {end} </span>
         </div>
     )
-});
+};
 
-export default injectSheet(styles)(ShiftEvent);
+const styled = injectSheet(styles)(ShiftEvent);
+
+export default EventWrapper(styled);

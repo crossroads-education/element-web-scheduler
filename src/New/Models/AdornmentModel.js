@@ -11,6 +11,10 @@ class AdornmentModel {
         this.resourceRow = resourceRow;
     }
 
+    @computed get adornmentProps() {
+        return this.adornmentProps;
+    }
+
 
 }
 

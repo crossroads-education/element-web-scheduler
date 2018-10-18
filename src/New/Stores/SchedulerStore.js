@@ -1,4 +1,4 @@
-import {observable, computed} from "mobx"
+import {observable, computed, action} from "mobx"
 import Moment from "moment";
 import {extendMoment} from "moment-range";
 const moment = extendMoment(Moment);
@@ -13,19 +13,30 @@ class SchedulerStore {
     @observable resizeSnap;
     @observable activelayer;
     @observable backgroundLayer;
-    doResize;
+    @observable bodySize;
 
-    constructor(resources, events, startTime, endTime, currentDate, minuteStep, resizeSnap, activeLayer, backgroundLayer, doResize) {
+    constructor(resources, events, startTime, 
+                endTime, currentDate, minuteStep, 
+                resizeSnap, activeLayer, backgroundLayer,
+                resizeEvent, stopResize, 
+    ) {
         this.startTime = startTime;
         this.endTime = endTime;
         this.currentDate = currentDate;
         this.minuteStep = minuteStep;
-        this.resources = resources.map(resource => new ResourceModel(resource.id, events.filter(event => event.resourceId === resource.id), resource.componentProps, this));
+        this.resources = resources.map(resource => {
+            let resourceEvents = events.filter(event => event.resourceId === resource.id);
+            return new ResourceModel(resource.id, resourceEvents, resource.componentProps, this)
+        });
         this.resizeSnap = resizeSnap;
         this.activeLayer = activeLayer;
         this.backgroundLayer = backgroundLayer;
-        this.doResize = doResize;
-        
+        this.resizeEvent = resizeEvent;
+        this.stopResize = stopResize;
+    }
+
+    @action setBodySize = (ref) => {
+        this.bodySize = ref.current.clientWidth;
     }
 
     @computed get start() {
@@ -53,6 +64,10 @@ class SchedulerStore {
         }
 
         return headers;
+    }
+
+    @computed get events() {
+       return this.resources.reduce((events, resource) => (events = events.concat(resource.events  )), []);
     }
 
 }
