@@ -4,6 +4,7 @@ import {PropTypes} from "prop-types";
 import {Background, Body,  Row, Resources} from "./";
 import Theme from "./Theme";
 import { observer } from "mobx-react";
+import {MuiThemeProvider, createMuiTheme} from "@material-ui/core";
 
 const styles = {
     schedulerContainer: {
@@ -34,6 +35,7 @@ class Scheduler extends React.Component {
     static propTypes = {
         schedulerStore: PropTypes.object.isRequired,
         resourceComponent: PropTypes.func.isRequired,
+        popoverComponent: PropTypes.func
     }
 
     componentDidMount() {
@@ -51,24 +53,27 @@ class Scheduler extends React.Component {
 
         return (
             <ThemeProvider theme={Theme}>
-                <div className={this.props.classes.schedulerContainer}>
-                    <Resources
-                        resources={schedulerStore.resources}
-                        resourceComponent={resourceComponent}
-                    />
-                    <div className={this.props.classes.scheduleBodyContainer} ref={this.bodyRootRef}>
-                        <Background
-                            cells={schedulerStore.cells}
-                            rowCount={schedulerStore.resources.length} 
-                            layer={schedulerStore.backgroundLayer}
+                <MuiThemeProvider theme={createMuiTheme()}>
+                    <div className={this.props.classes.schedulerContainer}>
+                        <Resources
+                            resources={schedulerStore.resources}
+                            resourceComponent={resourceComponent}
                         />
-                        <Body
-                            rows={rows}
-                            activeLayer={schedulerStore.activeLayer}
-                        />
+                        <div className={this.props.classes.scheduleBodyContainer} ref={this.bodyRootRef}>
+                            <Background
+                                cells={schedulerStore.cells}
+                                rowCount={schedulerStore.resources.length} 
+                                layer={schedulerStore.backgroundLayer}
+                            />
+                            <Body
+                                rows={rows}
+                                activeLayer={schedulerStore.activeLayer}
+                            />
+                        </div>
                     </div>
-                </div>
+                </MuiThemeProvider>
             </ThemeProvider>
+            
         )
     }
 }

@@ -1,7 +1,6 @@
 import * as React from "react";
 import moment from "moment";
 import injectSheet from "react-jss";
-import {observer} from "mobx-react";
 import { EventWrapper } from "../../src/New/"
 
 const styles = {

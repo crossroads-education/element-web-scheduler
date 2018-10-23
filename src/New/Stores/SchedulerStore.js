@@ -15,11 +15,15 @@ class SchedulerStore {
     @observable backgroundLayer;
     @observable bodyWidth;
     @observable bodyHeight;
+    @observable createEvent;
+    renderPopover;
+    openEvent;
 
     constructor(resources, events, startTime, 
                 endTime, currentDate, minuteStep, 
                 resizeSnap, activeLayer, backgroundLayer,
-                resizeEvent, stopResize, 
+                resizeEvent, stopResize, createEvent,
+                renderPopover
     ) {
         this.startTime = startTime;
         this.endTime = endTime;
@@ -34,6 +38,8 @@ class SchedulerStore {
         this.backgroundLayer = backgroundLayer;
         this.resizeEvent = resizeEvent;
         this.stopResize = stopResize;
+        this.createEvent = createEvent;
+        this.renderPopover = renderPopover; 
     }
 
     @action setBodySize = (ref) => {
@@ -66,7 +72,7 @@ class SchedulerStore {
     }
 
     @computed get cells() {
-        return this.end.diff(this.start, "hour") * (60 / this.minuteStep);
+        return this.end.diff(this.start, "hour") * (60 / 30);
     }
 
     @computed get hours() {
@@ -100,6 +106,19 @@ class SchedulerStore {
         return (delta / this.bodyWidth) * this.hours;
     }
 
+    togglePopver(event) {
+        if (!this.openEvent) {
+            console.log(event);
+            this.openEvent = event;
+        } else {
+            if (this.openEvent.id === event.id) {
+                this.openEvent = undefined;
+            } else {
+                this.openEvent.togglePopver();
+                this.openEvent = event;
+            }
+        }
+    }
 }
 
 export default SchedulerStore;

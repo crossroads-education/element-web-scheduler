@@ -18,7 +18,7 @@ class EventModel {
     @observable componentProps;
     @observable y;
     @observable displayPopup;
-    
+    @observable anchorElement;
 
     constructor(id, schedule, layer, start, end, resourceId, component, resizeComponent, componentProps, resizable, movable) {
         this.id = id;
@@ -36,7 +36,6 @@ class EventModel {
         this.y = 0; 
         this.deltaX = 0; 
         this.displayPopup = false;
-        
     }
 
     timespan(start, end) {
@@ -63,7 +62,7 @@ class EventModel {
         return this.schedule.activeLayer === this.layer;
     }
 
-    @action startDrag = (evt, position) => {
+    @action startResize = (evt, position) => {
         return false;
     }
 
@@ -78,16 +77,19 @@ class EventModel {
 
         let newTime, timeChange = 0;
 
-        this.deltaX += data.deltaX
+        console.log(evt.clientX)
+
+        if (this.deltaX == 0) this.deltaX = evt.clientX;
+
+        const delta = evt.clientX - this.deltaX;
 
         const currentTime = moment(this[side]);
 
         if ( this.schedule.resizeSnap ) {
-
-            if (Math.abs(this.deltaX) >= this.schedule.cellWidth * .8) { // this gives a more 'natural drag feel'
+            if (Math.abs(delta) >= this.schedule.cellWidth * .5) { // this gives a more 'natural drag feel'
                 // for an explanation of this line please see this issue on github https://github.com/crossroads-education/element-web-scheduler/issues/1
-                this.deltaX = (side === "start") ? this.deltaX % this.schedule.cellWidth : 0;
-                timeChange = Math.sign(data.deltaX) * this.schedule.hoursStep
+                this.deltaX = evt.clientX;
+                timeChange = Math.sign(delta) * this.schedule.hoursStep
             }
         }
 
@@ -96,12 +98,16 @@ class EventModel {
         this.schedule.resizeEvent(newTime, this, side);
     }
 
-    @action toggleOpen = () => {
-        this.displayPopup = !this.displayPopup;
+    @action togglePopover = target => {
+        if ( this.layer === this.schedule.activeLayer ) {
+            this.schedule.togglePopver(this);
+            this.displayPopup = !this.displayPopup;
+            this.anchorElement = this.displayPopup ? target : undefined;
+        }
     }
 
     @action stopResize = () => {
-        this.deltaX  = 0;
+        this.deltaX = 0;
     }
 
     @computed get resizeAmount() {

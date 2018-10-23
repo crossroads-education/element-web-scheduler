@@ -35,15 +35,24 @@ function WrapEventComponent(WrappedComponent) {
             this.props.eventModel.resize(e, data, side);
         }
 
+        togglePopover = (e) => {
+            this.props.eventModel.togglePopover(e.target);
+        }
+
         render () {
+
             return (
                 <Draggable
                     position={{x: this.props.left, y: this.props.eventModel.y}}
                     cancel={"." + this.props.classes.eventResizer}
                     onStart={this.props.eventModel.startDrag}
                     onStop={this.props.eventModel.drag}
+                    
                 >
-                    <div className={this.props.classes.eventRoot}>
+                    <div 
+                        className={this.props.classes.eventRoot}
+                        onClick={this.togglePopover}
+                    >
                         {this.props.resizable &&
                             <DraggableCore
                                 onDrag={(e, data) => {this.resize(e, data, "start")}}
@@ -67,7 +76,13 @@ function WrapEventComponent(WrappedComponent) {
                                 </div>
                             </DraggableCore>
                         }
+                        <this.props.eventModel.schedule.renderPopover 
+                            open={this.props.eventModel.displayPopup}
+                            anchor={this.props.eventModel.anchorElement}
+                            eventModel={this.props.eventModel}
+                        />
                     </div>
+                    
                 </Draggable>
             )
         }

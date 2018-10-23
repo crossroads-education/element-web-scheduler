@@ -1,6 +1,7 @@
 import {observable, action} from "mobx"
 import {MasterDemoData} from "../MasterDemoData";
 import {SchedulerStore} from "../../../src/New";
+import PopoverComponent from "../PopoverComponent";
 import _ from "lodash";
 
 class MasterScheduleStore {
@@ -18,7 +19,8 @@ class MasterScheduleStore {
             r, e, 6, 
             18, "2017-12-17", 15,
             true, 3, 1,
-            this.resizeEvent, this.stopResize
+            this.resizeEvent, this.stopResize, this.createEvent,
+            PopoverComponent
         );
 
         this.schedulerStore = schedule;
@@ -30,6 +32,10 @@ class MasterScheduleStore {
     }
 
     @action stopResize = () => {
+
+    }
+
+    @action createEvent = () => {
 
     }
 }
