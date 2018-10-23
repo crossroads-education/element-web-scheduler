@@ -4,7 +4,6 @@ import {PropTypes} from "prop-types";
 import {Background, Body,  Row, Resources} from "./";
 import Theme from "./Theme";
 import { observer } from "mobx-react";
-import SchedulerInjector from "./SchedulerInjector"
 
 const styles = {
     schedulerContainer: {
@@ -65,6 +64,7 @@ class Scheduler extends React.Component {
                         />
                         <Body
                             rows={rows}
+                            activeLayer={schedulerStore.activeLayer}
                         />
                     </div>
                 </div>

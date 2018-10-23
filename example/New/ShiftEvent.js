@@ -13,7 +13,9 @@ const styles = {
         border: "solid 1px rgba(255,255,255,0.4)"
     }),
     shiftTitle: {
-        marginLeft: "8px", lineHeight: "100% - 8px"
+        marginLeft: "8px", 
+        lineHeight: "100% - 8px",
+        userSelect: "none"
     }
 }
 

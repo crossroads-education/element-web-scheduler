@@ -6,8 +6,8 @@ import {observer} from "mobx-react";
 const styles = {
     rowEventContainer: {
         width: "100%",
-        height: "100%",
-        position: "relative"
+        position: "relative",
+        height: "100%"
     }
 }
 
@@ -35,7 +35,6 @@ export default class Row extends React.Component {
                         resizable={event.resizable}
                         width={event.width}
                         left={event.left}
-                        resizeAmount={event.resizeAmount}
                     />);
                 })}
             </div>

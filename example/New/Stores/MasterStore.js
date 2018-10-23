@@ -1,6 +1,7 @@
 import {observable, action} from "mobx"
 import {MasterDemoData} from "../MasterDemoData";
 import {SchedulerStore} from "../../../src/New";
+import _ from "lodash";
 
 class MasterScheduleStore {
     schedulerStore;
@@ -15,7 +16,7 @@ class MasterScheduleStore {
 
         const schedule = new SchedulerStore( 
             r, e, 6, 
-            18, "2017-12-18", 30,
+            18, "2017-12-17", 15,
             true, 3, 1,
             this.resizeEvent, this.stopResize
         );
@@ -24,8 +25,8 @@ class MasterScheduleStore {
     }
 
     @action resizeEvent = (newTime, event, timeChanged) => {
-        event[timeChanged] = newTime;
-        event.componentProps[timeChanged] = newTime;
+        event[timeChanged] = newTime.format();
+        event.componentProps[timeChanged] = newTime.format();
     }
 
     @action stopResize = () => {

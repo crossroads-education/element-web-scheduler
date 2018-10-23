@@ -3,7 +3,7 @@ import injectSheet from "react-jss";
 
 const styles = {
     shiftResizer: {
-        width: 6,
+        width: 25,
         height: "calc(100% - 12px)",
         backgroundColor: "white",
         border: "solid 1px black",

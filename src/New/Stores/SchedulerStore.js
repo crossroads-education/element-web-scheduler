@@ -13,7 +13,8 @@ class SchedulerStore {
     @observable resizeSnap;
     @observable activelayer;
     @observable backgroundLayer;
-    @observable bodySize;
+    @observable bodyWidth;
+    @observable bodyHeight;
 
     constructor(resources, events, startTime, 
                 endTime, currentDate, minuteStep, 
@@ -36,7 +37,20 @@ class SchedulerStore {
     }
 
     @action setBodySize = (ref) => {
-        this.bodySize = ref.current.clientWidth;
+        this.bodyWidth = ref.current.clientWidth;
+        this.bodyHeight = ref.current.clientHeight;
+    }
+
+    @action setDate = date => {
+        this.currentDate = date;
+    }
+
+    @action decrementDate = () => {
+        this.setDate(moment(this.currentDate).subtract(1, "day").format());
+    }
+
+    @action incrementDate = () => {
+        this.setDate(moment(this.currentDate).add(1, "day").format());
     }
 
     @computed get start() {
@@ -55,6 +69,14 @@ class SchedulerStore {
         return this.end.diff(this.start, "hour") * (60 / this.minuteStep);
     }
 
+    @computed get hours() {
+        return this.start - this.end
+    }
+
+    @computed get cellWidth() {
+        return this.bodyWidth / this.cells;
+    }
+
     @computed get headers() {
         const hours = this.endTime - this.startTime;
         const headers = [];
@@ -66,8 +88,16 @@ class SchedulerStore {
         return headers;
     }
 
+    @computed get hoursStep() {
+        return this.minuteStep / 60;
+    }
+
     @computed get events() {
-       return this.resources.reduce((events, resource) => (events = events.concat(resource.events  )), []);
+       return this.resources.reduce((events, resource) => (events = events.concat(resource.events )), []);
+    }
+
+    getResizeTime(delta) {
+        return (delta / this.bodyWidth) * this.hours;
     }
 
 }

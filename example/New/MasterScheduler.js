@@ -4,6 +4,7 @@ import {observer}from "mobx-react";
 import ResourceComponent from "./ResourceComponent";
 import * as _ from "lodash";
 import DevTools from "mobx-react-devtools";
+import Datepicker from "./Datepicker"
 
 @observer
 export default class MasterScheduler extends React.Component {
@@ -19,6 +20,11 @@ export default class MasterScheduler extends React.Component {
             <div style={{width: "100%",height: "100%"}}>
                 <DevTools />
                 <div style={{width: 1600,height: 800}}>
+                    <Datepicker 
+                        currentDate={Store.schedulerStore.currentDate} 
+                        incrementDate={Store.schedulerStore.incrementDate}
+                        decrementDate={Store.schedulerStore.decrementDate}
+                    />
                     <Scheduler
                         schedulerStore={Store.schedulerStore}
                         resourceComponent={ResourceComponent}

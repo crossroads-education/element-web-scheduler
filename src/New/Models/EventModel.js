@@ -1,5 +1,5 @@
 import {observable, computed, action, runInAction} from "mobx"
-import moment from "moment";
+import moment, {months} from "moment";
 
 
 class EventModel {
@@ -8,13 +8,16 @@ class EventModel {
     schedule;
     component;
     resizeComponent;
-    sizeDelta;
+    deltaX;
+    @observable sizeDelta;
     @observable start;
     @observable end;
     @observable resourceId;
     @observable resizable;
     @observable movable;
     @observable componentProps;
+    @observable y;
+    @observable displayPopup;
     
 
     constructor(id, schedule, layer, start, end, resourceId, component, resizeComponent, componentProps, resizable, movable) {
@@ -30,7 +33,10 @@ class EventModel {
         this.resizable = resizable;
         this.movable = movable;
         this.schedule = schedule;
-        this.sizeDelta = 0;
+        this.y = 0; 
+        this.deltaX = 0; 
+        this.displayPopup = false;
+        
     }
 
     timespan(start, end) {
@@ -42,7 +48,7 @@ class EventModel {
 
         let eventSpan = this.timespan(this.start, this.end); // hours, minutes, seconds, in event time length
 
-        return ((eventSpan / daySpan) * 100); 
+        return ((eventSpan / daySpan) * 100 + "%"); 
     }
 
     @computed get left() {
@@ -50,49 +56,52 @@ class EventModel {
 
         let eventStartOffset = this.timespan(this.schedule.start, this.start); // hours, minutes, seconds time after 
 
-        return ((eventStartOffset / daySpan) * 100);
+        return ((eventStartOffset / daySpan) * this.schedule.bodyWidth) ;
     }
 
     @computed get active() {
         return this.schedule.activeLayer === this.layer;
     }
 
-    @action resize(delta, direction) {
+    @action startDrag = (evt, position) => {
+        return false;
+    }
 
-        let incrementalDelta = delta - this.sizeDelta;
+    @action drag = (evt, position) => {
+        this.x = this.left;
+        this.y = this.y;
+    }
 
-        this.sizeDelta = delta;
+    @action resize = (evt, data, side) => {
 
-        const percentShift = incrementalDelta / this.schedule.bodySize;
+        if (data.deltaX === 0) return;
 
-        const hours = this.schedule.endTime - this.schedule.startTime;
-    
-        const timeChange = percentShift * hours;
+        let newTime, timeChange = 0;
 
-        const startOrEnd = (direction === "right") ? "end" : "start";
+        this.deltaX += data.deltaX
 
-        const oldTime = moment(this[startOrEnd]);
+        const currentTime = moment(this[side]);
 
-        let newTime;
+        if ( this.schedule.resizeSnap ) {
 
-        if (startOrEnd === "end") {
-            newTime = oldTime.add(timeChange, "hours");
-        } else {
-            newTime = oldTime.subtract(timeChange, "hours");
-        }
-
-        if(this.schedule.resizeSnap) {
-            if(newTime.minutes() % this.schedule.minuteStep) { // if it didn't snap
-                const corrected = Math.round(newTime.minutes() / this.schedule.minuteStep) * this.schedule.minuteStep;
-                newTime.minutes(corrected).seconds(0);    
+            if (Math.abs(this.deltaX) >= this.schedule.cellWidth * .8) { // this gives a more 'natural drag feel'
+                // for an explanation of this line please see this issue on github https://github.com/crossroads-education/element-web-scheduler/issues/1
+                this.deltaX = (side === "start") ? this.deltaX % this.schedule.cellWidth : 0;
+                timeChange = Math.sign(data.deltaX) * this.schedule.hoursStep
             }
         }
 
-        this.schedule.resizeEvent(newTime, this, startOrEnd);
+        newTime = currentTime.add(timeChange, "hours");
+
+        this.schedule.resizeEvent(newTime, this, side);
     }
 
-    @action stopResize() {
-        this.sizeDelta = 0;
+    @action toggleOpen = () => {
+        this.displayPopup = !this.displayPopup;
+    }
+
+    @action stopResize = () => {
+        this.deltaX  = 0;
     }
 
     @computed get resizeAmount() {
