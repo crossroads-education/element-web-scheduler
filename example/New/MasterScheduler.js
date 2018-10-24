@@ -5,6 +5,7 @@ import ResourceComponent from "./ResourceComponent";
 import * as _ from "lodash";
 import DevTools from "mobx-react-devtools";
 import Datepicker from "./Datepicker"
+import AdornmentComponent from "./AdornmentComponent";
 
 @observer
 export default class MasterScheduler extends React.Component {
@@ -28,6 +29,7 @@ export default class MasterScheduler extends React.Component {
                     <Scheduler
                         schedulerStore={Store.schedulerStore}
                         resourceComponent={ResourceComponent}
+                        adornmentComponent={AdornmentComponent}
                     />
                 </div>
             </div>

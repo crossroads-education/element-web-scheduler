@@ -5,6 +5,7 @@ import {Background, Body,  Row, Resources} from "./";
 import Theme from "./Theme";
 import { observer } from "mobx-react";
 import {MuiThemeProvider, createMuiTheme} from "@material-ui/core";
+import Adornments from "./Adornments";
 
 const styles = {
     schedulerContainer: {
@@ -35,7 +36,7 @@ class Scheduler extends React.Component {
     static propTypes = {
         schedulerStore: PropTypes.object.isRequired,
         resourceComponent: PropTypes.func.isRequired,
-        popoverComponent: PropTypes.func
+        adornmentComponent: PropTypes.func
     }
 
     componentDidMount() {
@@ -70,6 +71,12 @@ class Scheduler extends React.Component {
                                 activeLayer={schedulerStore.activeLayer}
                             />
                         </div>
+                        {this.props.adornmentComponent &&
+                            <Adornments 
+                                resources={schedulerStore.resources}
+                                adornmentComponent={this.props.adornmentComponent}
+                            />
+                        }
                     </div>
                 </MuiThemeProvider>
             </ThemeProvider>

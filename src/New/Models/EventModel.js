@@ -62,6 +62,10 @@ class EventModel {
         return this.schedule.activeLayer === this.layer;
     }
 
+    @computed get duration() {
+        return this.timespan(this.start, this.end) / (60 * 60); 
+    }
+
     @action startResize = (evt, position) => {
         return false;
     }
@@ -76,8 +80,6 @@ class EventModel {
         if (data.deltaX === 0) return;
 
         let newTime, timeChange = 0;
-
-        console.log(evt.clientX)
 
         if (this.deltaX == 0) this.deltaX = evt.clientX;
 
@@ -110,9 +112,6 @@ class EventModel {
         this.deltaX = 0;
     }
 
-    @computed get resizeAmount() {
-        return (this.schedule.resizeSnap) ? (this.schedule.bodySize / this.schedule.cells) : 1;
-    }
 }
 
 export default EventModel;
