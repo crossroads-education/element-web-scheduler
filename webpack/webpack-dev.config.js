@@ -3,7 +3,7 @@ var path = require('path');
 
 module.exports = {
   mode:'development',
-  entry: "./example/New/app.js",
+  entry: "./example/app.js",
   output: {
     path: path.join(__dirname,'output'),
     filename: "bundle.js",
