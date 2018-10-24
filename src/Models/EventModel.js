@@ -33,6 +33,7 @@ class EventModel {
         this.resizable = resizable;
         this.day = day;
         this.deltaX = 0;
+        this.displayPopup = false;
     }
 
     timespan(start, end) {
@@ -87,8 +88,7 @@ class EventModel {
     }
 
     @action drag = (evt, position) => {
-        this.x = this.left;
-        this.y = this.y;
+        
     }
 
     @action resize = (evt, data, side) => {
@@ -103,7 +103,7 @@ class EventModel {
 
         const currentTime = this["_" + side]; // get moment computed side
 
-        if (Math.abs(delta) >= this.schedule.ui.cellWidth * .5) { // this gives a more 'natural drag feel'
+        if (Math.abs(delta) >= this.schedule.ui.cellWidth * .375) { // this gives a more 'natural drag feel'
             this.deltaX = evt.clientX;
             timeChange = Math.sign(delta) * .25 // one quarter hour
         }

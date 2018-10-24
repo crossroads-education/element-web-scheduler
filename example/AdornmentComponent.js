@@ -8,7 +8,7 @@ const AdornmentComponent = props => {
 
     return (
         <div style={{width: "200px", height: "100%"}}>
-            <p> {todaysHours} </p>
+            <span> {todaysHours} </span>
         </div>
     )
 }

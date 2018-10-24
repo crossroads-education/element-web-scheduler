@@ -9,8 +9,7 @@ const styles = theme => ({
         borderBottom: theme.borders.row,
         boxSizing: "border-box",
         width: "100%",
-        flex: 1,
-        zIndex: props => props.activeLayer
+        flex: 1
     },
     bodyRoot: {
         display: "flex",
@@ -18,8 +17,7 @@ const styles = theme => ({
         justifyContent: "center",
         alignItems: "center",
         width: "100%",
-        height: "100%",
-        zIndex: props => props.activeLayer
+        height: "100%"
     }
 });
 

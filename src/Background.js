@@ -50,6 +50,10 @@ export default class Background extends React.Component {
         layer: PropTypes.number.isRequired
     }
 
+    addEvent = e => {
+        console.log(e);
+    }
+
     rows = (rowCount, cellCount) => {
         let rows = [];
         for(var i = 0; i < rowCount; i++) {
@@ -69,7 +73,7 @@ export default class Background extends React.Component {
         let cells = [];
         for(var i = 0; i < count; i++) {
             cells.push(
-                <div className="backgroundCell" key={i}/>
+                <div className="backgroundCell" key={i} onClick={this.addEvent}/>
             )
         }
 

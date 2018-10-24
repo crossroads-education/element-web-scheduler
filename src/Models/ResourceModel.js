@@ -1,8 +1,5 @@
-import {observable,computed} from "mobx"
+import {observable,computed, action} from "mobx"
 import EventModel from "./EventModel";
-import Moment from "moment";
-import {extendMoment} from "moment-range";
-const moment = extendMoment( Moment );
 
 class ResourceModel {
     @observable componentProps;
@@ -26,9 +23,12 @@ class ResourceModel {
 
     @computed get todaysEvents() {
         const range = this.schedule.date.range;
-        
         return this.events.filter(event => range.contains(event._start) || range.contains(event._end));
-    }   
+    }
+
+    @action createEvent() {
+        
+    }
 
 }
 

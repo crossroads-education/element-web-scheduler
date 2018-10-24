@@ -6,7 +6,6 @@ import {observer} from "mobx-react";
 const styles = {
     rowEventContainer: {
         width: "100%",
-        position: "relative",
         height: "100%"
     }
 }

@@ -7,7 +7,7 @@ const styles = theme => ({
         borderBottom: theme.borders.row,
         boxSizing: "border-box",
         backgroundColor: theme.rowColors.even,
-        height: "100%"
+        flex: 1
     },
     resourcesRoot: {
         display: "flex",

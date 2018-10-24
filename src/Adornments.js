@@ -9,7 +9,7 @@ const styles = theme => ({
         borderBottom: theme.borders.row,
         boxSizing: "border-box",
         backgroundColor: theme.rowColors.even,
-        height: "100%"
+        flex: 1
     },
     adornmentRoot: {
         display: "flex",
@@ -17,10 +17,10 @@ const styles = theme => ({
         justifyContent: "center",
         alignItems: "center",
         "& $adornmentContainer:nth-child(odd)": {
-            backgroundColor: theme.rowColors.odd//"#F2F1F1"
+            backgroundColor: theme.rowColors.odd
         },
         height: "100%",
-        borderRight: theme.borders.resources,
+        borderLeft: theme.borders.resources,
     }  
 })
 
@@ -28,7 +28,7 @@ const Adornments = props => {
     return (
         <div className={props.classes.adornmentRoot}>
             {props.resources.map(resource => (
-                <div className={props.classes.adornmentContainer}>
+                <div className={props.classes.adornmentContainer} key={resource.id}>
                     <props.render resource={resource}/>
                 </div>
             ))}
