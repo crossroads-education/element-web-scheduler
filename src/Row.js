@@ -27,7 +27,7 @@ export default class Row extends React.Component {
         return (
             <div className={this.props.classes.rowEventContainer}>
                 {events.map(event => {
-                    return (<event.component
+                    return (<event.render
                         key={event.id}
                         eventModel={event}
                         active={event.active}

@@ -3,7 +3,7 @@ import {observer} from "mobx-react";
 
 const AdornmentComponent = props => {
     const todaysHours = props.resource.todaysEvents.reduce((hours, event) => {
-        hours += event.duration;
+        return hours += event.duration;
     }, 0)
 
     return (

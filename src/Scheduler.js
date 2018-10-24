@@ -34,21 +34,19 @@ class Scheduler extends React.Component {
     }
 
     static propTypes = {
-        schedulerStore: PropTypes.object.isRequired,
-        resourceComponent: PropTypes.func.isRequired,
-        adornmentComponent: PropTypes.func
+        schedulerStore: PropTypes.object.isRequired
     }
 
     componentDidMount() {
-        this.props.schedulerStore.setBodySize(this.bodyRootRef);
+        this.props.schedulerStore.ui.setBodySize(this.bodyRootRef);
     }
 
     render() {
-        const {schedulerStore, resourceComponent} = this.props;
+        const {schedulerStore} = this.props;
         const rows = schedulerStore.resources.map(resource => (
             <Row
                 rowModel={resource}
-                activeLayer={schedulerStore.activeLayer}
+                activeLayer={schedulerStore.ui.activeLayer}
             />
         )); 
 
@@ -58,23 +56,23 @@ class Scheduler extends React.Component {
                     <div className={this.props.classes.schedulerContainer}>
                         <Resources
                             resources={schedulerStore.resources}
-                            resourceComponent={resourceComponent}
+                            render={schedulerStore.ui.renderResource}
                         />
                         <div className={this.props.classes.scheduleBodyContainer} ref={this.bodyRootRef}>
                             <Background
                                 cells={schedulerStore.cells}
                                 rowCount={schedulerStore.resources.length} 
-                                layer={schedulerStore.backgroundLayer}
+                                layer={schedulerStore.ui.backgroundLayer}
                             />
                             <Body
                                 rows={rows}
-                                activeLayer={schedulerStore.activeLayer}
+                                activeLayer={schedulerStore.ui.activeLayer}
                             />
                         </div>
-                        {this.props.adornmentComponent &&
+                        {schedulerStore.ui.renderAdornment &&
                             <Adornments 
                                 resources={schedulerStore.resources}
-                                adornmentComponent={this.props.adornmentComponent}
+                                render={schedulerStore.ui.renderAdornment}
                             />
                         }
                     </div>

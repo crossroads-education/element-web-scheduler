@@ -22,14 +22,12 @@ export default class MasterScheduler extends React.Component {
                 <DevTools />
                 <div style={{width: 1600,height: 800}}>
                     <Datepicker 
-                        currentDate={Store.schedulerStore.currentDate} 
-                        incrementDate={Store.schedulerStore.incrementDate}
-                        decrementDate={Store.schedulerStore.decrementDate}
+                        currentDay={Store.schedulerStore.date.currentDay} 
+                        incrementDate={Store.schedulerStore.date.incrementDate}
+                        decrementDate={Store.schedulerStore.date.decrementDate}
                     />
                     <Scheduler
                         schedulerStore={Store.schedulerStore}
-                        resourceComponent={ResourceComponent}
-                        adornmentComponent={AdornmentComponent}
                     />
                 </div>
             </div>

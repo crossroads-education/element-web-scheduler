@@ -24,7 +24,7 @@ const styles = {
 class Datepicker extends React.Component {
 
     static propTypes = {
-        currentDate: PropTypes.string.isRequired,
+        currentDay: PropTypes.number.isRequired,
         incrementDate: PropTypes.func.isRequired,
         decrementDate: PropTypes.func.isRequired
     }
@@ -39,7 +39,7 @@ class Datepicker extends React.Component {
                 >
                     Prev
                 </button>
-                <p> {moment(this.props.currentDate).format("dddd")} </p>
+                <p> {moment().day(this.props.currentDay).format("dddd")} </p>
                 <button 
                     className={this.props.classes.button}
                     onClick={() => {this.props.decrementDate()}}

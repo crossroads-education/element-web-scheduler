@@ -27,16 +27,15 @@ export default class Resources extends React.Component {
 
     static propTypes = {
         resources: PropTypes.arrayOf(PropTypes.object).isRequired,
-        resourceComponent: PropTypes.func.isRequired
+        render: PropTypes.func.isRequired
     };
 
     render() {
-        const ResourceComponent = this.props.resourceComponent;
         return (
             <div className={this.props.classes.resourcesRoot}>
                 {this.props.resources.map(resource => (
                     <div className={this.props.classes.resourceContainer} key={resource.id}>
-                        <ResourceComponent {...resource.componentProps} />
+                        <this.props.render {...resource.componentProps} />
                     </div>
                 ))}
             </div>

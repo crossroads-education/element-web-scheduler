@@ -9,11 +9,11 @@ const styles = theme => ( {
         height: "100%",
         zIndex: props.eventModel.layer || 0,
         width: props.width,
-        transform: "translateX(" + props.left + ")",
+        transform: "translateX(" + props.left + "px)",
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        
+        position: "relative"
     }),
     eventResizer: {
         position: "absolute",
@@ -47,7 +47,6 @@ function WrapEventComponent(WrappedComponent) {
                     cancel={"." + this.props.classes.eventResizer}
                     onStart={this.props.eventModel.startDrag}
                     onStop={this.props.eventModel.drag}
-                    
                 >
                     <div 
                         className={this.props.classes.eventRoot}
@@ -60,7 +59,7 @@ function WrapEventComponent(WrappedComponent) {
                                 axis="x"
                             >
                                 <div style={{left: 1}} className={this.props.classes.eventResizer}>
-                                    <this.props.eventModel.resizeComponent />
+                                    <this.props.eventModel.resizer />
                                 </div>
                             </DraggableCore>
                         }
@@ -72,11 +71,11 @@ function WrapEventComponent(WrappedComponent) {
                                 axis="x"
                             >
                                 <div style={{right: 1}} className={this.props.classes.eventResizer}>
-                                    <this.props.eventModel.resizeComponent />
+                                    <this.props.eventModel.resizer />
                                 </div>
                             </DraggableCore>
                         }
-                        <this.props.eventModel.schedule.renderPopover 
+                        <this.props.eventModel.popover
                             open={this.props.eventModel.displayPopup}
                             anchor={this.props.eventModel.anchorElement}
                             eventModel={this.props.eventModel}

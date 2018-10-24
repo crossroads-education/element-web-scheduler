@@ -12,7 +12,7 @@ module.exports = {
     sourceMapFilename: '[name].map'
   },
   devServer: {
-    contentBase: path.join('example/New'),
+    contentBase: path.join('example'),
     compress: true,
     port: 9000,
     historyApiFallback: true,

@@ -1,5 +1,6 @@
 import {observable, computed, action, runInAction} from "mobx"
 import moment, {months} from "moment";
+import {timingSafeEqual} from "crypto";
 
 
 class EventModel {
@@ -12,6 +13,7 @@ class EventModel {
     @observable sizeDelta;
     @observable start;
     @observable end;
+    @observable day;    
     @observable resourceId;
     @observable resizable;
     @observable movable;
@@ -20,22 +22,17 @@ class EventModel {
     @observable displayPopup;
     @observable anchorElement;
 
-    constructor(id, schedule, layer, start, end, resourceId, component, resizeComponent, componentProps, resizable, movable) {
+    constructor(id, start, end, resourceId, componentProps, schedule, layer, resizable, day) {
         this.id = id;
-        this.layer = layer;
         this.start = start;
         this.end = end;
         this.resourceId = resourceId;
-        this.resizeComponent = resizeComponent;
-        this.component = component;
-        this.resizeComponent 
         this.componentProps = componentProps;
-        this.resizable = resizable;
-        this.movable = movable;
         this.schedule = schedule;
-        this.y = 0; 
-        this.deltaX = 0; 
-        this.displayPopup = false;
+        this.layer = layer;
+        this.resizable = resizable;
+        this.day = day;
+        this.deltaX = 0;
     }
 
     timespan(start, end) {
@@ -43,27 +40,46 @@ class EventModel {
     }
 
     @computed get width() {
-        let daySpan = this.timespan(this.schedule.start, this.schedule.end); // hours, minutes, seconds in one schedule period
+        let daySpan = this.timespan(this.schedule.date.start, this.schedule.date.end); // hours, minutes, seconds in one schedule period
 
-        let eventSpan = this.timespan(this.start, this.end); // hours, minutes, seconds, in event time length
+        let eventSpan = this.timespan(this._start, this._end); // hours, minutes, seconds, in event time length
 
         return ((eventSpan / daySpan) * 100 + "%"); 
     }
 
     @computed get left() {
-        let daySpan = this.timespan(this.schedule.start, this.schedule.end);
-
-        let eventStartOffset = this.timespan(this.schedule.start, this.start); // hours, minutes, seconds time after 
-
-        return ((eventStartOffset / daySpan) * this.schedule.bodyWidth) ;
+        let daySpan = this.timespan(this.schedule.date.start, this.schedule.date.end);
+        
+        let eventStartOffset = this.timespan(this.schedule.date.start, this._start); // hours, minutes, seconds time after 
+        return ((eventStartOffset / daySpan) * this.schedule.ui.bodyWidth);
     }
 
     @computed get active() {
-        return this.schedule.activeLayer === this.layer;
+        return this.schedule.ui.activeLayer === this.layer;
+    }
+
+    @computed get _start() {
+        return moment(this.start, "HH:mm:ss").day(this.day);
+    }
+
+    @computed get _end() {
+        return moment(this.end, "HH:mm:ss").day(this.day);
     }
 
     @computed get duration() {
-        return this.timespan(this.start, this.end) / (60 * 60); 
+        return this.timespan(this._start, this._end) / (60 * 60); 
+    }
+
+    @computed get render() {
+        return this.schedule.ui.renderLayers[this.layer].event;
+    }
+
+    @computed get resizer() {
+        return this.schedule.ui.renderLayers[this.layer].resizer;
+    }
+
+    @computed get popover() {
+        return this.schedule.ui.renderPopover;
     }
 
     @action startResize = (evt, position) => {
@@ -85,14 +101,11 @@ class EventModel {
 
         const delta = evt.clientX - this.deltaX;
 
-        const currentTime = moment(this[side]);
+        const currentTime = this["_" + side]; // get moment computed side
 
-        if ( this.schedule.resizeSnap ) {
-            if (Math.abs(delta) >= this.schedule.cellWidth * .5) { // this gives a more 'natural drag feel'
-                // for an explanation of this line please see this issue on github https://github.com/crossroads-education/element-web-scheduler/issues/1
-                this.deltaX = evt.clientX;
-                timeChange = Math.sign(delta) * this.schedule.hoursStep
-            }
+        if (Math.abs(delta) >= this.schedule.ui.cellWidth * .5) { // this gives a more 'natural drag feel'
+            this.deltaX = evt.clientX;
+            timeChange = Math.sign(delta) * .25 // one quarter hour
         }
 
         newTime = currentTime.add(timeChange, "hours");
@@ -101,8 +114,8 @@ class EventModel {
     }
 
     @action togglePopover = target => {
-        if ( this.layer === this.schedule.activeLayer ) {
-            this.schedule.togglePopver(this);
+        if ( this.active ) {
+            this.schedule.ui.togglePopover(this);
             this.displayPopup = !this.displayPopup;
             this.anchorElement = this.displayPopup ? target : undefined;
         }

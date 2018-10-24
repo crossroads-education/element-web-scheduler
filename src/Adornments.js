@@ -29,7 +29,7 @@ const Adornments = props => {
         <div className={props.classes.adornmentRoot}>
             {props.resources.map(resource => (
                 <div className={props.classes.adornmentContainer}>
-                    <props.adornmentComponent resource={resource}/>
+                    <props.render resource={resource}/>
                 </div>
             ))}
         </div>

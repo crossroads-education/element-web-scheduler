@@ -2,7 +2,7 @@ import {observable,computed} from "mobx"
 import EventModel from "./EventModel";
 import Moment from "moment";
 import {extendMoment} from "moment-range";
-const moment=extendMoment( Moment );
+const moment = extendMoment( Moment );
 
 class ResourceModel {
     @observable componentProps;
@@ -14,25 +14,21 @@ class ResourceModel {
         this.schedule = schedule;
         this.id = id;
         this.componentProps = componentProps;
-        this.events = events.map(event => new EventModel(
-            event.id, 
-            this.schedule, 
-            event.layer, 
-            event.start, 
-            event.end, 
-            event.resourceId, 
-            event.component, 
-            event.resizeComponent, 
-            event.componentProps,
-            event.resizable, 
-            event.movable
-        ));
+        
+        this.events = events.map(event => 
+            new EventModel(
+                event.id, event.start, event.end, 
+                event.resourceId, event.componentProps, schedule, 
+                event.layer, event.resizable, event.day,
+            )
+        );
     } 
 
     @computed get todaysEvents() {
-        const range = this.schedule.range;
-        return this.events.filter(event => range.contains(moment(event.end)) || range.contains(moment(event.start)));
-    }
+        const range = this.schedule.date.range;
+        
+        return this.events.filter(event => range.contains(event._start) || range.contains(event._end));
+    }   
 
 }
 

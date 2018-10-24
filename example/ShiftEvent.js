@@ -19,8 +19,8 @@ const styles = {
 }
 
 const ShiftEvent = props => {
-    const start = moment(props.start).format("h:mm A");
-    const end = moment(props.end).format("h:mm A");
+    const start = moment(props.eventModel.start, "HH:mm:ss").format("h:mm A");
+    const end = moment(props.eventModel.end, "HH:mm:ss").format("h:mm A");
     return (
         <div className={props.classes.shiftEvent}>
             <span className={props.classes.shiftTitle}> {start} - {end} </span>
