@@ -54,8 +54,6 @@ class MasterScheduleStore {
     @action createEvent = (newEvent, resource, startTime) => {
         const start = this.schedulerStore.date.start.clone().add(startTime, "hours").format("HH:mm:ss");
         const end = this.schedulerStore.date.start.clone().add(startTime + .5, "hours").format("HH:mm:ss");
-
-        console.log(start, end);
         const event = new EventModel({
             ...newEvent, 
             ...{

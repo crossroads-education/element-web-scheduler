@@ -51,7 +51,6 @@ class EventModel {
 
     @computed get left() {
         let daySpan = this.timespan(this.schedule.date.start, this.schedule.date.end);
-        
         let eventStartOffset = this.timespan(this.schedule.date.start, this._start); // hours, minutes, seconds time after 
         return ((eventStartOffset / daySpan) * this.schedule.ui.bodyWidth);
     }
@@ -96,22 +95,33 @@ class EventModel {
 
         if (data.deltaX === 0) return;
 
-        let newTime, timeChange = 0;
+        let error = false;
 
         if (this.deltaX == 0) this.deltaX = evt.clientX;
 
         const delta = evt.clientX - this.deltaX;
 
-        const currentTime = this["_" + side]; // get moment computed side
+        let currentTime = this["_" + side].clone(); // get moment computed side
 
         if (Math.abs(delta) >= this.schedule.ui.cellWidth * .375) { // this gives a more 'natural drag feel'
+            
             this.deltaX = evt.clientX;
-            timeChange = Math.sign(delta) * .25 // one quarter hour
+
+            const timeChange = Math.sign(delta) * .25 // one quarter hour
+
+            const newTime = currentTime.add(timeChange, "hours");
+
+            if (side === "start") {
+                if(this._end.isSameOrBefore(newTime) || this.schedule.date.start.isAfter(newTime)) error = true;
+            } else {
+                if(this._start.isSameOrAfter(newTime) || this.schedule.date.end.isBefore(newTime)) error = true;
+            }
+
+            if(!error) this.schedule.resizeEvent(newTime, this, side);
         }
 
-        newTime = currentTime.add(timeChange, "hours");
-
-        this.schedule.resizeEvent(newTime, this, side);
+        
+        
     }
 
     @action togglePopover = target => {
