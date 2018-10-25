@@ -61,7 +61,7 @@ class Scheduler extends React.Component {
                         <div className={this.props.classes.scheduleBodyContainer} ref={this.bodyRootRef}>
                             <Background
                                 cells={schedulerStore.cells}
-                                rowCount={schedulerStore.resources.length} 
+                                rows={schedulerStore.resources}
                                 layer={schedulerStore.ui.backgroundLayer}
                             />
                             <Body

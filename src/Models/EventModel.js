@@ -1,12 +1,12 @@
-import {observable, computed, action, runInAction} from "mobx"
-import moment, {months} from "moment";
-import {timingSafeEqual} from "crypto";
+import {observable, computed, action} from "mobx"
+import moment from "moment";
 
 
 class EventModel {
     id;
     layer;
     schedule;
+    resource;
     component;
     resizeComponent;
     deltaX;
@@ -22,13 +22,14 @@ class EventModel {
     @observable displayPopup;
     @observable anchorElement;
 
-    constructor(id, start, end, resourceId, componentProps, schedule, layer, resizable, day) {
+    constructor({id, start, end, resourceId, componentProps, schedule, resource, layer, resizable, day} = {}) {
         this.id = id;
         this.start = start;
         this.end = end;
         this.resourceId = resourceId;
         this.componentProps = componentProps;
         this.schedule = schedule;
+        this.resource = resource;
         this.layer = layer;
         this.resizable = resizable;
         this.day = day;
@@ -123,6 +124,10 @@ class EventModel {
 
     @action stopResize = () => {
         this.deltaX = 0;
+    }
+
+    @action delete = () => {
+
     }
 
 }

@@ -7,6 +7,8 @@ import ShiftResizer from "../ShiftResizer";
 import ResourceComponent from "../ResourceComponent";
 import AdornmentComponent from "../AdornmentComponent";
 import _ from "lodash";
+import EventModel from "../../src/Models/EventModel";
+import moment from "moment";
 
 class MasterScheduleStore {
     schedulerStore;
@@ -49,7 +51,24 @@ class MasterScheduleStore {
 
     @action stopResize = () => {}
 
-    @action createEvent = () => {}
+    @action createEvent = (newEvent, resource, startTime) => {
+        const start = this.schedulerStore.date.start.clone().add(startTime, "hours").format("HH:mm:ss");
+        const end = this.schedulerStore.date.start.clone().add(startTime + .5, "hours").format("HH:mm:ss");
+
+        console.log(start, end);
+        const event = new EventModel({
+            ...newEvent, 
+            ...{
+                start, 
+                end, 
+                resizable: true,
+                componentProps: {
+                    backgroundColor: "#3091FF"
+                }
+            }
+        });
+        resource.events.push(event);
+    }
 }
 
 export default MasterScheduleStore

@@ -32,7 +32,6 @@ class SchedulerStore {
         return this.date.hours * (60 / 30);
     }
 
-    
 }
 
 export default SchedulerStore;

@@ -13,7 +13,7 @@ const styles = theme => ( {
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        position: "relative"
+        position: "absolute"
     }),
     eventResizer: {
         position: "absolute",

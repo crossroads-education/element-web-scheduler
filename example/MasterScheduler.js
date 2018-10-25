@@ -3,7 +3,7 @@ import Scheduler from "../src/index";
 import {observer}from "mobx-react";
 import ResourceComponent from "./ResourceComponent";
 import * as _ from "lodash";
-import DevTools from "mobx-react-devtools";
+import DevTools, {configureDevtool} from "mobx-react-devtools";
 import Datepicker from "./Datepicker"
 import AdornmentComponent from "./AdornmentComponent";
 

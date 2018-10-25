@@ -35,7 +35,7 @@ class DateModel {
         return moment(this.endTime, "HH:mm:ss").day(this.currentDay);
     }
 
-    @computed get range() {
+    @computed.struct get range() {
         return moment.range([this.start, this.end]);
     }
 

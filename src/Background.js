@@ -46,34 +46,34 @@ export default class Background extends React.Component {
 
     static propTypes = {
         cells: PropTypes.number.isRequired,
-        rowCount: PropTypes.number.isRequired,
+        rows: PropTypes.array.isRequired,
         layer: PropTypes.number.isRequired
     }
 
-    addEvent = e => {
-        console.log(e);
+    addEvent = (e, row) => {
+        row.createEvent(e.target.offsetLeft);
     }
 
-    rows = (rowCount, cellCount) => {
-        let rows = [];
-        for(var i = 0; i < rowCount; i++) {
-            const cells = this.cells(cellCount)
-           
-            rows.push(
+    rows = (rows, cellCount) => {
+        let backgroundRows = [];
+        rows.forEach((row, i) => {
+            const cells = this.cells(cellCount, row);
+
+            backgroundRows.push(
                 <div className="backgroundRow" key={i}>
                     {cells}
                 </div>
             )
-        }
+        });
 
-        return rows;
+        return backgroundRows;
     }
 
-    cells = count => {
+    cells = (count, row) => {
         let cells = [];
         for(var i = 0; i < count; i++) {
             cells.push(
-                <div className="backgroundCell" key={i} onClick={this.addEvent}/>
+                <div className="backgroundCell" key={i} onClick={e => this.addEvent(e, row)}/>
             )
         }
 
@@ -81,10 +81,10 @@ export default class Background extends React.Component {
     }
 
     render() {
-        const {rowCount, cells, classes} = this.props;
+        const {rows, cells, classes} = this.props;
         return (
             <div className={classes.backgroundRoot}>
-                {this.rows(rowCount, cells)}
+                {this.rows(rows, cells)}
             </div>
         )
     }
