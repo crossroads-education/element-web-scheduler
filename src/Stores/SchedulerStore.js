@@ -11,14 +11,37 @@ class SchedulerStore {
     stopResize;
     createEvent;
 
-    constructor( init = {} ) {
+    constructor( 
+        init = {
+            resources: [], 
+            events: [],
+            
+            renderLayers: {},
+            renderResource: undefined,
+            renderPopover: undefined,
+            renderAdornment: undefined,
+            activeLayer: undefined,
+            backgroundLayer: undefined,
+
+            resizeEvent: undefined,
+            stopResize: undefined,
+            createEvent: undefined,
+
+            startTime: "",
+            endTime: "",
+            currentDay: undefined
+            
+        } 
+    ) {
         this.date = new DateModel(init.startTime, init.endTime, init.currentDay);
         this.resources = init.resources.map(resource => {
             let resourceEvents = init.events.filter(event => event.resourceId === resource.id);
             return new ResourceModel(resource.id, resourceEvents, resource.componentProps, this)
         });
         this.ui = new UiModel(init.renderLayers, init.renderResource, this, 
-                                    init.activeLayer, init.backgroundLayer, init.renderPopover, init.renderAdornment);
+                                init.activeLayer, init.backgroundLayer, 
+                                init.renderPopover, init.renderAdornment
+                            );
         this.resizeEvent = init.resizeEvent;
         this.stopResize = init.stopResize;
         this.createEvent = init.createEvent;

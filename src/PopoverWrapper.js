@@ -25,7 +25,7 @@ function PopoverWrapper(WrappedComponent) {
                     }}
                     variant="contained"
                 >
-                    <WrappedComponent eventModel={eventModel} />
+                    <WrappedComponent eventModel={eventModel} {...this.props} />
                 </Popover>
             )
         }

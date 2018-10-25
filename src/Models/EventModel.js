@@ -119,9 +119,6 @@ class EventModel {
 
             if(!error) this.schedule.resizeEvent(newTime, this, side);
         }
-
-        
-        
     }
 
     @action togglePopover = target => {

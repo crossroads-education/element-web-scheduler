@@ -25,7 +25,7 @@ const styles = theme => ( {
 });
 
 
-function WrapEventComponent(WrappedComponent) {
+function EventWrapper(WrappedComponent) {
 
     @observer 
     @injectSheet(styles)
@@ -90,4 +90,4 @@ function WrapEventComponent(WrappedComponent) {
     return Event;
 }
 
-export default WrapEventComponent;
+export default EventWrapper;
