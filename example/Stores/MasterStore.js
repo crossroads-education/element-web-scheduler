@@ -1,14 +1,12 @@
 import {observable, action} from "mobx"
 import {MasterDemoData} from "../MasterDemoData";
-import {SchedulerStore} from "../../src/";
+import {SchedulerStore, EventModel} from "../../src/";
 import PopoverComponent from "../PopoverComponent";
 import ShiftEvent from "../ShiftEvent";
 import ShiftResizer from "../ShiftResizer";
 import ResourceComponent from "../ResourceComponent";
 import AdornmentComponent from "../AdornmentComponent";
 import _ from "lodash";
-import EventModel from "../../src/Models/EventModel";
-import moment from "moment";
 
 class MasterScheduleStore {
     schedulerStore;

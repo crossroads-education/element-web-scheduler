@@ -1,11 +1,9 @@
 import * as React from "react";
-import Scheduler from "../src/index";
+import Scheduler from "../src/";
 import {observer}from "mobx-react";
-import ResourceComponent from "./ResourceComponent";
 import * as _ from "lodash";
-import DevTools, {configureDevtool} from "mobx-react-devtools";
+import DevTools from "mobx-react-devtools";
 import Datepicker from "./Datepicker"
-import AdornmentComponent from "./AdornmentComponent";
 
 @observer
 export default class MasterScheduler extends React.Component {
