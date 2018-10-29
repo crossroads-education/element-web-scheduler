@@ -11,8 +11,9 @@ class UiModel {
     @observable bodyHeight;
     @observable activeLayer;
     @observable backgroundLayer;
+    @observable resourceWidth;
 
-    constructor(renderLayers, renderResource, schedule, activeLayer, backgroundLayer, renderPopover, renderAdornment) {
+    constructor(renderLayers, renderResource, schedule, activeLayer, backgroundLayer, renderPopover, renderAdornment, displayHeaders) {
         this.renderLayers = renderLayers;
         this.renderResource = renderResource;
         this.schedule = schedule;
@@ -20,6 +21,7 @@ class UiModel {
         this.renderAdornment = renderAdornment;
         this.activeLayer = activeLayer;
         this.backgroundLayer = backgroundLayer;
+        this.displayHeaders = displayHeaders
     }
 
     @action setBodySize = (ref) => {
@@ -28,7 +30,11 @@ class UiModel {
     }
     
     @computed get cellWidth() {
-        return this.bodyWidth / this.schedule.cells;
+        return this.bodyWidth / this.schedule.cells.length;
+    }
+
+    @action setResourceSize = (ref) => {
+        this.resourceWidth = ref.current.clientWidth;
     }
 
     togglePopover(event) {
@@ -42,6 +48,10 @@ class UiModel {
                 this.openEventPopover = event;
             }
         }
+    }
+
+    @computed get headers() {
+        return Array.from(this.schedule.date.range.by("hour")).map(m => m.format("ha").slice(0, -1));
     }
 }
 

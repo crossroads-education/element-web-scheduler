@@ -35,7 +35,8 @@ class MasterScheduleStore {
               renderAdornment: AdornmentComponent,
               resizeEvent: this.resizeEvent,
               stopResize: this.stopResize,
-              createEvent: this.createEvent
+              createEvent: this.createEvent,
+              displayHeaders: true
            }
         );
 
