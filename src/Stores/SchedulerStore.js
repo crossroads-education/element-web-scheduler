@@ -29,8 +29,9 @@ class SchedulerStore {
 
             startTime: "",
             endTime: "",
-            currentDay: undefined
+            currentDay: undefined,
             
+            displayHeaders: false
         } 
     ) {
         this.date = new DateModel(init.startTime, init.endTime, init.currentDay);
@@ -40,7 +41,7 @@ class SchedulerStore {
         });
         this.ui = new UiModel(init.renderLayers, init.renderResource, this, 
                                 init.activeLayer, init.backgroundLayer, 
-                                init.renderPopover, init.renderAdornment
+                                init.renderPopover, init.renderAdornment, init.displayHeaders
                             );
         this.resizeEvent = init.resizeEvent;
         this.stopResize = init.stopResize;
@@ -51,9 +52,13 @@ class SchedulerStore {
        return this.resources.reduce((events, resource) => (events = events.concat(resource.events )), []);
     }
 
-     @computed get cells() {
-        return this.date.hours * (60 / 30);
+    @computed get cells() {
+        const cells = Array.from(this.date.range.by("minute", {step: 30})).map(m => m.format("H:mm"));
+        cells.shift();
+        return cells;
     }
+
+    
 
 }
 

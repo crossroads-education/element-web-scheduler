@@ -101,9 +101,9 @@ class EventModel {
 
         const delta = evt.clientX - this.deltaX;
 
-        let currentTime = this["_" + side].clone(); // get moment computed side
-
         if (Math.abs(delta) >= this.schedule.ui.cellWidth * .375) { // this gives a more 'natural drag feel'
+
+            let currentTime = this["_" + side].clone(); // get moment computed side
             
             this.deltaX = evt.clientX;
 

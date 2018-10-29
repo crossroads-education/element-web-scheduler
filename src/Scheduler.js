@@ -18,21 +18,51 @@ const styles = {
         height: "100%",
         position: "relative",
         display: "flex",
-        flexDirection: "column"
+    },
+    rowRoot: {
+        width: "100%",
+        height: "100%",
+        display: "flex",
+        flexDirection: "column",
+        borderLeft: "solid 1px #BEBEBE",
+        borderRight: "solid 1px #BEBEBE",
+        "& $rowContainer:first-child": {
+            borderTop:"solid 1px #BEBEBE"
+        }
     },
     rowContainer: {
         display: "flex",
-        flex: 1
-    },
-    resourceContainer: {
-
+        flex: 1,
+        borderBottom: "solid 1px #BEBEBE"
     },
     eventContainer: {
         width: "100%",
         position: "relative"
     },
-    adornmentContainer: {
-
+    cellRoot: {
+        display: "flex",
+        position: "absolute",
+        width: "100%",
+        height: "100%",
+        "& $backgroundCell:nth-child(2n)": {
+            borderLeft: "dashed 1px #D4D4D4"
+        },
+        borderRight: "solid 1px #BEBEBE"
+    },
+    backgroundCell: {
+        width: "100%",
+        height: "100%",
+        borderLeft: "solid 1px #BEBEBE",
+        borderBottom: "solid 1px #BEBEBE"
+    },
+    headerRoot: {
+        display: "flex"
+    },
+    headerContainer: {
+        display: "flex"
+    },
+    header: {
+        width: "100%"
     }
 }
 
@@ -45,6 +75,7 @@ class Scheduler extends React.Component {
     constructor(props) {
         super(props);
         this.bodyRootRef = React.createRef();
+        this.resourceRef = React.createRef();
     }
 
     static propTypes = {
@@ -53,6 +84,7 @@ class Scheduler extends React.Component {
 
     componentDidMount() {
         this.props.schedulerStore.ui.setBodySize(this.bodyRootRef);
+        this.props.schedulerStore.ui.setResourceSize(this.resourceRef);
     }
 
     render() {
@@ -64,31 +96,52 @@ class Scheduler extends React.Component {
             <ThemeProvider theme={Theme}>
                 <MuiThemeProvider theme={createMuiTheme()}>
                     <div className={this.props.classes.scheduleBodyContainer} >
-                        {schedulerStore.resources.map(resource => (
-                            <div className={classes.rowContainer} key={resource.id}>
-                                <div className={classes.resourceContainer}>
-                                    <ui.renderResource {...resource.componentProps} resource={resource} />
-                                </div> 
-                                <div className={classes.eventContainer} ref={this.bodyRootRef}>
-                                    {resource.todaysEvents.map(event => {
-                                        return (<event.render
-                                            key={event.id}
-                                            eventModel={event}
-                                            active={event.active}
-                                            componentProps={event.componentProps}
-                                            resizable={event.resizable}
-                                            width={event.width}
-                                            left={event.left}
-                                        />);
-                                    })}
+                        <div className={classes.rowRoot}>
+                            <div className={classes.headerRoot}>
+                                <div className={classes.resourceContainer} style={{width: ui.resourceWidth}}>
+
                                 </div>
-                                <div className={classes.adornmentContainer}>
-                                    <ui.renderAdornment resource={resource} />
-                                </div>
-                                <div className={classes.backgroundRoot}>
-                                </div>
+                                {ui.displayHeaders && 
+                                    <div className={classes.headerContainer} style={{width: ui.bodyWidth}}>
+                                        {schedulerStore.ui.headers.map(header => (
+                                            <div className={classes.header} key={header}> 
+                                                {header}
+                                            </div>
+                                        ))}
+                                    </div>
+                                }
                             </div>
-                        ))}
+                            {schedulerStore.resources.map(resource => (
+                                <div className={classes.rowContainer} key={resource.id}>
+                                    <div className={classes.resourceContainer} ref={this.resourceRef} >
+                                        <ui.renderResource {...resource.componentProps} resource={resource} />
+                                    </div> 
+                                    <div className={classes.eventContainer} ref={this.bodyRootRef}>
+                                        {resource.todaysEvents.map(event => {
+                                            return (<event.render
+                                                key={event.id}
+                                                eventModel={event}
+                                                active={event.active}
+                                                componentProps={event.componentProps}
+                                                resizable={event.resizable}
+                                                width={event.width}
+                                                left={event.left}
+                                            />);
+                                        })}
+                                        <div className={classes.cellRoot}> 
+                                            {schedulerStore.cells.map(cell => (
+                                                <div key={cell} className={classes.backgroundCell}/>
+                                            ))}
+                                        </div>
+                                    </div>
+                                    <div className={classes.adornmentContainer}>
+                                        <ui.renderAdornment resource={resource} />
+                                    </div>
+                                    
+                                </div>
+                            ))}
+                        </div>
+                        
                     </div>
                 </MuiThemeProvider>
             </ThemeProvider>
