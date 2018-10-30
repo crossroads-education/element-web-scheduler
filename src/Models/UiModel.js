@@ -30,7 +30,7 @@ class UiModel {
     }
     
     @computed get cellWidth() {
-        return this.bodyWidth / this.schedule.cells.length;
+        return this.bodyWidth / (this.schedule.cells.length + 1); // this is to add the truncated cell back in
     }
 
     @action setResourceSize = (ref) => {
@@ -51,7 +51,9 @@ class UiModel {
     }
 
     @computed get headers() {
-        return Array.from(this.schedule.date.range.by("hour")).map(m => m.format("ha").slice(0, -1));
+        const headers = Array.from(this.schedule.date.range.by("hour")).map(m => m.format("ha").slice(0, -1));
+        headers.shift();
+        return headers;
     }
 }
 

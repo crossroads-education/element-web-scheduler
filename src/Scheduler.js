@@ -103,9 +103,14 @@ class Scheduler extends React.Component {
                                 </div>
                                 {ui.displayHeaders && 
                                     <div className={classes.headerContainer} style={{width: ui.bodyWidth}}>
-                                        {schedulerStore.ui.headers.map(header => (
-                                            <div className={classes.header} key={header}> 
-                                                {header}
+                                        <div style={{position: "absolute"}}> 
+                                            <span style={{ float: "left", transform: "translateX(-33%)" }}> 
+                                                {schedulerStore.date.start.format("ha").slice(0, -1)} 
+                                            </span>
+                                        </div>
+                                        {ui.headers.map(header => (
+                                            <div className={classes.header} key={header}>
+                                                <span style={{ float: "right", transform: "translateX(66%) "}}> {header} </span>
                                             </div>
                                         ))}
                                     </div>
