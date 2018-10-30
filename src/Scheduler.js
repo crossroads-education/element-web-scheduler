@@ -94,12 +94,11 @@ class Scheduler extends React.Component {
 
         return (
             <ThemeProvider theme={Theme}>
-                <MuiThemeProvider theme={createMuiTheme()}>
+                <MuiThemeProvider theme={createMuiTheme({typography: {useNextVariants: true }})}>
                     <div className={this.props.classes.scheduleBodyContainer} >
                         <div className={classes.rowRoot}>
                             <div className={classes.headerRoot}>
                                 <div className={classes.resourceContainer} style={{width: ui.resourceWidth}}>
-
                                 </div>
                                 {ui.displayHeaders && 
                                     <div className={classes.headerContainer} style={{width: ui.bodyWidth}}>
