@@ -100,8 +100,6 @@ class EventModel {
         if (this.deltaX == 0) this.deltaX = evt.clientX;
 
         const delta = evt.clientX - this.deltaX;
-        
-        console.log(delta, this.schedule.ui.cellWidth);
 
         if (Math.abs(delta) >= this.schedule.ui.cellWidth * .375) { // this gives a more 'natural drag feel'
 

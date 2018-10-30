@@ -135,7 +135,7 @@ class Scheduler extends React.Component {
                                         })}
                                         <div className={classes.cellRoot}> 
                                             {schedulerStore.cells.map(cell => (
-                                                <div key={cell} className={classes.backgroundCell}/>
+                                                <div key={cell} className={classes.backgroundCell} onClick={e => { resource.createEvent(e.target.offsetLeft); }} />
                                             ))}
                                         </div>
                                     </div>
