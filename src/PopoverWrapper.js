@@ -24,6 +24,7 @@ function PopoverWrapper(WrappedComponent) {
                         horizontal: 'left',
                     }}
                     variant="contained"
+                    onClose={eventModel.togglePopover}
                 >
                     <WrappedComponent eventModel={eventModel} {...this.props} />
                 </Popover>

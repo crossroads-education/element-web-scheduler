@@ -86,8 +86,6 @@ function EventWrapper(WrappedComponent) {
                             </DraggableCore>
                         }
                         <this.props.eventModel.popover
-                            open={this.props.eventModel.displayPopup}
-                            anchor={this.props.eventModel.anchorElement}
                             eventModel={this.props.eventModel}
                         />
                     </div>

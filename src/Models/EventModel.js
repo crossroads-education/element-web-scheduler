@@ -123,7 +123,6 @@ class EventModel {
 
     @action togglePopover = target => {
         if ( this.active ) {
-            this.schedule.ui.togglePopover(this);
             this.displayPopup = !this.displayPopup;
             this.anchorElement = this.displayPopup ? target : undefined;
         }

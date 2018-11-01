@@ -37,19 +37,6 @@ class UiModel {
         this.resourceWidth = ref.current.clientWidth;
     }
 
-    togglePopover(event) {
-        if (!this.openEventPopover) {
-            this.openEventPopover = event;
-        } else {
-            if (this.openEventPopover.id === event.id) {
-                this.openEventPopover = undefined;
-            } else {
-                this.openEventPopover.togglePopver();
-                this.openEventPopover = event;
-            }
-        }
-    }
-
     @computed get headers() {
         const headers = Array.from(this.schedule.date.range.by("hour")).map(m => m.format("ha").slice(0, -1));
         headers.shift();
