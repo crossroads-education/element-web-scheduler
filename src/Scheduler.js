@@ -15,13 +15,13 @@ const styles = {
     },
     scheduleBodyContainer: {
         width: "100%",
-        height: "100%",
+        height: "auto",
         position: "relative",
         display: "flex",
     },
     rowRoot: {
         width: "100%",
-        height: "100%",
+        height: "auto",
         display: "flex",
         flexDirection: "column",
         borderLeft: "solid 1px #BEBEBE",
@@ -33,6 +33,7 @@ const styles = {
     rowContainer: {
         display: "flex",
         flex: 1,
+        height: "auto",
         borderBottom: "solid 1px #BEBEBE"
     },
     eventContainer: {
