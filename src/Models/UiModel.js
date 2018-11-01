@@ -55,6 +55,10 @@ class UiModel {
         headers.shift();
         return headers;
     }
+
+    @computed get moveWidth() {
+        return this.cellWidth * .5; 
+    }
 }
 
 export default UiModel;

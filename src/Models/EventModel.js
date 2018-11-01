@@ -99,15 +99,15 @@ class EventModel {
 
         this.deltaX += evt.movementX;
 
-        if (Math.abs(this.deltaX) >= (this.schedule.ui.cellWidth * .5)) { // this gives a more 'natural drag feel'
+        if (Math.abs(this.deltaX) >= this.schedule.ui.moveWidth) { 
 
             let currentTime = this["_" + side].clone(); // get moment computed side
 
-            const timeChange = Math.sign(this.deltaX) * .25 // one quarter hour
+            const cells = Math.floor(Math.abs(this.deltaX) / this.schedule.ui.moveWidth);
 
-            this.deltaX = Math.sign(this.deltaX) * (Math.abs(Math.abs(this.deltaX) - this.schedule.ui.cellWidth * .5));
+            const timeChange = Math.sign(this.deltaX) * cells * .25 // one quarter hour
 
-            console.log(this.deltaX);
+            this.deltaX = Math.sign(this.deltaX) * Math.abs(Math.abs(this.deltaX) % this.schedule.ui.moveWidth);
 
             const newTime = currentTime.add(timeChange, "hours");
 
