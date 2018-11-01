@@ -93,21 +93,21 @@ class EventModel {
 
     @action resize = (evt, data, side) => {
 
-        if (data.deltaX === 0) return;
-
         let error = false;
 
-        if (this.deltaX == 0) this.deltaX = evt.clientX;
+        if (data.deltaX === 0) return;
 
-        const delta = evt.clientX - this.deltaX;
+        this.deltaX += evt.movementX;
 
-        if (Math.abs(delta) >= this.schedule.ui.cellWidth * .375) { // this gives a more 'natural drag feel'
+        if (Math.abs(this.deltaX) >= (this.schedule.ui.cellWidth * .5)) { // this gives a more 'natural drag feel'
 
             let currentTime = this["_" + side].clone(); // get moment computed side
-            
-            this.deltaX = evt.clientX;
 
-            const timeChange = Math.sign(delta) * .25 // one quarter hour
+            const timeChange = Math.sign(this.deltaX) * .25 // one quarter hour
+
+            this.deltaX = Math.sign(this.deltaX) * (Math.abs(Math.abs(this.deltaX) - this.schedule.ui.cellWidth * .5));
+
+            console.log(this.deltaX);
 
             const newTime = currentTime.add(timeChange, "hours");
 

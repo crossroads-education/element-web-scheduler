@@ -2,6 +2,7 @@ import * as React from "react";
 import injectSheet from "react-jss";
 import Draggable, {DraggableCore} from "react-draggable";
 import {observer} from "mobx-react";
+import SchedulerStore from "./Stores/SchedulerStore";
 
 
 const styles = theme => ( {
