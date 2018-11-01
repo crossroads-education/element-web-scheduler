@@ -129,12 +129,12 @@ class EventModel {
         }
     }
 
-    @action stopResize = () => {
+    @action stopResize = e => {
         this.deltaX = 0;
     }
 
     @action delete = () => {
-
+        this.resource.deleteEvent(this);
     }
 
 }

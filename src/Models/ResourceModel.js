@@ -1,5 +1,6 @@
 import {observable,computed, action} from "mobx"
 import EventModel from "./EventModel";
+import {ENETDOWN} from "constants";
 
 class ResourceModel {
     @observable componentProps;
@@ -44,6 +45,14 @@ class ResourceModel {
         }
 
         this.schedule.createEvent(newEvent, this, startTime);
+    }
+
+    @action deleteEvent = event => {
+        const index = this.events.findIndex((evt) => {
+            return event.id === evt.id; 
+        })
+
+        this.events.splice(index, 1);
     }
 
 }

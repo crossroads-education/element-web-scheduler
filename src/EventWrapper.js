@@ -2,7 +2,6 @@ import * as React from "react";
 import injectSheet from "react-jss";
 import Draggable, {DraggableCore} from "react-draggable";
 import {observer} from "mobx-react";
-import SchedulerStore from "./Stores/SchedulerStore";
 
 
 const styles = theme => ( {
@@ -22,6 +21,13 @@ const styles = theme => ( {
         display: "flex",
         alignItems: "center",
         cursor: "e-resize !important"
+    },
+    eventWrapper: {
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        width: "100%",
+        height: "100%"
     }
 });
 
@@ -51,25 +57,28 @@ function EventWrapper(WrappedComponent) {
                 >
                     <div 
                         className={this.props.classes.eventRoot}
-                        onClick={this.togglePopover}
                     >
                         {this.props.resizable &&
                             <DraggableCore
                                 onDrag={(e, data) => {this.resize(e, data, "start")}}
                                 onStop={this.props.eventModel.stopResize}
                                 axis="x"
+                                onMouseDown={e => {e.stopPropagation();}}
                             >
                                 <div style={{left: 1}} className={this.props.classes.eventResizer}>
                                     <this.props.eventModel.resizer />
                                 </div>
                             </DraggableCore>
                         }
-                        <WrappedComponent {...this.props.componentProps} eventModel={this.props.eventModel} />
+                        <div className={this.props.classes.eventWrapper} onClick={this.togglePopover}>
+                            <WrappedComponent {...this.props.componentProps} eventModel={this.props.eventModel} />
+                        </div>
                         {this.props.resizable &&
                             <DraggableCore
                                 onDrag={(e, data) => {this.resize(e, data, "end")}}
                                 onStop={this.props.eventModel.stopResize}
                                 axis="x"
+                                onMouseDown={e => {e.stopPropagation();}}
                             >
                                 <div style={{right: 1}} className={this.props.classes.eventResizer}>
                                     <this.props.eventModel.resizer />
