@@ -201,25 +201,11 @@ type RenderLayers = {
 The render method for rendering resources. Unlike events, the resources don't need to be wrapped in a higher order component. The Resources are rendered in a list order dependent on the array in which they're initially passed. The resource component recieves the props defined in the resource object used in the scheduler's construction. See:
 
 ```js
-export default class Resources extends React.Component {
-
-    static propTypes = {
-        resources: PropTypes.arrayOf(PropTypes.object).isRequired,
-        render: PropTypes.func.isRequired
-    };
-
-    render() {
-        return (
-            <div className={this.props.classes.resourcesRoot}>
-                {this.props.resources.map(resource => (
-                    <div className={this.props.classes.resourceContainer} key={resource.id}>
-                        <this.props.render {...resource.componentProps} />
-                    </div>
-                ))}
-            </div>
-        )
-    }
-}
+{schedulerStore.resources.map(resource => (
+    <div className={classes.rowContainer} key={resource.id}>
+        <div className={classes.resourceContainer} ref={this.resourceRef} >
+            <ui.renderResource {...resource.componentProps} resource={resource} />
+        </div> 
 ```
 
 #### `RenderPopover`
