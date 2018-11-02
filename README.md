@@ -36,8 +36,6 @@ export default class MasterScheduler extends React.Component {
                     />
                     <Scheduler
                         schedulerStore={Store.schedulerStore}
-                        resourceComponent={ResourceComponent}
-                        adornmentComponent={AdornmentComponent}
                     />
                 </div>
             </div>
