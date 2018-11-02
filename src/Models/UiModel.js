@@ -1,7 +1,6 @@
 import {observable, computed, action} from "mobx";
 
 class UiModel {
-    openEventPopover;
     schedule;
     renderLayers;
     renderResource;

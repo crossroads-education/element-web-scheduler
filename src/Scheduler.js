@@ -54,7 +54,6 @@ const styles = {
         width: "100%",
         height: "100%",
         borderLeft: "solid 1px #BEBEBE",
-        borderBottom: "solid 1px #BEBEBE"
     },
     headerRoot: {
         display: "flex"
@@ -139,10 +138,11 @@ class Scheduler extends React.Component {
                                             ))}
                                         </div>
                                     </div>
-                                    <div className={classes.adornmentContainer}>
-                                        <ui.renderAdornment resource={resource} />
-                                    </div>
-                                    
+                                    {ui.renderAdornment && 
+                                        <div className={classes.adornmentContainer}>
+                                            <ui.renderAdornment resource={resource} />
+                                        </div>
+                                    }
                                 </div>
                             ))}
                         </div>

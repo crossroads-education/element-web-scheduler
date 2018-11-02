@@ -47,7 +47,6 @@ function EventWrapper(WrappedComponent) {
         }
 
         render () {
-
             return (
                 <Draggable
                     position={{x: this.props.left, y: this.props.eventModel.y}}
@@ -85,11 +84,12 @@ function EventWrapper(WrappedComponent) {
                                 </div>
                             </DraggableCore>
                         }
-                        <this.props.eventModel.popover
-                            eventModel={this.props.eventModel}
-                        />
+                        {this.props.eventModel.popover && 
+                            <this.props.eventModel.popover
+                                eventModel={this.props.eventModel}
+                            />
+                        }
                     </div>
-                    
                 </Draggable>
             )
         }

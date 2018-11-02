@@ -80,6 +80,7 @@ class EventModel {
     }
 
     @computed get popover() {
+        if(!this.schedule.ui.renderPopover) return false;
         return this.schedule.ui.renderPopover;
     }
 

@@ -6,7 +6,7 @@ export type DateModel = {
     currentDay: number;
     startTime: string;
     endTime: string;
-    schedule: ScheduleStore;
+    schedule: SchedulerStore;
     setDate: (day: number) => void;
     decrementDate: () => void;
     incrementDate: () => void;
@@ -27,13 +27,13 @@ export type ResourceModel = {
     componentProps: {[key: string]: any};
     id: number | string;
     events: EventModel[];
-    schedule: ScheduleStore;
+    schedule: SchedulerStore;
 }
 
 export type EventModel = { 
     id: number | string;
     layer: number;
-    schedule: ScheduleStore;
+    schedule: SchedulerStore;
     resource: ResourceModel;
     start: string;
     end: string;
@@ -56,11 +56,28 @@ export type Event = {
     layer: number;
     resizable?: boolean;
     componentProps?: {
-        [key: string]: number;
+        [key: string]: any;
     }
 }
 
-export type SchedulerStore =  {
+export type UiModel = {
+    schedule: SchedulerStore;
+    renderLayers: {[key: number]: { event: any, resizer: any}};
+    renderResource: React.ComponentType;
+    renderPopover: React.ComponentType;
+    renderAdornment: React.ComponentType;
+    bodyWidth: number;
+    bodyHeight: number;
+    activeLayer: number;
+    backgroundLayer: number;
+    resourceWidth: number;
+}
+
+export function EventWrapper(component: React.ComponentType): React.ComponentType;
+
+export function PopoverWrapper(component: React.ComponentType): React.ComponentType;
+
+export class SchedulerStore {
     constructor(init: {
         resources: Resource[],
         events: Event[],
@@ -78,15 +95,15 @@ export type SchedulerStore =  {
         renderResource: any,
         renderPopover?: any,
         renderAdornment?: any,
-        resizeEvent: (newTime: Moment, event: Event, timeChange: "start" | "end") => void,
-        createEvent: (newEvent: Event, resource: Resource, startTime: Moment) => void,
+        resizeEvent: (newTime: Moment, event: EventModel, timeChange: "start" | "end") => void,
+        createEvent: (newEvent: EventModel, resource: Resource, startTime: Moment) => void,
         displayHeaders?: boolean
     });
 
     date: DateModel;
     resources: ResourceModel;
-    resizeEvent: (newTime: Moment,event: Event,timeChange: "start"|"end") => void;
-    createEvent: (newEvent: Event,resource: Resource,startTime: Moment) => void;
+    resizeEvent: (newTime: Moment,event: EventModel,timeChange: "start"|"end") => void;
+    createEvent: (newEvent: EventModel,resource: Resource,startTime: Moment) => void;
     events: EventModel[];
 }
 
