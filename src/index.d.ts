@@ -71,6 +71,9 @@ export type UiModel = {
     activeLayer: number;
     backgroundLayer: number;
     resourceWidth: number;
+    displayHeaders: boolean;
+    headers: string[];
+    
 }
 
 export function EventWrapper(component: React.ComponentType): React.ComponentType;

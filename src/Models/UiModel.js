@@ -11,6 +11,7 @@ class UiModel {
     @observable activeLayer;
     @observable backgroundLayer;
     @observable resourceWidth;
+    @observable displayHeaders;
 
     constructor(renderLayers, renderResource, schedule, activeLayer, backgroundLayer, renderPopover, renderAdornment, displayHeaders) {
         this.renderLayers = renderLayers;
