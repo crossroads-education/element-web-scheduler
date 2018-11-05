@@ -101,10 +101,11 @@ export class SchedulerStore {
     });
 
     date: DateModel;
-    resources: ResourceModel;
+    resources: ResourceModel[];
     resizeEvent: (newTime: Moment,event: EventModel,timeChange: "start"|"end") => void;
     createEvent: (newEvent: EventModel,resource: Resource,startTime: Moment) => void;
     events: EventModel[];
+    ui: UiModel;
 }
 
 declare const Scheduler: React.ComponentType<any>;
