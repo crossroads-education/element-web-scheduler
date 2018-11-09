@@ -48,6 +48,7 @@
     "react-draggable": "^3.0.5",
     "react-jss": "^8.6.0",
     "react-resizable": "^1.7.5",
+    "react-window-size-listener": "^1.2.2",
     "rrule": "^2.2.9",
     "uuid": "^3.3.2"
   },

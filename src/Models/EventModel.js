@@ -52,7 +52,7 @@ class EventModel {
     @computed get left() {
         let daySpan = this.timespan(this.schedule.date.start, this.schedule.date.end);
         let eventStartOffset = this.timespan(this.schedule.date.start, this._start); // hours, minutes, seconds time after 
-        return ((eventStartOffset / daySpan) * this.schedule.ui.bodyWidth);
+        return ((eventStartOffset / daySpan) * 100 + "%");
     }
 
     @computed get active() {

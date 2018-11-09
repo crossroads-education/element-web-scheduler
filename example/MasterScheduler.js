@@ -18,7 +18,7 @@ export default class MasterScheduler extends React.Component {
         return (
             <div style={{width: "100%",height: "100%"}}>
                 <DevTools />
-                <div style={{width: 1600,height: 800}}>
+                <div style={{width: "75%",height: "75%"}}>
                     <Datepicker 
                         currentDay={Store.schedulerStore.date.currentDay} 
                         incrementDate={Store.schedulerStore.date.incrementDate}

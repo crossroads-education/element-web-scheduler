@@ -7,9 +7,7 @@ import {observer} from "mobx-react";
 const styles = theme => ( {
     eventRoot: props => ( {
         height: "100%",
-        zIndex: props.eventModel.layer || 0,
-        width: props.width,
-        transform: "translateX(" + props.left + "px)",
+        
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
@@ -56,6 +54,11 @@ function EventWrapper(WrappedComponent) {
                 >
                     <div 
                         className={this.props.classes.eventRoot}
+                        style={{
+                            zIndex: this.props.eventModel.layer||0,
+                            width: this.props.eventModel.width,
+                            left: this.props.eventModel.left,
+                        }}
                     >
                         {this.props.resizable &&
                             <DraggableCore

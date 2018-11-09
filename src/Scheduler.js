@@ -4,6 +4,7 @@ import {PropTypes} from "prop-types";
 import Theme from "./Theme";
 import { observer } from "mobx-react";
 import {MuiThemeProvider, createMuiTheme} from "@material-ui/core";
+import ReactWindowSizeListener from "react-window-size-listener";
 
 const styles = {
     schedulerContainer: {
@@ -83,6 +84,10 @@ class Scheduler extends React.Component {
     }
 
     componentDidMount() {
+       this.onResize();
+    }
+
+    onResize = () => {
         this.props.schedulerStore.ui.setBodySize(this.bodyRootRef);
         this.props.schedulerStore.ui.setResourceSize(this.resourceRef);
     }
@@ -121,22 +126,24 @@ class Scheduler extends React.Component {
                                         <ui.renderResource {...resource.componentProps} resource={resource} />
                                     </div> 
                                     <div className={classes.eventContainer} ref={this.bodyRootRef}>
-                                        {resource.todaysEvents.map(event => {
-                                            return (<event.render
-                                                key={event.id}
-                                                eventModel={event}
-                                                active={event.active}
-                                                componentProps={event.componentProps}
-                                                resizable={event.resizable}
-                                                width={event.width}
-                                                left={event.left}
-                                            />);
-                                        })}
-                                        <div className={classes.cellRoot}> 
-                                            {schedulerStore.cells.map(cell => (
-                                                <div key={cell} className={classes.backgroundCell} onClick={e => { resource.createEvent(e.target.offsetLeft); }} />
-                                            ))}
-                                        </div>
+                                        <ReactWindowSizeListener onResize={this.onResize}>
+                                            {resource.todaysEvents.map(event => {
+                                                return (<event.render
+                                                    key={event.id}
+                                                    eventModel={event}
+                                                    active={event.active}
+                                                    componentProps={event.componentProps}
+                                                    resizable={event.resizable}
+                                                    width={event.width}
+                                                    left={event.left}
+                                                />);
+                                            })}
+                                            <div className={classes.cellRoot}>
+                                                {schedulerStore.cells.map(cell => (
+                                                    <div key={cell} className={classes.backgroundCell} onClick={e => {resource.createEvent(e.target.offsetLeft);}} />
+                                                ))}
+                                            </div>
+                                        </ReactWindowSizeListener>
                                     </div>
                                     {ui.renderAdornment && 
                                         <div className={classes.adornmentContainer}>
