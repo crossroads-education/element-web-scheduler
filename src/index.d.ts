@@ -14,6 +14,8 @@ export type DateModel = {
     end: Moment;
     range: MomentRange;
     hours: number;
+    day: string;
+    dateChanged: boolean;
 }
 
 export type Resource = {

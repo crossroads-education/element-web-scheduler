@@ -42,6 +42,14 @@ class DateModel {
     @computed get hours() {
         return this.end.diff(this.start, "hour");
     }
+
+    @computed get day() {
+        return moment().day(this.currentDay).format("dddd");
+    }
+
+    @computed get dateChanged() {
+        return moment().isSame(moment().day(this.currentDay), "day");
+    }
 }
 
 export default DateModel;
