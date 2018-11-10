@@ -45,6 +45,7 @@ export type EventModel = {
     _end: Moment;
     duration: number;
     delete: () => void;
+    toggleResizing: () => void;
 }
 
 export type Event = {
