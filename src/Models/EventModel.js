@@ -129,7 +129,7 @@ class EventModel {
         }
     }
 
-    @action toggleResizable = () => {
+    @action toggleResizing = () => {
         this.resizable = !this.resizable;
     }
 
