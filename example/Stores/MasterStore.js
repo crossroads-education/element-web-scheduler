@@ -16,7 +16,6 @@ class MasterScheduleStore {
     init() {    
         const r = _.cloneDeep( MasterDemoData.resources );
         const e = _.cloneDeep( MasterDemoData.events );
-
         const schedule = new SchedulerStore( 
            {
               resources: r,
@@ -41,6 +40,7 @@ class MasterScheduleStore {
         );
 
         this.schedulerStore = schedule;
+        
     }
 
     @action resizeEvent = (newTime, event, timeChanged) => {
@@ -65,6 +65,12 @@ class MasterScheduleStore {
             }
         });
         resource.events.push(event);
+    }
+
+    @action enableEditing = () => {
+        this.schedulerStore.events.forEach(event => { 
+            event.toggleResizable();
+        })
     }
 }
 

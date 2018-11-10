@@ -129,6 +129,10 @@ class EventModel {
         }
     }
 
+    @action toggleResizable = () => {
+        this.resizable = !this.resizable;
+    }
+
     @action stopResize = e => {
         this.deltaX = 0;
     }

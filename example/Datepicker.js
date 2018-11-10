@@ -39,6 +39,12 @@ class Datepicker extends React.Component {
                 >
                     Prev
                 </button>
+                <button 
+                    className={this.props.classes.button} 
+                    onClick={this.props.enableEditing}
+                >
+                    Edit
+                </button>
                 <p> {moment().day(this.props.currentDay).format("dddd")} </p>
                 <button 
                     className={this.props.classes.button}

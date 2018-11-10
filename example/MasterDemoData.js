@@ -56,7 +56,7 @@ export const MasterDemoData = {
                 backgroundColor: "#3091FF",
             }, 
             layer: 3,
-            resizable: true,
+            resizable: false,
         },
         {
             id: 7,
@@ -70,7 +70,7 @@ export const MasterDemoData = {
                 backgroundColor: "#3091FF",
             }, 
             layer: 3,
-            resizable: true,
+            resizable: false,
         },
         {
             id: 9,
@@ -84,7 +84,7 @@ export const MasterDemoData = {
                 backgroundColor: "#3091FF",
             }, 
             layer: 3,
-            resizable: true,
+            resizable: false,
         },
         {
             id: 8,
@@ -98,7 +98,7 @@ export const MasterDemoData = {
                 backgroundColor: "#3091FF",
             },
             layer: 3,
-            resizable: true,
+            resizable: false,
         },
         {
             id: 10,
@@ -112,7 +112,7 @@ export const MasterDemoData = {
                 backgroundColor: "#3091FF",
             }, 
             layer: 3,
-            resizable: true,
+            resizable: false,
         },
         {
             id: 11,
@@ -126,7 +126,7 @@ export const MasterDemoData = {
                 backgroundColor: "#3091FF",
             }, 
             layer: 3,
-            resizable: true,
+            resizable: false,
         },
     ]
 }

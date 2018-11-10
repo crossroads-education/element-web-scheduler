@@ -45,6 +45,7 @@ function EventWrapper(WrappedComponent) {
         }
 
         render () {
+
             return (
                 <Draggable
                     position={{x: this.props.left, y: this.props.eventModel.y}}
@@ -60,7 +61,7 @@ function EventWrapper(WrappedComponent) {
                             left: this.props.eventModel.left,
                         }}
                     >
-                        {this.props.resizable &&
+                        {this.props.eventModel.resizable &&
                             <DraggableCore
                                 onDrag={(e, data) => {this.resize(e, data, "start")}}
                                 onStop={this.props.eventModel.stopResize}
@@ -75,7 +76,7 @@ function EventWrapper(WrappedComponent) {
                         <div className={this.props.classes.eventWrapper} onClick={this.togglePopover}>
                             <WrappedComponent {...this.props.componentProps} eventModel={this.props.eventModel} />
                         </div>
-                        {this.props.resizable &&
+                        {this.props.eventModel.resizable &&
                             <DraggableCore
                                 onDrag={(e, data) => {this.resize(e, data, "end")}}
                                 onStop={this.props.eventModel.stopResize}

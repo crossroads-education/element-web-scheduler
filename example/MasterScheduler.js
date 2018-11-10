@@ -15,6 +15,7 @@ export default class MasterScheduler extends React.Component {
 
     render() {
         const { MasterScheduleStore: Store } = this.props;
+
         return (
             <div style={{width: "100%",height: "100%"}}>
                 <DevTools />
@@ -23,6 +24,7 @@ export default class MasterScheduler extends React.Component {
                         currentDay={Store.schedulerStore.date.currentDay} 
                         incrementDate={Store.schedulerStore.date.incrementDate}
                         decrementDate={Store.schedulerStore.date.decrementDate}
+                        enableEditing={Store.enableEditing}
                     />
                     <Scheduler
                         schedulerStore={Store.schedulerStore}
