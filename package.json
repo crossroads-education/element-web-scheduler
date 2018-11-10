@@ -26,7 +26,8 @@
   "scripts": {
     "start": "webpack-dev-server --config ./webpack/webpack-dev.config.js --hot",
     "analyz": "cross-env NODE_ENV=production npm_config_report=true npm run build",
-    "build": "rimraf dist && mkdir dist && babel src --out-dir dist && cpy src/index.d.ts dist"
+    "build": "rimraf dist && mkdir dist && babel src --out-dir dist && cpy src/index.d.ts dist",
+    "deploy": " npm run build && npm version ${v} && git push && npm publish"
   },
   "types": "./dist/index.d.ts",
   "pre-commit": [

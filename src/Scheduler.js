@@ -24,22 +24,18 @@ const styles = {
         width: "100%",
         height: "auto",
         display: "flex",
-        flexDirection: "column",
-        borderLeft: "solid 1px #BEBEBE",
-        borderRight: "solid 1px #BEBEBE",
-        "& $rowContainer:first-child": {
-            borderTop:"solid 1px #BEBEBE"
-        }
+        flexDirection: "column"
     },
-    rowContainer: {
+    rowContainer: { 
         display: "flex",
         flex: 1,
         height: "auto",
-        borderBottom: "solid 1px #BEBEBE"
+        borderTop: "solid 1px #9d9d9d"
     },
     eventContainer: {
         width: "100%",
-        position: "relative"
+        position: "relative",
+        borderRight: "solid 1px #e6e6e6"
     },
     cellRoot: {
         display: "flex",
@@ -47,20 +43,23 @@ const styles = {
         width: "100%",
         height: "100%",
         "& $backgroundCell:nth-child(2n)": {
-            borderLeft: "dashed 1px #D4D4D4"
+            borderLeft: "dashed 1px #dfdfdf"
         },
-        borderRight: "solid 1px #BEBEBE"
     },
     backgroundCell: {
         width: "100%",
         height: "100%",
-        borderLeft: "solid 1px #BEBEBE",
+        borderLeft: "solid 1px #e6e6e6",
     },
     headerRoot: {
         display: "flex"
     },
     headerContainer: {
-        display: "flex"
+        display: "flex",
+        minHeight: "40px",
+        alignItems: "center",
+        borderRight: "solid 1px #e6e6e6",
+        borderLeft: "solid 1px #e6e6e6"
     },
     header: {
         width: "100%"
@@ -107,14 +106,9 @@ class Scheduler extends React.Component {
                                 </div>
                                 {ui.displayHeaders && 
                                     <div className={classes.headerContainer} style={{width: ui.bodyWidth}}>
-                                        <div style={{position: "absolute"}}> 
-                                            <span style={{ float: "left", transform: "translateX(-33%)" }}> 
-                                                {schedulerStore.date.start.format("ha").slice(0, -1)} 
-                                            </span>
-                                        </div>
                                         {ui.headers.map(header => (
                                             <div className={classes.header} key={header}>
-                                                <span style={{ float: "right", transform: "translateX(66%) "}}> {header} </span>
+                                                <span style={{ float: "left" }}> {header} </span>
                                             </div>
                                         ))}
                                     </div>
