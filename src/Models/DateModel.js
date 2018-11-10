@@ -19,11 +19,11 @@ class DateModel {
         this.currentDay = day;
     }
 
-    @action decrementDate = () => {
+    @action decrementDay = () => {
         this.setDay(this.currentDay - 1);
     }
 
-    @action incrementDate = () => {
+    @action incrementDay = () => {
         this.setDay(this.currentDay + 1);
     }
 

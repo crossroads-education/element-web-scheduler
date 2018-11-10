@@ -7,9 +7,9 @@ export type DateModel = {
     startTime: string;
     endTime: string;
     schedule: SchedulerStore;
-    setDate: (day: number) => void;
-    decrementDate: () => void;
-    incrementDate: () => void;
+    setDay: (day: number) => void;
+    decrementDay: () => void;
+    incrementDay: () => void;
     start: Moment;
     end: Moment;
     range: MomentRange;
