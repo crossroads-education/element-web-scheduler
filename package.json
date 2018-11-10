@@ -1,6 +1,6 @@
 {
   "name": "@xroadsed/react-scheduler",
-  "version": "2.5.3",
+  "version": "2.5.4",
   "description": "A fork of a scheduler and resource planning component built for React and made for modern browsers (IE10+)",
   "files": [
     "dist",
