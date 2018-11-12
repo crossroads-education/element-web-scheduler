@@ -76,7 +76,7 @@
     "json-loader": "0.5.4",
     "memoize-one": "4.0.0",
     "mobx-react-devtools": "^6.0.3",
-    "mocha": "3.2.0",
+    "mocha": "^5.2.0",
     "mocha-babel": "3.0.3",
     "node-sass": "^4.7.2",
     "react": "^16.0.0",
@@ -87,10 +87,10 @@
     "react-router-redux": "^4.0.7",
     "sass-loader": "6.0.3",
     "style-loader": "0.14.1",
-    "url-loader": "0.5.8",
+    "url-loader": "^1.1.2",
     "webpack": "^4.5.0",
     "webpack-bundle-analyzer": "^2.11.1",
     "webpack-cli": "^2.0.14",
-    "webpack-dev-server": "^3.1.1"
+    "webpack-dev-server": "^3.1.10"
   }
 }
