@@ -1,4 +1,5 @@
 import {observable, computed, action} from "mobx";
+import { debounce } from "lodash"; 
 
 class UiModel {
     schedule;
@@ -6,8 +7,8 @@ class UiModel {
     renderResource;
     renderPopover;
     renderAdornment;
-    @observable bodyWidth;
-    @observable bodyHeight;
+    @observable eventRowWidth;
+    @observable eventRowHeight;
     @observable activeLayer;
     @observable backgroundLayer;
     @observable resourceWidth;
@@ -24,13 +25,18 @@ class UiModel {
         this.displayHeaders = displayHeaders
     }
 
-    @action setBodySize = (ref) => {
-        this.bodyWidth = ref.current.clientWidth;
-        this.bodyHeight = ref.current.clientHeight;
+    @action updateSize = debounce((body, resource) => {
+        this.setRowSize(body);
+        this.setResourceSize(resource);
+    }, 100);
+
+    @action setRowSize = (ref) => {
+        this.eventRowWidth = ref.current.clientWidth;
+        this.eventRowHeight = ref.current.clientHeight;
     }
     
     @computed get cellWidth() {
-        return this.bodyWidth / (this.schedule.cells.length + 1); // this is to add the truncated cell back in
+        return this.eventRowWidth / (this.schedule.cells.length + 1); // this is to add the truncated cell back in
     }
 
     @action setResourceSize = (ref) => {

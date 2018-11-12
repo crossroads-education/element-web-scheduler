@@ -70,11 +70,13 @@ const styles = {
 @injectSheet(styles)
 @observer
 class Scheduler extends React.Component {
-    bodyRootRef;
+    eventRowRef;
+    resourceRef;
+
 
     constructor(props) {
         super(props);
-        this.bodyRootRef = React.createRef();
+        this.eventRowRef = React.createRef();
         this.resourceRef = React.createRef();
     }
 
@@ -83,12 +85,16 @@ class Scheduler extends React.Component {
     }
 
     componentDidMount() {
-       this.onResize();
+        this.updateSize();
+        window.addEventListener("resize", this.updateSize);
     }
 
-    onResize = () => {
-        this.props.schedulerStore.ui.setBodySize(this.bodyRootRef);
-        this.props.schedulerStore.ui.setResourceSize(this.resourceRef);
+    updateSize = () => {
+        this.props.schedulerStore.ui.updateSize(this.eventRowRef, this.resourceRef);
+    }
+
+    componentWillUnmount() {
+        window.removeEventListener("resize");
     }
 
     render() {
@@ -99,56 +105,53 @@ class Scheduler extends React.Component {
         return (
             <ThemeProvider theme={Theme}>
                 <MuiThemeProvider theme={createMuiTheme({typography: {useNextVariants: true }})}>
-                    <div className={this.props.classes.scheduleBodyContainer} >
-                        <div className={classes.rowRoot}>
-                            <div className={classes.headerRoot}>
-                                <div className={classes.resourceContainer} style={{width: ui.resourceWidth}}>
-                                </div>
-                                {ui.displayHeaders && 
-                                    <div className={classes.headerContainer} style={{width: ui.bodyWidth}}>
-                                        {ui.headers.map(header => (
-                                            <div className={classes.header} key={header}>
-                                                <span style={{ float: "left" }}> {header} </span>
-                                            </div>
-                                        ))}
+                        <div className={this.props.classes.scheduleBodyContainer} >
+                            <div className={classes.rowRoot}>
+                                <div className={classes.headerRoot}>
+                                    <div className={classes.resourceContainer} style={{width: ui.resourceWidth}}>
                                     </div>
-                                }
-                            </div>
-                            {schedulerStore.resources.map(resource => (
-                                <div className={classes.rowContainer} key={resource.id}>
-                                    <div className={classes.resourceContainer} ref={this.resourceRef} >
-                                        <ui.renderResource {...resource.componentProps} resource={resource} />
-                                    </div> 
-                                    <div className={classes.eventContainer} ref={this.bodyRootRef}>
-                                        <ReactWindowSizeListener onResize={this.onResize}>
-                                            {resource.todaysEvents.map(event => {
-                                                return (<event.render
-                                                    key={event.id}
-                                                    eventModel={event}
-                                                    active={event.active}
-                                                    componentProps={event.componentProps}
-                                                    resizable={event.resizable}
-                                                    width={event.width}
-                                                    left={event.left}
-                                                />);
-                                            })}
-                                            <div className={classes.cellRoot}>
-                                                {schedulerStore.cells.map(cell => (
-                                                    <div key={cell} className={classes.backgroundCell} onClick={e => {resource.createEvent(e.target.offsetLeft);}} />
-                                                ))}
-                                            </div>
-                                        </ReactWindowSizeListener>
-                                    </div>
-                                    {ui.renderAdornment && 
-                                        <div className={classes.adornmentContainer}>
-                                            <ui.renderAdornment resource={resource} />
+                                    {ui.displayHeaders && 
+                                        <div className={classes.headerContainer} style={{width: ui.eventRowWidth}}>
+                                            {ui.headers.map(header => (
+                                                <div className={classes.header} key={header}>
+                                                    <span style={{ float: "left" }}> {header} </span>
+                                                </div>
+                                            ))}
                                         </div>
                                     }
                                 </div>
-                            ))}
+                                {schedulerStore.resources.map(resource => (
+                                    <div className={classes.rowContainer} key={resource.id}>
+                                        <div className={classes.resourceContainer} ref={this.resourceRef} >
+                                            <ui.renderResource {...resource.componentProps} resource={resource} />
+                                        </div> 
+                                        <div className={classes.eventContainer} ref={this.eventRowRef}>
+                                                {resource.todaysEvents.map(event => {
+                                                    return (<event.render
+                                                        key={event.id}
+                                                        eventModel={event}
+                                                        active={event.active}
+                                                        componentProps={event.componentProps}
+                                                        resizable={event.resizable}
+                                                        width={event.width}
+                                                        left={event.left}
+                                                    />);
+                                                })}
+                                                <div className={classes.cellRoot}>
+                                                    {schedulerStore.cells.map(cell => (
+                                                        <div key={cell} className={classes.backgroundCell} onClick={e => {resource.createEvent(e.target.offsetLeft);}} />
+                                                    ))}
+                                                </div>
+                                        </div>
+                                        {ui.renderAdornment && 
+                                            <div className={classes.adornmentContainer}>
+                                                <ui.renderAdornment resource={resource} />
+                                            </div>
+                                        }
+                                    </div>
+                                ))}
+                            </div>
                         </div>
-                        
-                    </div>
                 </MuiThemeProvider>
             </ThemeProvider>
             

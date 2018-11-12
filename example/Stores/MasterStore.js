@@ -1,4 +1,4 @@
-import {observable, action} from "mobx"
+import {observable, action, toJS} from "mobx"
 import {MasterDemoData} from "../MasterDemoData";
 import {SchedulerStore, EventModel} from "../../src/";
 import PopoverComponent from "../PopoverComponent";
@@ -64,12 +64,15 @@ class MasterScheduleStore {
                 }
             }
         });
-        resource.events.push(event);
+
+        console.log(toJS(event));
+
+        resource.addEvent(event);
     }
 
     @action enableEditing = () => {
         this.schedulerStore.events.forEach(event => { 
-            event.toggleResizable();
+            event.toggleResizing();
         })
     }
 }

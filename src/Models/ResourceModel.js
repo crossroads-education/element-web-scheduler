@@ -28,7 +28,7 @@ class ResourceModel {
     }
 
     @action createEvent = startPosition => {
-        let startTime = Math.round(((startPosition / this.schedule.ui.bodyWidth) * this.schedule.date.hours) * 2) / 2;
+        let startTime = Math.round(((startPosition / this.schedule.ui.eventRowWidth) * this.schedule.date.hours) * 2) / 2;
 
         const newId = this.schedule.events.reduce((highestId, event) => {
             if (event.id > highestId) highestId = event.id;
@@ -53,6 +53,10 @@ class ResourceModel {
         })
 
         this.events.splice(index, 1);
+    }
+
+    @action addEvent = event => {
+        this.events.replace([...this.events, event]);
     }
 
 }

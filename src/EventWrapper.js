@@ -48,7 +48,6 @@ function EventWrapper(WrappedComponent) {
 
             return (
                 <Draggable
-                    position={{x: this.props.left, y: this.props.eventModel.y}}
                     cancel={"." + this.props.classes.eventResizer}
                     onStart={this.props.eventModel.startDrag}
                     onStop={this.props.eventModel.drag}
