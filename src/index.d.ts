@@ -103,14 +103,14 @@ export class SchedulerStore {
         renderPopover?: any,
         renderAdornment?: any,
         resizeEvent: (newTime: Moment, event: EventModel, timeChange: "start" | "end") => void,
-        createEvent: (newEvent: EventModel, resource: Resource, startTime: number) => void,
+        createEvent: (newEvent: Event, resource: Resource, startTime: number) => void,
         displayHeaders?: boolean
     });
 
     date: DateModel;
     resources: ResourceModel[];
-    resizeEvent: (newTime: Moment,event: EventModel,timeChange: "start"|"end") => void;
-    createEvent: (newEvent: EventModel,resource: Resource,startTime: Moment) => void;
+    resizeEvent: (newTime: Moment, event: EventModel, timeChange: "start" | "end" ) => void;
+    createEvent: (newEvent: Event, resource: Resource, startTime: number) => void;
     events: EventModel[];
     ui: UiModel;
 }
