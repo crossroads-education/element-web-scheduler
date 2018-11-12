@@ -32,7 +32,7 @@ export type ResourceModel = {
     schedule: SchedulerStore;
 }
 
-export type EventModel = { 
+export class EventModel { 
     id: number | string;
     layer: number;
     schedule: SchedulerStore;
