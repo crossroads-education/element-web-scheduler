@@ -32,7 +32,8 @@ export type ResourceModel = {
     schedule: SchedulerStore;
 }
 
-export class EventModel { 
+export class EventModel {
+    constructor(event: Event);
     id: number | string;
     layer: number;
     schedule: SchedulerStore;
@@ -102,7 +103,7 @@ export class SchedulerStore {
         renderPopover?: any,
         renderAdornment?: any,
         resizeEvent: (newTime: Moment, event: EventModel, timeChange: "start" | "end") => void,
-        createEvent: (newEvent: EventModel, resource: Resource, startTime: Moment) => void,
+        createEvent: (newEvent: EventModel, resource: Resource, startTime: number) => void,
         displayHeaders?: boolean
     });
 
