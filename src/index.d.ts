@@ -30,6 +30,7 @@ export type ResourceModel = {
     id: number | string;
     events: EventModel[];
     schedule: SchedulerStore;
+    deleteEvent: (event: eventModel) => void;
 }
 
 export class EventModel {
@@ -102,15 +103,17 @@ export class SchedulerStore {
         renderResource: any,
         renderPopover?: any,
         renderAdornment?: any,
+        displayHeaders?: boolean
         resizeEvent: (newTime: Moment, event: EventModel, timeChange: "start" | "end") => void,
         createEvent: (newEvent: Event, resource: Resource, startTime: number) => void,
-        displayHeaders?: boolean
+        deleteEvent: (event: EventModel, resource: ResourceModel, eventIndex: number) => void
     });
 
     date: DateModel;
     resources: ResourceModel[];
     resizeEvent: (newTime: Moment, event: EventModel, timeChange: "start" | "end" ) => void;
-    createEvent: (newEvent: Event, resource: Resource, startTime: number) => void;
+    createEvent: (newEvent: Event, resource: ResourceModel, startTime: number) => void;
+    deleteEvent: (event: EventModel, resource: ResourceModel, eventIndex: number) => void;
     events: EventModel[];
     ui: UiModel;
 }

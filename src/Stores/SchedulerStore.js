@@ -26,6 +26,7 @@ class SchedulerStore {
             resizeEvent: undefined,
             stopResize: undefined,
             createEvent: undefined,
+            deleteEvent: undefined,
 
             startTime: "",
             endTime: "",
@@ -46,6 +47,7 @@ class SchedulerStore {
         this.resizeEvent = init.resizeEvent;
         this.stopResize = init.stopResize;
         this.createEvent = init.createEvent;
+        this.deleteEvent = init.deleteEvent
     }
 
     @computed get events() {

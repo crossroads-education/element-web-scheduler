@@ -52,7 +52,8 @@ class ResourceModel {
             return event.id === evt.id; 
         })
 
-        this.events.splice(index, 1);
+        this.schedule.deleteEvent(event, this, index);
+
     }
 
     @action addEvent = event => {

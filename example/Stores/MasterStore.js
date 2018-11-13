@@ -25,7 +25,7 @@ class MasterScheduleStore {
               currentDay: 5,
               activeLayer: 3,
               backgroundLayer: 1,
-              renderLayers: {3: {
+              renderLayers: { 3: {
                   event: ShiftEvent,
                   resizer: ShiftResizer
               }},
@@ -35,6 +35,7 @@ class MasterScheduleStore {
               resizeEvent: this.resizeEvent,
               stopResize: this.stopResize,
               createEvent: this.createEvent,
+              deleteEvent: this.deleteEvent,
               displayHeaders: true
            }
         );
@@ -65,9 +66,11 @@ class MasterScheduleStore {
             }
         });
 
-        console.log(toJS(event));
-
         resource.addEvent(event);
+    }
+
+    @action deleteEvent = (event, resource, index) => {
+        resource.events.splice(index, 1);
     }
 
     @action enableEditing = () => {
