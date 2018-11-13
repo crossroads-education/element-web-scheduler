@@ -94,7 +94,7 @@ class Scheduler extends React.Component {
     }
 
     componentWillUnmount() {
-        window.removeEventListener("resize");
+        window.removeEventListener("resize", this.updateSize);
     }
 
     render() {
