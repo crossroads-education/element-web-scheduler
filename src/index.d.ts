@@ -1,6 +1,7 @@
 import * as React from "react";
 import {Moment} from "moment";
 import {MomentRange} from "moment-range";
+import moment=require("moment");
 
 export type DateModel = {
     currentDay: number;
@@ -50,6 +51,7 @@ export class EventModel {
     duration: number;
     delete: () => void;
     toggleResizing: () => void;
+    edit: (newTime: moment.Moment, side: "start" | "end") => void;
 }
 
 export type Event = {
@@ -104,14 +106,14 @@ export class SchedulerStore {
         renderPopover?: any,
         renderAdornment?: any,
         displayHeaders?: boolean
-        resizeEvent: (newTime: Moment, event: EventModel, timeChange: "start" | "end") => void,
+        editEvent: (newTime: Moment, event: EventModel, timeChange: "start" | "end") => void,
         createEvent: (newEvent: Event, resource: Resource, startTime: number) => void,
         deleteEvent: (event: EventModel, resource: ResourceModel, eventIndex: number) => void
     });
 
     date: DateModel;
     resources: ResourceModel[];
-    resizeEvent: (newTime: Moment, event: EventModel, timeChange: "start" | "end" ) => void;
+    editEvent: (newTime: Moment, event: EventModel, timeChange: "start" | "end" ) => void;
     createEvent: (newEvent: Event, resource: ResourceModel, startTime: number) => void;
     deleteEvent: (event: EventModel, resource: ResourceModel, eventIndex: number) => void;
     events: EventModel[];

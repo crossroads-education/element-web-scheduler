@@ -92,9 +92,19 @@ class EventModel {
         
     }
 
-    @action resize = (evt, data, side) => {
-
+    @action editEvent = (newTime, side) => {
         let error = false;
+
+        if (side === "start") {
+                if(this._end.isSameOrBefore(newTime) || this.schedule.date.start.isAfter(newTime)) error = true;
+            } else {
+                if(this._start.isSameOrAfter(newTime) || this.schedule.date.end.isBefore(newTime)) error = true;
+        }
+
+        if(!error) this.schedule.editEvent(newTime, this, side);
+    }
+
+    @action resize = (evt, data, side) => {
 
         if (data.deltaX === 0) return;
 
@@ -111,14 +121,8 @@ class EventModel {
             this.deltaX = Math.sign(this.deltaX) * Math.abs(Math.abs(this.deltaX) % this.schedule.ui.moveWidth);
 
             const newTime = currentTime.add(timeChange, "hours");
-
-            if (side === "start") {
-                if(this._end.isSameOrBefore(newTime) || this.schedule.date.start.isAfter(newTime)) error = true;
-            } else {
-                if(this._start.isSameOrAfter(newTime) || this.schedule.date.end.isBefore(newTime)) error = true;
-            }
-
-            if(!error) this.schedule.resizeEvent(newTime, this, side);
+            
+            this.editEvent(newTime, side);
         }
     }
 

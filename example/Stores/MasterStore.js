@@ -32,7 +32,7 @@ class MasterScheduleStore {
               renderResource: ResourceComponent,
               renderPopover: PopoverComponent,
               renderAdornment: AdornmentComponent,
-              resizeEvent: this.resizeEvent,
+              editEvent: this.resizeEvent,
               stopResize: this.stopResize,
               createEvent: this.createEvent,
               deleteEvent: this.deleteEvent,

@@ -23,7 +23,7 @@ class SchedulerStore {
             activeLayer: undefined,
             backgroundLayer: undefined,
 
-            resizeEvent: undefined,
+            editEvent: undefined,
             stopResize: undefined,
             createEvent: undefined,
             deleteEvent: undefined,
@@ -44,7 +44,7 @@ class SchedulerStore {
                                 init.activeLayer, init.backgroundLayer, 
                                 init.renderPopover, init.renderAdornment, init.displayHeaders
                             );
-        this.resizeEvent = init.resizeEvent;
+        this.editEvent = init.editEvent;
         this.stopResize = init.stopResize;
         this.createEvent = init.createEvent;
         this.deleteEvent = init.deleteEvent
