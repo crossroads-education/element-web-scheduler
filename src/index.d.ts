@@ -31,7 +31,7 @@ export type ResourceModel = {
     id: number | string;
     events: EventModel[];
     schedule: SchedulerStore;
-    deleteEvent: (event: eventModel) => void;
+    deleteEvent: (event: EventModel) => void;
 }
 
 export class EventModel {

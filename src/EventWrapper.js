@@ -72,7 +72,7 @@ function EventWrapper(WrappedComponent) {
                             </DraggableCore>
                         }
                         <div className={this.props.classes.eventWrapper} onClick={this.togglePopover}>
-                            <WrappedComponent {...this.props.componentProps} eventModel={this.props.eventModel} {...this.props} />
+                            <WrappedComponent {...this.props.componentProps} eventModel={this.props.eventModel} />
                         </div>
                         {this.props.eventModel.resizable &&
                             <DraggableCore
