@@ -34,8 +34,7 @@ const styles = {
     },
     eventContainer: {
         width: "100%",
-        position: "relative",
-        borderRight: "solid 1px #e6e6e6"
+        position: "relative"
     },
     cellRoot: {
         display: "flex",
@@ -50,6 +49,9 @@ const styles = {
         width: "100%",
         height: "100%",
         borderLeft: "solid 1px #e6e6e6",
+    },
+    adornmentContainer: {
+        borderLeft: "solid 1px #e6e6e6"
     },
     headerRoot: {
         display: "flex"
