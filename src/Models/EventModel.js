@@ -88,8 +88,8 @@ class EventModel {
         return false;
     }
 
-    @action drag = (evt, position) => {
-        
+    @action startDrag = (evt, position) => {
+        return false;
     }
 
     @action editEvent = (newTime, side) => {

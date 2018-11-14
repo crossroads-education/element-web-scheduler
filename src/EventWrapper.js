@@ -7,7 +7,6 @@ import {observer} from "mobx-react";
 const styles = theme => ( {
     eventRoot: props => ( {
         height: "100%",
-        
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
