@@ -1,16 +1,18 @@
 import * as React from "react";
-import {observer} from "mobx-react";
+import {observer, inject} from "mobx-react";
 
-const AdornmentComponent = props => {
+const AdornmentComponent = inject("editing")(observer(props => {
     const todaysHours = props.resource.todaysEvents.reduce((hours, event) => {
         return hours += event.duration;
     }, 0)
 
     return (
-        <div style={{width: "200px", height: "100%"}}>
-            <span> {todaysHours} </span>
-        </div>
+        (props.editing) ? 
+            <div style={{width: "200px", height: "100%"}}>
+                <span> {todaysHours} </span>
+            </div>
+        : <div style={{width: "200px", height: "100%"}} />
     )
-}
+}));
 
-export default observer(AdornmentComponent);
+export default AdornmentComponent;

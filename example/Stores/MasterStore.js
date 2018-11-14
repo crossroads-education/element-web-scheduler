@@ -9,9 +9,12 @@ import AdornmentComponent from "../AdornmentComponent";
 import _ from "lodash";
 
 class MasterScheduleStore {
+    @observable editing;
     schedulerStore;
 
-    constructor() {}
+    constructor() {
+        this.editing = false;
+    }
     
     init() {    
         const r = _.cloneDeep( MasterDemoData.resources );
@@ -74,6 +77,7 @@ class MasterScheduleStore {
     }
 
     @action enableEditing = () => {
+        this.editing = !this.editing;
         this.schedulerStore.events.forEach(event => { 
             event.toggleResizing();
         })
