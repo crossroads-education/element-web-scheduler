@@ -92,7 +92,7 @@ class EventModel {
         return false;
     }
 
-    @action editEvent = (newTime, side) => {
+    @action edit = (newTime, side) => {
         let error = false;
 
         if (side === "start") {
@@ -122,7 +122,7 @@ class EventModel {
 
             const newTime = currentTime.add(timeChange, "hours");
             
-            this.editEvent(newTime, side);
+            this.edit(newTime, side);
         }
     }
 
