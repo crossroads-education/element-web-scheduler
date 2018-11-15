@@ -5,7 +5,7 @@ import PopoverComponent from "../PopoverComponent";
 import ShiftEvent from "../ShiftEvent";
 import ShiftResizer from "../ShiftResizer";
 import ResourceComponent from "../ResourceComponent";
-import AdornmentComponent from "../AdornmentComponent";
+import AdornmentComponent, { AdornmentHeader } from "../AdornmentComponent";
 import _ from "lodash";
 
 class MasterScheduleStore {
@@ -35,6 +35,7 @@ class MasterScheduleStore {
               renderResource: ResourceComponent,
               renderPopover: PopoverComponent,
               renderAdornment: AdornmentComponent,
+              renderAdornmentHeader: AdornmentHeader,
               editEvent: this.resizeEvent,
               stopResize: this.stopResize,
               createEvent: this.createEvent,

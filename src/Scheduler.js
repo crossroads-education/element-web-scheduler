@@ -61,7 +61,8 @@ const styles = {
         minHeight: "40px",
         alignItems: "center",
         borderRight: "solid 1px #e6e6e6",
-        borderLeft: "solid 1px #e6e6e6"
+        borderLeft: "solid 1px #e6e6e6",
+        flex: 1
     },
     header: {
         width: "100%"
@@ -74,12 +75,13 @@ const styles = {
 class Scheduler extends React.Component {
     eventRowRef;
     resourceRef;
-
+    adornmentRef;
 
     constructor(props) {
         super(props);
         this.eventRowRef = React.createRef();
         this.resourceRef = React.createRef();
+        this.adornmentRef = React.createRef();
     }
 
     static propTypes = {
@@ -92,7 +94,7 @@ class Scheduler extends React.Component {
     }
 
     updateSize = () => {
-        this.props.schedulerStore.ui.updateSize(this.eventRowRef, this.resourceRef);
+        this.props.schedulerStore.ui.updateSize(this.eventRowRef, this.resourceRef, this.adornmentRef);
     }
 
     componentWillUnmount() {
@@ -111,9 +113,12 @@ class Scheduler extends React.Component {
                         <div className={classes.rowRoot}>
                             <div className={classes.headerRoot}>
                                 <div className={classes.resourceContainer} style={{width: ui.resourceWidth}}>
+                                    {ui.renderResourceHeader && 
+                                        <ui.renderResourceHeader {...ui.renderResourceHeader.props}/>
+                                    }
                                 </div>
                                 {ui.displayHeaders && 
-                                    <div className={classes.headerContainer} style={{width: ui.eventRowWidth}}>
+                                    <div className={classes.headerContainer}>
                                         {ui.headers.map(header => (
                                             <div className={classes.header} key={header}>
                                                 <span style={{ float: "left" }}> {header} </span>
@@ -121,6 +126,11 @@ class Scheduler extends React.Component {
                                         ))}
                                     </div>
                                 }
+                                <div className={classes.adornmentContainer} style={{width: ui.adornmentWidth}}>
+                                    {ui.renderAdornmentHeader && ui.renderAdornment && 
+                                        <ui.renderAdornmentHeader {...ui.renderAdornmentHeader.props}/>
+                                    }
+                                </div>
                             </div>
                             {schedulerStore.resources.map(resource => (
                                 <div className={classes.rowContainer} key={resource.id}>
@@ -146,7 +156,7 @@ class Scheduler extends React.Component {
                                             </div>
                                     </div>
                                     {ui.renderAdornment && 
-                                        <div className={classes.adornmentContainer}>
+                                        <div className={classes.adornmentContainer} ref={this.adornmentRef}>
                                             <ui.renderAdornment resource={resource} {...ui.renderAdornment.props}/>
                                         </div>
                                     }

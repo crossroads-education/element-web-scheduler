@@ -15,4 +15,10 @@ const AdornmentComponent = inject("editing")(observer(props => {
     )
 }));
 
+export const AdornmentHeader = () => (
+    <div>
+        <span> Hours <br/> Today </span>
+    </div>
+)
+
 export default AdornmentComponent;

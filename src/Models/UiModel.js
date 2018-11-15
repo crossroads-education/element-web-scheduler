@@ -7,14 +7,20 @@ class UiModel {
     renderResource;
     renderPopover;
     renderAdornment;
+    renderResourceHeader;
+    renderAdornmentHeader;
     @observable eventRowWidth;
     @observable eventRowHeight;
     @observable activeLayer;
     @observable backgroundLayer;
     @observable resourceWidth;
     @observable displayHeaders;
+    @observable adornmentWidth;
 
-    constructor(renderLayers, renderResource, schedule, activeLayer, backgroundLayer, renderPopover, renderAdornment, displayHeaders) {
+    constructor(renderLayers, renderResource, schedule, 
+                activeLayer, backgroundLayer, renderPopover, 
+                renderAdornment, displayHeaders, renderResourceHeader, 
+                renderAdornmentHeader) {
         this.renderLayers = renderLayers;
         this.renderResource = renderResource;
         this.schedule = schedule;
@@ -23,16 +29,23 @@ class UiModel {
         this.activeLayer = activeLayer;
         this.backgroundLayer = backgroundLayer;
         this.displayHeaders = displayHeaders
+        this.renderResourceHeader = renderResourceHeader;
+        this.renderAdornmentHeader = renderAdornmentHeader;
     }
 
-    @action updateSize = debounce((body, resource) => {
+    @action updateSize = debounce((body, resource, adornment) => {
         this.setRowSize(body);
         this.setResourceSize(resource);
+        this.setAdornmentSize(adornment);
     }, 100);
 
     @action setRowSize = (ref) => {
         this.eventRowWidth = ref.current.clientWidth;
         this.eventRowHeight = ref.current.clientHeight;
+    }
+
+    @action setAdornmentSize = ref => {
+        this.adornmentWidth = ref.current.clientWidth;
     }
     
     @computed get cellWidth() {

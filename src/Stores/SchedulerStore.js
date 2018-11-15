@@ -20,6 +20,9 @@ class SchedulerStore {
             renderResource: undefined,
             renderPopover: undefined,
             renderAdornment: undefined,
+            renderAdornmentHeader: undefined,
+            renderResourceHeader: undefined,
+
             activeLayer: undefined,
             backgroundLayer: undefined,
 
@@ -42,7 +45,8 @@ class SchedulerStore {
         });
         this.ui = new UiModel(init.renderLayers, init.renderResource, this, 
                                 init.activeLayer, init.backgroundLayer, 
-                                init.renderPopover, init.renderAdornment, init.displayHeaders
+                                init.renderPopover, init.renderAdornment, init.displayHeaders,
+                                init.renderResourceHeader, init.renderAdornmentHeader
                             );
         this.editEvent = init.editEvent;
         this.stopResize = init.stopResize;
