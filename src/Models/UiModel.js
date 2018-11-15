@@ -9,13 +9,13 @@ class UiModel {
     renderAdornment;
     renderResourceHeader;
     renderAdornmentHeader;
-    @observable eventRowWidth;
-    @observable eventRowHeight;
     @observable activeLayer;
     @observable backgroundLayer;
-    @observable resourceWidth;
     @observable displayHeaders;
-    @observable adornmentWidth;
+
+    @observable adornmentRef;
+    @observable eventRowRef;
+    @observable resourceRef;
 
     constructor(renderLayers, renderResource, schedule, 
                 activeLayer, backgroundLayer, renderPopover, 
@@ -31,6 +31,10 @@ class UiModel {
         this.displayHeaders = displayHeaders
         this.renderResourceHeader = renderResourceHeader;
         this.renderAdornmentHeader = renderAdornmentHeader;
+        this.adornmentRef = undefined;
+        this.eventRowRef = undefined;
+        this.resourceRef = undefined;
+
     }
 
     @action updateSize = debounce((body, resource, adornment) => {
@@ -40,20 +44,19 @@ class UiModel {
     }, 100);
 
     @action setRowSize = (ref) => {
-        this.eventRowWidth = ref.current.clientWidth;
-        this.eventRowHeight = ref.current.clientHeight;
+        this.eventRowRef = ref;
     }
 
     @action setAdornmentSize = ref => {
-        this.adornmentWidth = ref.current.clientWidth;
+        this.adornmentRef = ref;
     }
     
-    @computed get cellWidth() {
-        return this.eventRowWidth / (this.schedule.cells.length + 1); // this is to add the truncated cell back in
+    @action setResourceSize = (ref) => {
+        this.resourceRef = ref;
     }
 
-    @action setResourceSize = (ref) => {
-        this.resourceWidth = ref.current.clientWidth;
+    @computed get cellWidth() {
+        return this.eventRowWidth/(this.schedule.cells.length+1); // this is to add the truncated cell back in
     }
 
     @computed get headers() {
@@ -64,6 +67,19 @@ class UiModel {
 
     @computed get moveWidth() {
         return this.cellWidth * .5; 
+    }
+
+    @computed get eventRowWidth() {
+        console.log(this.eventRowRef);
+        return (this.eventRowRef) ? this.eventRowRef.clientWidth : undefined;
+    }
+
+    @computed get resourceWidth() {
+        return (this.resourceRef) ? this.resourceRef.clientWidth : undefined;
+    }
+
+    @computed get adornmentWidth() {
+        return (this.adornmentRef) ? this.adornmentRef.clientWidth : undefined;
     }
 }
 

@@ -79,9 +79,9 @@ class Scheduler extends React.Component {
 
     constructor(props) {
         super(props);
-        this.eventRowRef = React.createRef();
-        this.resourceRef = React.createRef();
-        this.adornmentRef = React.createRef();
+        this.eventRowRef = null;
+        this.resourceRef = null;
+        this.adornmentRef = null;
     }
 
     static propTypes = {
@@ -90,15 +90,22 @@ class Scheduler extends React.Component {
 
     componentDidMount() {
         this.updateSize();
-        window.addEventListener("resize", this.updateSize);
     }
 
     updateSize = () => {
         this.props.schedulerStore.ui.updateSize(this.eventRowRef, this.resourceRef, this.adornmentRef);
     }
 
-    componentWillUnmount() {
-        window.removeEventListener("resize", this.updateSize);
+    setEventRowRef = element => {
+        this.eventRowRef = element;
+    }
+
+    setResourceRef = element => {
+        this.resourceRef = element;
+    }
+
+    setAdornmentRef = element => {
+        this.adornmentRef = element;
     }
 
     render() {
@@ -134,10 +141,10 @@ class Scheduler extends React.Component {
                             </div>
                             {schedulerStore.resources.map(resource => (
                                 <div className={classes.rowContainer} key={resource.id}>
-                                    <div className={classes.resourceContainer} ref={this.resourceRef} >
+                                    <div className={classes.resourceContainer} ref={this.setResourceRef} >
                                         <ui.renderResource {...resource.componentProps} resource={resource} {...ui.renderResource.props}/>
                                     </div> 
-                                    <div className={classes.eventContainer} ref={this.eventRowRef}>
+                                    <div className={classes.eventContainer} ref={this.setEventRowRef}>
                                             {resource.todaysEvents.map(event => {
                                                 return (<event.render
                                                     key={event.id}
@@ -156,7 +163,7 @@ class Scheduler extends React.Component {
                                             </div>
                                     </div>
                                     {ui.renderAdornment && 
-                                        <div className={classes.adornmentContainer} ref={this.adornmentRef}>
+                                        <div className={classes.adornmentContainer} ref={this.setAdornmentRef}>
                                             <ui.renderAdornment resource={resource} {...ui.renderAdornment.props}/>
                                         </div>
                                     }
