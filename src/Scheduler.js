@@ -4,7 +4,8 @@ import {PropTypes} from "prop-types";
 import Theme from "./Theme";
 import { observer } from "mobx-react";
 import {MuiThemeProvider, createMuiTheme} from "@material-ui/core";
-import ReactWindowSizeListener from "react-window-size-listener";
+import Header from "./Header";
+import { isObservable } from "mobx";
 
 const styles = {
     schedulerContainer: {
@@ -53,20 +54,7 @@ const styles = {
     adornmentContainer: {
         borderLeft: "solid 1px #e6e6e6"
     },
-    headerRoot: {
-        display: "flex"
-    },
-    headerContainer: {
-        display: "flex",
-        minHeight: "40px",
-        alignItems: "center",
-        borderRight: "solid 1px #e6e6e6",
-        borderLeft: "solid 1px #e6e6e6",
-        flex: 1
-    },
-    header: {
-        width: "100%"
-    }
+    
 }
 
 
@@ -114,31 +102,16 @@ class Scheduler extends React.Component {
         const { ui } = schedulerStore;
 
         return (
+            
             <ThemeProvider theme={Theme}>
                 <MuiThemeProvider theme={createMuiTheme({typography: {useNextVariants: true }})}>
                     <div className={this.props.classes.scheduleBodyContainer} >
                         <div className={classes.rowRoot}>
-                            <div className={classes.headerRoot}>
-                                <div className={classes.resourceContainer} style={{width: ui.resourceWidth}}>
-                                    {ui.renderResourceHeader && 
-                                        <ui.renderResourceHeader {...ui.renderResourceHeader.props}/>
-                                    }
-                                </div>
-                                {ui.displayHeaders && 
-                                    <div className={classes.headerContainer}>
-                                        {ui.headers.map(header => (
-                                            <div className={classes.header} key={header}>
-                                                <span style={{ float: "left" }}> {header} </span>
-                                            </div>
-                                        ))}
-                                    </div>
-                                }
-                                <div className={classes.adornmentContainer} style={{width: ui.adornmentWidth}}>
-                                    {ui.renderAdornmentHeader && ui.renderAdornment && 
-                                        <ui.renderAdornmentHeader {...ui.renderAdornmentHeader.props}/>
-                                    }
-                                </div>
-                            </div>
+                            <Header 
+                                ui={ui}
+                                resource={ui.resourceRef}
+                                adornment={ui.adornmentRef}
+                            />
                             {schedulerStore.resources.map(resource => (
                                 <div className={classes.rowContainer} key={resource.id}>
                                     <div className={classes.resourceContainer} ref={this.setResourceRef} >

@@ -1,4 +1,4 @@
-import {observable, computed, action} from "mobx";
+import {observable, computed, action, observe} from "mobx";
 import { debounce } from "lodash"; 
 
 class UiModel {
@@ -56,7 +56,7 @@ class UiModel {
     }
 
     @computed get cellWidth() {
-        return this.eventRowWidth/(this.schedule.cells.length+1); // this is to add the truncated cell back in
+        return this.eventRowWidth / ( this.schedule.cells.length + 1 ); // this is to add the truncated cell back in
     }
 
     @computed get headers() {
@@ -70,7 +70,6 @@ class UiModel {
     }
 
     @computed get eventRowWidth() {
-        console.log(this.eventRowRef);
         return (this.eventRowRef) ? this.eventRowRef.clientWidth : undefined;
     }
 

@@ -11,7 +11,7 @@ const AdornmentComponent = inject("editing")(observer(props => {
             <div style={{width: "200px", height: "100%"}}>
                 <span> {todaysHours} </span>
             </div>
-        : <div style={{width: "200px", height: "100%"}} />
+        : null
     )
 }));
 
