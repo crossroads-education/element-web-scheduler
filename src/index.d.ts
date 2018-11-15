@@ -105,6 +105,8 @@ export class SchedulerStore {
         renderResource: any,
         renderPopover?: any,
         renderAdornment?: any,
+        renderAdornmentHeader?: any,
+        renderResourceHeader?: any,
         displayHeaders?: boolean
         editEvent: (newTime: Moment, event: EventModel, timeChange: "start" | "end") => void,
         createEvent: (newEvent: Event, resource: Resource, startTime: number) => void,
