@@ -36,7 +36,7 @@ function EventWrapper(WrappedComponent) {
     class Event extends React.Component {
 
         edit = (e, data, side) => {
-            this.props.eventModel.edit(this.eventModel.resize(e, data, side), side);
+            this.props.eventModel.edit(this.props.eventModel.resize(e, data, side), side);
         }
 
         togglePopover = (e) => {
