@@ -143,6 +143,10 @@ export class SchedulerStore {
     events: EventModel[];
     resources: ResourceModel[];
 
+    createMethod: "paint" | "add";
+
+    toggleCreateMethod: () => void;
+
     editEvent?: (newTime: Moment, event: EventModel, timeChange: "start" | "end" ) => void;
     createEvent?: (newEvent: Event, resource: ResourceModel, startTime: number) => void;
     deleteEvent?: (event: EventModel, resource: ResourceModel, eventIndex: number) => void;

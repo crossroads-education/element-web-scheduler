@@ -49,7 +49,7 @@ class Scheduler extends React.Component {
         return (
             <ThemeProvider theme={Theme}>
                 <MuiThemeProvider theme={createMuiTheme({typography: {useNextVariants: true }})}>
-                    <Provider ui={ui}>
+                    <Provider ui={ui} schedule={schedulerStore}>
                         <div className={classes.root}>
                             <Resources
                                 resources={schedulerStore.resources}

@@ -5,11 +5,15 @@ import UiModel from "../Models/UiModel";
 
 class SchedulerStore {
     @observable resources;
+    @observable createEvent;
     date;
     ui; 
     resizeEvent;
     stopResize;
     createEvent;
+    startPaint;
+    paintEvent;
+    finishPaint;
 
     constructor( 
         init = {
@@ -42,13 +46,15 @@ class SchedulerStore {
             
             displayHeaders: false,
             rowHeight: undefined,
-            headerHeight: undefined
+            headerHeight: undefined,
+            createMethod: "add",
         } 
     ) {
         const {startTime, endTime, currentDay, 
             resources, editEvent, events,
             stopResize, createEvent, deleteEvent, 
             startPaint, paintEvent, finishPaint,
+            createMethod,
             ...ui
         } = init;
 
@@ -65,10 +71,19 @@ class SchedulerStore {
         this.startPaint = startPaint;
         this.paintEvent = paintEvent;
         this.finishPaint = finishPaint;
+        this.createMethod = createMethod;
     }
 
     @computed get events() {
        return this.resources.reduce((events, resource) => (events = events.concat(resource.events )), []);
+    }
+
+    @computed get paint() {
+        return this.createMethod === "paint";
+    }
+
+    @action toggleCreateMethod() {
+        this.createMethod = (this.createMethod === "paint") ? "add" : "paint";
     }
 }
 

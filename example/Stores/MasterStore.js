@@ -50,6 +50,7 @@ class MasterScheduleStore {
                 startPaint: this.startPaint,
                 paintEvent: this.paintEvent,
                 finishPaint: this.finishPaint,
+                createMethod: "add",
                 displayHeaders: true,
                 rowHeight: 35,
                 headerHeight: 25
