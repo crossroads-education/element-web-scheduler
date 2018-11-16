@@ -1,10 +1,12 @@
 import {observable,computed, action} from "mobx"
 import EventModel from "./EventModel";
-import {ENETDOWN} from "constants";
 
 class ResourceModel {
     @observable componentProps;
     @observable events;
+    @observable paintedEvent; // an event while it is being "painted" before it's actual creation
+    @observable paintEventX;
+    @observable paintSide;
     schedule;
     id;
 
@@ -12,6 +14,7 @@ class ResourceModel {
         this.schedule = schedule;
         this.id = id;
         this.componentProps = componentProps;
+        this.originalX = 0;
         
         this.events = events.map(event => 
             new EventModel({
@@ -29,7 +32,10 @@ class ResourceModel {
 
     @action createEvent = startPosition => {
         let startTime = Math.round(((startPosition / this.schedule.ui.eventRowWidth) * this.schedule.date.hours) * 2) / 2;
+        this.schedule.createEvent(this.initNewEvent(), this, startTime);
+    }
 
+    initNewEvent = () => {   
         const newId = this.schedule.events.reduce((highestId, event) => {
             if (event.id > highestId) highestId = event.id;
             return highestId
@@ -41,10 +47,44 @@ class ResourceModel {
             schedule: this.schedule,
             resource: this,
             layer: this.schedule.ui.activeLayer,
-            day: this.schedule.date.currentDay
+            day: this.schedule.date.currentDay,
         }
 
-        this.schedule.createEvent(newEvent, this, startTime);
+        return newEvent;
+    }
+
+    @action startPaint = (mouseEvent, data) => {
+        let startTime = Math.round(((data.x / this.schedule.ui.eventRowWidth) * this.schedule.date.hours) * 2) / 2;
+        this.paintedEvent = this.schedule.startPaint(this.initNewEvent(), startTime);
+        this.paintEventX = mouseEvent.clientX;
+        this.paintSide = "end";
+    }
+
+    @action doPaint = (mouseEvent, data) => {
+        
+        const side = (this.paintEventX < mouseEvent.clientX) ? "end" : "start";
+        
+        const newTime = this.paintedEvent.resize(mouseEvent, data, side);
+
+        if ( side !== this.paintSide ) {
+            this.paintedEvent.flip();
+            this.paintSide = side;
+        }
+
+        if (newTime) {
+            this.schedule.paintEvent(newTime, this.paintedEvent, side);
+        }
+    }
+
+    @action finishPaint = () => {
+        this.schedule.finishPaint(this, this.paintedEvent);
+        this.cleanUpPaint();
+    }
+
+    @action cleanUpPaint = () => {
+        this.paintedEvent = undefined;
+        this.paintSide = undefined;
+        this.paintEventX = 0;
     }
 
     @action deleteEvent = event => {
@@ -53,7 +93,6 @@ class ResourceModel {
         })
 
         this.schedule.deleteEvent(event, this, index);
-
     }
 
     @action addEvent = event => {

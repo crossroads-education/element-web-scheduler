@@ -1,6 +1,8 @@
 import {observable, computed, action} from "mobx"
-import moment from "moment";
+import Moment from "moment";
+import { extendMoment } from "moment-range";
 
+const moment = extendMoment(Moment);
 
 class EventModel {
     id;
@@ -21,8 +23,14 @@ class EventModel {
     @observable y;
     @observable displayPopup;
     @observable anchorElement;
+    @observable inactive;
 
-    constructor({id, start, end, resourceId, componentProps, schedule, resource, layer, resizable, day} = {}) {
+    constructor({
+        id, start, end, day,
+        resourceId, componentProps, 
+        schedule, resource, 
+        layer, resizable = false, inactive = false, movable = false,
+    }) {
         this.id = id;
         this.start = start;
         this.end = end;
@@ -35,6 +43,8 @@ class EventModel {
         this.day = day;
         this.deltaX = 0;
         this.displayPopup = false;
+        this.movable = movable;
+        this.inactive = inactive;
     }
 
     timespan(start, end) {
@@ -75,6 +85,14 @@ class EventModel {
         return this.schedule.ui.renderLayers[this.layer].event;
     }
 
+    @computed get canResize() {
+        return (this.resizable && !this.inactive);
+    }
+
+    @computed get canMove() {
+        return (this.movable && !this.inactive);
+    }
+
     @computed get resizer() {
         return this.schedule.ui.renderLayers[this.layer].resizer;
     }
@@ -82,6 +100,10 @@ class EventModel {
     @computed get popover() {
         if(!this.schedule.ui.renderPopover) return false;
         return this.schedule.ui.renderPopover;
+    }
+
+    @computed get timeRange() {
+        return moment.range(this._start, this._end);
     }
 
     @action startResize = (evt, position) => {
@@ -93,20 +115,23 @@ class EventModel {
     }
 
     @action edit = (newTime, side) => {
-        let error = false;
 
-        if (side === "start") {
-                if(this._end.isSameOrBefore(newTime) || this.schedule.date.start.isAfter(newTime)) error = true;
-            } else {
-                if(this._start.isSameOrAfter(newTime) || this.schedule.date.end.isBefore(newTime)) error = true;
+        if (newTime) {
+            let error = false;
+
+            if (side === "start") {
+                    if(this._end.isSameOrBefore(newTime) || this.schedule.date.start.isAfter(newTime)) error = true;
+                } else {
+                    if(this._start.isSameOrAfter(newTime) || this.schedule.date.end.isBefore(newTime)) error = true;
+            }
+
+            if(!error) this.schedule.editEvent(newTime, this, side);
         }
-
-        if(!error) this.schedule.editEvent(newTime, this, side);
     }
 
     @action resize = (evt, data, side) => {
 
-        if (data.deltaX === 0) return;
+        if (data.deltaX === 0) return undefined;
 
         this.deltaX += evt.movementX;
 
@@ -122,8 +147,16 @@ class EventModel {
 
             const newTime = currentTime.add(timeChange, "hours");
             
-            this.edit(newTime, side);
+            return newTime;
         }
+
+        return undefined;
+    }
+
+    @action flip = (newTime) => {
+        const buffer = this.start; 
+        this.start = this.end;
+        this.end = buffer;
     }
 
     @action togglePopover = target => {

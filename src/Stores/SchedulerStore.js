@@ -31,6 +31,10 @@ class SchedulerStore {
             createEvent: undefined,
             deleteEvent: undefined,
 
+            startPaint: undefined,
+            paintEvent: undefined,
+            finishPaint: undefined,
+
             startTime: "",
             endTime: "",
             currentDay: undefined,
@@ -52,6 +56,9 @@ class SchedulerStore {
         this.stopResize = init.stopResize;
         this.createEvent = init.createEvent;
         this.deleteEvent = init.deleteEvent
+        this.startPaint = init.startPaint;
+        this.paintEvent = init.paintEvent;
+        this.finishPaint = init.finishPaint;
     }
 
     @computed get events() {

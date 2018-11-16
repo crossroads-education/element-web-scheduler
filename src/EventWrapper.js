@@ -35,8 +35,8 @@ function EventWrapper(WrappedComponent) {
     @injectSheet(styles)
     class Event extends React.Component {
 
-        resize = (e, data, side) => {
-            this.props.eventModel.resize(e, data, side);
+        edit = (e, data, side) => {
+            this.props.eventModel.edit(this.eventModel.resize(e, data, side), side);
         }
 
         togglePopover = (e) => {
@@ -47,21 +47,20 @@ function EventWrapper(WrappedComponent) {
 
             return (
                 <Draggable
+                    axis="none"
                     cancel={"." + this.props.classes.eventResizer}
-                    onStart={this.props.eventModel.startDrag}
-                    onStop={this.props.eventModel.drag}
                 >
                     <div 
                         className={this.props.classes.eventRoot}
                         style={{
-                            zIndex: this.props.eventModel.layer||0,
+                            zIndex: this.props.eventModel.layer || 0,
                             width: this.props.eventModel.width,
                             left: this.props.eventModel.left,
                         }}
                     >
-                        {this.props.eventModel.resizable &&
+                        {this.props.eventModel.canResize && this.props.eventModel.resizer &&
                             <DraggableCore
-                                onDrag={(e, data) => {this.resize(e, data, "start")}}
+                                onDrag={(e, data) => {this.edit(e, data, "start")}}
                                 onStop={this.props.eventModel.stopResize}
                                 axis="x"
                                 onMouseDown={e => {e.stopPropagation();}}
@@ -74,9 +73,9 @@ function EventWrapper(WrappedComponent) {
                         <div className={this.props.classes.eventWrapper} onClick={this.togglePopover}>
                             <WrappedComponent {...this.props.componentProps} eventModel={this.props.eventModel} />
                         </div>
-                        {this.props.eventModel.resizable &&
+                        {this.props.eventModel.canResize && this.props.eventModel.resizer && 
                             <DraggableCore
-                                onDrag={(e, data) => {this.resize(e, data, "end")}}
+                                onDrag={(e, data) => {this.edit(e, data, "end")}}
                                 onStop={this.props.eventModel.stopResize}
                                 axis="x"
                                 onMouseDown={e => {e.stopPropagation();}}
@@ -86,7 +85,7 @@ function EventWrapper(WrappedComponent) {
                                 </div>
                             </DraggableCore>
                         }
-                        {this.props.eventModel.popover && 
+                        {this.props.eventModel.popover && !this.props.eventModel.static && 
                             <this.props.eventModel.popover
                                 eventModel={this.props.eventModel}
                             />

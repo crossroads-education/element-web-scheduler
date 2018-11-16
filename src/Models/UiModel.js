@@ -70,7 +70,6 @@ class UiModel {
     }
 
     @computed get eventRowWidth() {
-        console.log(this.eventRowRef);
         return (this.eventRowRef) ? this.eventRowRef.clientWidth : undefined;
     }
 

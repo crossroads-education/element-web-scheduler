@@ -6,6 +6,7 @@ import ShiftEvent from "../ShiftEvent";
 import ShiftResizer from "../ShiftResizer";
 import ResourceComponent from "../ResourceComponent";
 import AdornmentComponent, { AdornmentHeader } from "../AdornmentComponent";
+import AvailabilityEvent from "../Available";
 import _ from "lodash";
 
 class MasterScheduleStore {
@@ -21,26 +22,35 @@ class MasterScheduleStore {
         const e = _.cloneDeep( MasterDemoData.events );
         const schedule = new SchedulerStore( 
            {
-              resources: r,
-              events: e,
-              startTime: 6,
-              endTime: 18,
-              currentDay: 5,
-              activeLayer: 3,
-              backgroundLayer: 1,
-              renderLayers: { 3: {
-                  event: ShiftEvent,
-                  resizer: ShiftResizer
-              }},
-              renderResource: ResourceComponent,
-              renderPopover: PopoverComponent,
-              renderAdornment: AdornmentComponent,
-              renderAdornmentHeader: AdornmentHeader,
-              editEvent: this.resizeEvent,
-              stopResize: this.stopResize,
-              createEvent: this.createEvent,
-              deleteEvent: this.deleteEvent,
-              displayHeaders: true
+                resources: r,
+                events: e,
+                startTime: 6,
+                endTime: 18,
+                currentDay: 5,
+                activeLayer: 3,
+                backgroundLayer: 2,
+                renderLayers: { 
+                    1: {
+                        event: AvailabilityEvent,
+                        resizer: undefined
+                    },
+                    3: {
+                        event: ShiftEvent,
+                        resizer: ShiftResizer
+                    }
+                },
+                renderResource: ResourceComponent,
+                renderPopover: PopoverComponent,
+                renderAdornment: AdornmentComponent,
+                renderAdornmentHeader: AdornmentHeader,
+                editEvent: this.resizeEvent,
+                stopResize: this.stopResize,
+                createEvent: this.createEvent,
+                deleteEvent: this.deleteEvent,
+                startPaint: this.startPaint,
+                paintEvent: this.paintEvent,
+                finishPaint: this.finishPaint,
+                displayHeaders: true
            }
         );
 
@@ -63,7 +73,7 @@ class MasterScheduleStore {
             ...{
                 start, 
                 end, 
-                resizable: true,
+                resizable: false,
                 componentProps: {
                     backgroundColor: "#3091FF"
                 }
@@ -71,6 +81,29 @@ class MasterScheduleStore {
         });
 
         resource.addEvent(event);
+    }
+
+    @action startPaint = (newEvent, startTime) => {
+        const start = this.schedulerStore.date.start.clone().add(startTime, "hours").format("HH:mm:ss");
+        const end = this.schedulerStore.date.start.clone().add(startTime, "hours").format("HH:mm:ss");
+        return new EventModel({ ...newEvent, start, end: end, resizable: false, layer: 1 });
+    }
+
+    @action paintEvent = (newTime, paintedEvent, side) => {
+        paintedEvent[side] = newTime.format("HH:mm:ss");
+    }
+
+    @action finishPaint = (resource, newEvent) => {
+        resource.todaysEvents.forEach(event => {
+            if (event.layer === 1 && newEvent.timeRange.overlaps(event.timeRange, { adjacent: true })) {
+                const newRange = newEvent.timeRange.clone().add(event.timeRange.clone(), { adjacent: true });
+                newEvent.start = newRange.start.format("HH:mm:ss");
+                newEvent.end = newRange.end.format("HH:mm:ss");
+                event.delete();
+            }
+        });
+
+        resource.addEvent(newEvent);
     }
 
     @action deleteEvent = (event, resource, index) => {

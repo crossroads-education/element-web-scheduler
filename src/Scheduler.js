@@ -4,7 +4,7 @@ import {PropTypes} from "prop-types";
 import Theme from "./Theme";
 import { observer } from "mobx-react";
 import {MuiThemeProvider, createMuiTheme} from "@material-ui/core";
-import ReactWindowSizeListener from "react-window-size-listener";
+import { DraggableCore } from "react-draggable";
 
 const styles = {
     schedulerContainer: {
@@ -41,6 +41,7 @@ const styles = {
         position: "absolute",
         width: "100%",
         height: "100%",
+        zIndex: props => props.schedulerStore.ui.backgroundLayer,
         "& $backgroundCell:nth-child(2n)": {
             borderLeft: "dashed 1px #dfdfdf"
         },
@@ -49,6 +50,12 @@ const styles = {
         width: "100%",
         height: "100%",
         borderLeft: "solid 1px #e6e6e6",
+    },
+    paintEventContainer: {
+        zIndex: 999,
+        position: "absolute",
+        width: "100%",
+        height: "100%"
     },
     adornmentContainer: {
         borderLeft: "solid 1px #e6e6e6"
@@ -156,11 +163,33 @@ class Scheduler extends React.Component {
                                                     left={event.left}
                                                 />);
                                             })}
-                                            <div className={classes.cellRoot}>
-                                                {schedulerStore.cells.map(cell => (
-                                                    <div key={cell} className={classes.backgroundCell} onClick={e => {resource.createEvent(e.target.offsetLeft);}} />
-                                                ))}
-                                            </div>
+
+                                            {resource.paintedEvent &&
+                                                <div className={classes.paintEventContainer}> 
+                                                    <resource.paintedEvent.render
+                                                        eventModel={resource.paintedEvent}
+                                                        active={resource.paintedEvent.active}
+                                                        componentProps={resource.paintedEvent.componentProps}
+                                                        resizable={resource.paintedEvent.resizable}
+                                                        width={resource.paintedEvent.width}
+                                                        left={resource.paintedEvent.left}
+                                                    />
+                                                </div>
+                                                
+                                            }
+                                            <DraggableCore
+                                                onStart={resource.startPaint}
+                                                onDrag={resource.doPaint}
+                                                onStop={resource.finishPaint}
+                                                axis="x"
+                                            >
+                                                <div className={classes.cellRoot}>
+                                                    {schedulerStore.cells.map(cell => (
+                                                        <div key={cell} className={classes.backgroundCell} onClick={e => {resource.createEvent(e.target.offsetLeft);}} />
+                                                    ))}
+                                                </div>
+                                            </DraggableCore>
+                                            
                                     </div>
                                     {ui.renderAdornment && 
                                         <div className={classes.adornmentContainer} ref={this.setAdornmentRef}>
