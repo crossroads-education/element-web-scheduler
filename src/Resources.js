@@ -29,7 +29,7 @@ class Resources extends React.Component {
         return (
             <div className={classes.root}>
                 {resources.map(resource => (
-                    <div className={classes.resourceContainer}>
+                    <div className={classes.resourceContainer} key={resource.id}>
                         <ui.renderResource 
                             resource={resource}
                             {...resource.componentProps}

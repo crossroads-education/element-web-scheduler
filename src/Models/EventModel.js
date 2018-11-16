@@ -152,7 +152,7 @@ class EventModel {
         return undefined;
     }
 
-    @action flip = (newTime) => {
+    @action flip = () => {
         const buffer = this.start; 
         this.start = this.end;
         this.end = buffer;
