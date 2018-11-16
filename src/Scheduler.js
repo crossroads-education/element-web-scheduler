@@ -165,17 +165,14 @@ class Scheduler extends React.Component {
                                             })}
 
                                             {resource.paintedEvent &&
-                                                <div className={classes.paintEventContainer}> 
-                                                    <resource.paintedEvent.render
-                                                        eventModel={resource.paintedEvent}
-                                                        active={resource.paintedEvent.active}
-                                                        componentProps={resource.paintedEvent.componentProps}
-                                                        resizable={resource.paintedEvent.resizable}
-                                                        width={resource.paintedEvent.width}
-                                                        left={resource.paintedEvent.left}
-                                                    />
-                                                </div>
-                                                
+                                                <resource.paintedEvent.render
+                                                    eventModel={resource.paintedEvent}
+                                                    active={resource.paintedEvent.active}
+                                                    componentProps={resource.paintedEvent.componentProps}
+                                                    resizable={resource.paintedEvent.resizable}
+                                                    width={resource.paintedEvent.width}
+                                                    left={resource.paintedEvent.left}
+                                                />
                                             }
                                             <DraggableCore
                                                 onStart={resource.startPaint}

@@ -14,7 +14,6 @@ class ResourceModel {
         this.schedule = schedule;
         this.id = id;
         this.componentProps = componentProps;
-        this.originalX = 0;
         
         this.events = events.map(event => 
             new EventModel({

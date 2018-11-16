@@ -115,14 +115,13 @@ class EventModel {
     }
 
     @action edit = (newTime, side) => {
-
         if (newTime) {
             let error = false;
 
             if (side === "start") {
-                    if(this._end.isSameOrBefore(newTime) || this.schedule.date.start.isAfter(newTime)) error = true;
-                } else {
-                    if(this._start.isSameOrAfter(newTime) || this.schedule.date.end.isBefore(newTime)) error = true;
+                if(this._end.isSameOrBefore(newTime) || this.schedule.date.start.isAfter(newTime)) error = true;
+            } else {
+                if(this._start.isSameOrAfter(newTime) || this.schedule.date.end.isBefore(newTime)) error = true;
             }
 
             if(!error) this.schedule.editEvent(newTime, this, side);

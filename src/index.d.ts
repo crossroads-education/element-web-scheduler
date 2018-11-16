@@ -29,9 +29,18 @@ export type Resource = {
 export type ResourceModel = {
     componentProps: {[key: string]: any};
     id: number | string;
+    paintEventX: number;
+    paintedEvent: EventModel;
+    paintSide: "start" | "end";
     events: EventModel[];
     schedule: SchedulerStore;
+    todaysEvents: EventModel[];
     deleteEvent: (event: EventModel) => void;
+    initNewEvent: () => Event;
+    startPaint: (mouseEvent: MouseEvent, data: any) => void;
+    doPaint: (mouseEvent: MouseEvent,data: any) => void;
+    finishPaint: () => void;
+    cleanUpPaint: () => void;
 }
 
 export class EventModel {
@@ -49,9 +58,14 @@ export class EventModel {
     _start: Moment;
     _end: Moment;
     duration: number;
+    timeRange: MomentRange;
+    canResize: boolean;
+    canMove: boolean;
     delete: () => void;
     toggleResizing: () => void;
     edit: (newTime: moment.Moment, side: "start" | "end") => void;
+    flip: () => void;
+    resize: (evt: MouseEvent, data: any, side: "start" | "end") => moment.Moment;
 }
 
 export type Event = {
@@ -107,19 +121,33 @@ export class SchedulerStore {
         renderAdornment?: any,
         renderAdornmentHeader?: any,
         renderResourceHeader?: any,
-        displayHeaders?: boolean
-        editEvent: (newTime: Moment, event: EventModel, timeChange: "start" | "end") => void,
-        createEvent: (newEvent: Event, resource: Resource, startTime: number) => void,
-        deleteEvent: (event: EventModel, resource: ResourceModel, eventIndex: number) => void
+        displayHeaders?: boolean,
+
+        createMethod?: "paint" | "add",
+        
+        editEvent?: (newTime: Moment, event: EventModel, timeChange: "start" | "end") => void,
+        createEvent?: (newEvent: Event, resource: Resource, startTime: number) => void,
+        deleteEvent?: (event: EventModel, resource: ResourceModel, eventIndex: number) => void,
+
+        startPaint?: (newEvent: Event, startTime: number) => EventModel,
+        paintEvent?: (newTime: moment.Moment, paintedEvent: EventModel, side: "start" | "end") => void,
+        finishPaint?: (resource: ResourceModel, newEvent: EventModel) => void
+
     });
 
     date: DateModel;
-    resources: ResourceModel[];
-    editEvent: (newTime: Moment, event: EventModel, timeChange: "start" | "end" ) => void;
-    createEvent: (newEvent: Event, resource: ResourceModel, startTime: number) => void;
-    deleteEvent: (event: EventModel, resource: ResourceModel, eventIndex: number) => void;
-    events: EventModel[];
     ui: UiModel;
+    events: EventModel[];
+    resources: ResourceModel[];
+
+    editEvent?: (newTime: Moment, event: EventModel, timeChange: "start" | "end" ) => void;
+    createEvent?: (newEvent: Event, resource: ResourceModel, startTime: number) => void;
+    deleteEvent?: (event: EventModel, resource: ResourceModel, eventIndex: number) => void;
+    
+    startPaint?: (newEvent: Event,startTime: number) => EventModel;
+    paintEvent?: (newTime: moment.Moment,paintedEvent: EventModel,side: "start"|"end") => void;
+    finishPaint?: (resource: ResourceModel,newEvent: EventModel) => void;
+    
 }
 
 declare const Scheduler: React.ComponentType<any>;
