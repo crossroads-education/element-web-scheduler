@@ -12,15 +12,14 @@ class UiModel {
     @observable activeLayer;
     @observable backgroundLayer;
     @observable displayHeaders;
-
-    @observable adornmentRef;
     @observable eventRowRef;
-    @observable resourceRef;
+    @observable rowHeight;
+    @observable headerHeight;
 
-    constructor(renderLayers, renderResource, schedule, 
+    constructor({renderLayers, renderResource,
                 activeLayer, backgroundLayer, renderPopover, 
                 renderAdornment, displayHeaders, renderResourceHeader, 
-                renderAdornmentHeader) {
+                renderAdornmentHeader, rowHeight, headerHeight}, schedule) {
         this.renderLayers = renderLayers;
         this.renderResource = renderResource;
         this.schedule = schedule;
@@ -31,32 +30,23 @@ class UiModel {
         this.displayHeaders = displayHeaders
         this.renderResourceHeader = renderResourceHeader;
         this.renderAdornmentHeader = renderAdornmentHeader;
-        this.adornmentRef = undefined;
         this.eventRowRef = undefined;
-        this.resourceRef = undefined;
-
+        this.rowHeight = rowHeight;
+        this.headerHeight = headerHeight;
     }
-
-    @action updateSize = debounce((body, resource, adornment) => {
-        this.setRowSize(body);
-        this.setResourceSize(resource);
-        this.setAdornmentSize(adornment);
-    }, 100);
 
     @action setRowSize = (ref) => {
         this.eventRowRef = ref;
     }
 
-    @action setAdornmentSize = ref => {
-        this.adornmentRef = ref;
-    }
-    
-    @action setResourceSize = (ref) => {
-        this.resourceRef = ref;
+    @computed get cellWidth() {
+        return this.eventRowWidth / (this.cells.length + 1); // this is to add the truncated cell back in
     }
 
-    @computed get cellWidth() {
-        return this.eventRowWidth/(this.schedule.cells.length+1); // this is to add the truncated cell back in
+    @computed get cells() {
+        const cells = Array.from(this.schedule.date.range.by("minute", {step: 30})).map(m => m.format("H:mm"));
+        cells.shift();
+        return cells;
     }
 
     @computed get headers() {
@@ -71,14 +61,6 @@ class UiModel {
 
     @computed get eventRowWidth() {
         return (this.eventRowRef) ? this.eventRowRef.clientWidth : undefined;
-    }
-
-    @computed get resourceWidth() {
-        return (this.resourceRef) ? this.resourceRef.clientWidth : undefined;
-    }
-
-    @computed get adornmentWidth() {
-        return (this.adornmentRef) ? this.adornmentRef.clientWidth : undefined;
     }
 }
 

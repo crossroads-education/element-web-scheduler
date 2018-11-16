@@ -27,7 +27,7 @@ export default class MasterScheduler extends React.Component {
                         decrementDay={Store.schedulerStore.date.decrementDay}
                         enableEditing={Store.enableEditing}
                     />
-                    <Provider editing={Store.editing}>
+                    <Provider Store={Store}>
                         <Scheduler
                             schedulerStore={Store.schedulerStore}
                         />

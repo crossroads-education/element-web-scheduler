@@ -1,0 +1,55 @@
+import * as React from "react";
+import { observer, inject } from "mobx-react";
+import injectSheet from "react-jss";
+
+const styles = {
+    root: {
+        width: "auto",
+        height: "auto",
+        display: "flex",
+        flexDirection: "column"
+    },
+    adornmentContainer: {
+        borderLeft: "solid 1px #e6e6e6",
+        display: "flex",
+        height: props => props.ui.rowHeight,
+        borderTop: "solid 1px #9d9d9d"
+    },
+    headerContainer: {
+        width: "100%",
+        height: props => props.ui.headerHeight
+    }
+}
+
+@inject("ui")
+@injectSheet(styles)
+@observer
+class Adornments extends React.Component {
+
+    render() {
+        const { classes, ui, resources} = this.props;
+        return (
+            (ui.renderAdornment) ?
+            <div className={classes.root}>
+                {ui.renderAdornmentHeader &&
+                    <div className={classes.headerContainer}> 
+                        <ui.renderAdornmentHeader 
+                            {...ui.renderAdornmentHeader.props}
+                        />
+                    </div>
+                }
+                {resources.map(resource => (
+                    <div className={classes.adornmentContainer}> 
+                        <ui.renderAdornment 
+                            resource={resource}
+                            {...ui.renderAdornment.props}
+                        />
+                    </div>
+                ))}
+            </div>
+            : null
+        );
+    }
+}
+
+export default Adornments;

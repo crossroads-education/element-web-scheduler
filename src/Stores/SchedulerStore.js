@@ -22,6 +22,7 @@ class SchedulerStore {
             renderAdornment: undefined,
             renderAdornmentHeader: undefined,
             renderResourceHeader: undefined,
+            
 
             activeLayer: undefined,
             backgroundLayer: undefined,
@@ -39,40 +40,36 @@ class SchedulerStore {
             endTime: "",
             currentDay: undefined,
             
-            displayHeaders: false
+            displayHeaders: false,
+            rowHeight: undefined,
+            headerHeight: undefined
         } 
     ) {
-        this.date = new DateModel(init.startTime, init.endTime, init.currentDay);
-        this.resources = init.resources.map(resource => {
-            let resourceEvents = init.events.filter(event => event.resourceId === resource.id);
+        const {startTime, endTime, currentDay, 
+            resources, editEvent, events,
+            stopResize, createEvent, deleteEvent, 
+            startPaint, paintEvent, finishPaint,
+            ...ui
+        } = init;
+
+        this.date = new DateModel(startTime, endTime, currentDay, this);
+        this.resources = resources.map(resource => {
+            let resourceEvents = events.filter(event => event.resourceId === resource.id);
             return new ResourceModel(resource.id, resourceEvents, resource.componentProps, this)
         });
-        this.ui = new UiModel(init.renderLayers, init.renderResource, this, 
-                                init.activeLayer, init.backgroundLayer, 
-                                init.renderPopover, init.renderAdornment, init.displayHeaders,
-                                init.renderResourceHeader, init.renderAdornmentHeader
-                            );
-        this.editEvent = init.editEvent;
-        this.stopResize = init.stopResize;
-        this.createEvent = init.createEvent;
-        this.deleteEvent = init.deleteEvent
-        this.startPaint = init.startPaint;
-        this.paintEvent = init.paintEvent;
-        this.finishPaint = init.finishPaint;
+        this.ui = new UiModel(ui, this);
+        this.editEvent = editEvent;
+        this.stopResize = stopResize;
+        this.createEvent = createEvent;
+        this.deleteEvent = deleteEvent
+        this.startPaint = startPaint;
+        this.paintEvent = paintEvent;
+        this.finishPaint = finishPaint;
     }
 
     @computed get events() {
        return this.resources.reduce((events, resource) => (events = events.concat(resource.events )), []);
     }
-
-    @computed get cells() {
-        const cells = Array.from(this.date.range.by("minute", {step: 30})).map(m => m.format("H:mm"));
-        cells.shift();
-        return cells;
-    }
-
-    
-
 }
 
 export default SchedulerStore;

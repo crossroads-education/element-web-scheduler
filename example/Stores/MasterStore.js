@@ -50,7 +50,9 @@ class MasterScheduleStore {
                 startPaint: this.startPaint,
                 paintEvent: this.paintEvent,
                 finishPaint: this.finishPaint,
-                displayHeaders: true
+                displayHeaders: true,
+                rowHeight: 35,
+                headerHeight: 25
            }
         );
 
@@ -111,7 +113,7 @@ class MasterScheduleStore {
     }
 
     @action enableEditing = () => {
-        this.editing = !this.editing;
+        this.editing = (this.editing) ? false : true;
         this.schedulerStore.events.forEach(event => { 
             event.toggleResizing();
         })

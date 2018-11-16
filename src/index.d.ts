@@ -91,10 +91,10 @@ export type UiModel = {
     bodyHeight: number;
     activeLayer: number;
     backgroundLayer: number;
-    resourceWidth: number;
     displayHeaders: boolean;
     headers: string[];
-    
+    rowHeight: number;
+    headerHeight: number;
 }
 
 export function EventWrapper(component: React.ComponentType): React.ComponentType;
@@ -121,7 +121,10 @@ export class SchedulerStore {
         renderAdornment?: any,
         renderAdornmentHeader?: any,
         renderResourceHeader?: any,
+        
         displayHeaders?: boolean,
+        rowHeight: number,
+        headerHeight: number,
 
         createMethod?: "paint" | "add",
         
