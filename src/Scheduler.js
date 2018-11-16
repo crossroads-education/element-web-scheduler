@@ -15,23 +15,8 @@ const styles = {
         justifyContent: "flex-start",
         alignItems: "flex-end",
         height: "100%"
-    },
-    headerRoot: {
-        display: "flex"
-    },
-    headerContainer: {
-        display: "flex",
-        minHeight: "40px",
-        alignItems: "center",
-        borderRight: "solid 1px #e6e6e6",
-        borderLeft: "solid 1px #e6e6e6",
-        flex: 1
-    },
-    header: {
-        width: "100%"
     }
 }
-
 
 @injectSheet(styles)
 @observer

@@ -4,7 +4,7 @@ import {SchedulerStore, EventModel} from "../../src/";
 import PopoverComponent from "../PopoverComponent";
 import ShiftEvent from "../ShiftEvent";
 import ShiftResizer from "../ShiftResizer";
-import ResourceComponent from "../ResourceComponent";
+import ResourceComponent, { ResourceHeader } from "../ResourceComponent";
 import AdornmentComponent, { AdornmentHeader } from "../AdornmentComponent";
 import AvailabilityEvent from "../Available";
 import _ from "lodash";
@@ -43,6 +43,7 @@ class MasterScheduleStore {
                 renderPopover: PopoverComponent,
                 renderAdornment: AdornmentComponent,
                 renderAdornmentHeader: AdornmentHeader,
+                renderResourceHeader: ResourceHeader,
                 editEvent: this.resizeEvent,
                 stopResize: this.stopResize,
                 createEvent: this.createEvent,
@@ -50,7 +51,7 @@ class MasterScheduleStore {
                 startPaint: this.startPaint,
                 paintEvent: this.paintEvent,
                 finishPaint: this.finishPaint,
-                createMethod: "add",
+                createMethod: "paint",
                 displayHeaders: true,
                 rowHeight: 35,
                 headerHeight: 25

@@ -7,17 +7,17 @@ const styles = {
         width: "auto",
         height: "auto",
         display: "flex",
-        flexDirection: "column"
+        flexDirection: "column",
+        
     },
     adornmentContainer: {
-        borderLeft: "solid 1px #e6e6e6",
         display: "flex",
         height: props => props.ui.rowHeight,
-        borderTop: "solid 1px #9d9d9d"
+        borderTop: "solid 1px #9d9d9d",
     },
     headerContainer: {
         width: "100%",
-        height: props => props.ui.headerHeight
+        height: props => props.ui.headerHeight,
     }
 }
 

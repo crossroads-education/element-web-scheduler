@@ -17,7 +17,7 @@ const AdornmentComponent = inject("Store")(observer(props => {
 
 export const AdornmentHeader = inject("Store")(observer(props => (
     (props.Store.editing) ?
-        <div style={{width: "100%", height: "100%"}}>
+        <div style={{width: "100%", height: "100%", borderLeft: "solid 1px #e6e6e6"}}>
             <span> Hours Today </span>
         </div> : null
 )));

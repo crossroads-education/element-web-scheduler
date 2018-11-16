@@ -7,13 +7,17 @@ const styles = {
         width: "auto",
         height: "auto",
         display: "flex",
-        flexDirection: "column"
+        flexDirection: "column",
     },
     resourceContainer: {
         display: "flex",
         height: "auto",
         borderTop: "solid 1px #9d9d9d",
-        height: props => props.ui.rowHeight
+        height: props => props.ui.rowHeight,
+    },
+    headerContainer: {
+        width: "100%",
+        height: props => props.ui.headerHeight,
     }
 }
 
@@ -28,6 +32,13 @@ class Resources extends React.Component {
 
         return (
             <div className={classes.root}>
+                {ui.renderResourceHeader &&
+                    <div className={classes.headerContainer}> 
+                        <ui.renderResourceHeader
+                            {...ui.renderResourceHeader.props}
+                        />
+                    </div>
+                }
                 {resources.map(resource => (
                     <div className={classes.resourceContainer} key={resource.id}>
                         <ui.renderResource 

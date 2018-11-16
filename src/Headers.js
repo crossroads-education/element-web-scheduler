@@ -7,7 +7,6 @@ const styles = {
         display: "flex",
         height: props => props.ui.headerHeight,
         alignItems: "center",
-        borderLeft: "solid 1px #e6e6e6",
     },
     header: {
         width: "100%"
