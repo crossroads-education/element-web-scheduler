@@ -27,7 +27,7 @@ class MasterScheduleStore {
                 startTime: 6,
                 endTime: 18,
                 currentDay: 5,
-                activeLayer: 3,
+                activeLayer: 5,
                 backgroundLayer: 2,
                 renderLayers: { 
                     1: {
