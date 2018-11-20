@@ -101,42 +101,43 @@ export function EventWrapper(component: React.ComponentType): React.ComponentTyp
 
 export function PopoverWrapper(component: React.ComponentType): React.ComponentType;
 
+export type SchedulerInit = { 
+    resources: Resource[],
+    events: Event[],
+    startTime: number,
+    endTime: number,
+    currentDay: number,
+    activeLayer: number,
+    backgroundLayer: number,
+    renderLayers: {
+        [key: number]: {
+            event: any,
+            resizer: any
+        }
+    },
+    renderResource: any,
+    renderPopover?: any,
+    renderAdornment?: any,
+    renderAdornmentHeader?: any,
+    renderResourceHeader?: any,
+
+    displayHeaders?: boolean,
+    rowHeight: number,
+    headerHeight: number,
+
+    createMethod?: "paint"|"add",
+
+    editEvent?: (newTime: Moment,event: EventModel,timeChange: "start"|"end") => void,
+    createEvent?: (newEvent: Event,resource: Resource,startTime: number) => void,
+    deleteEvent?: (event: EventModel,resource: ResourceModel,eventIndex: number) => void,
+
+    startPaint?: (newEvent: Event,startTime: number) => EventModel,
+    paintEvent?: (newTime: moment.Moment,paintedEvent: EventModel,side: "start"|"end") => void,
+    finishPaint?: (resource: ResourceModel,newEvent: EventModel) => void
+}
+
 export class SchedulerStore {
-    constructor(init: {
-        resources: Resource[],
-        events: Event[],
-        startTime: number,
-        endTime: number,
-        currentDay: number,
-        activeLayer: number,
-        backgroundLayer: number,
-        renderLayers: {
-            [key: number]: {
-                event: any,
-                resizer: any
-            }
-        },
-        renderResource: any,
-        renderPopover?: any,
-        renderAdornment?: any,
-        renderAdornmentHeader?: any,
-        renderResourceHeader?: any,
-        
-        displayHeaders?: boolean,
-        rowHeight: number,
-        headerHeight: number,
-
-        createMethod?: "paint" | "add",
-        
-        editEvent?: (newTime: Moment, event: EventModel, timeChange: "start" | "end") => void,
-        createEvent?: (newEvent: Event, resource: Resource, startTime: number) => void,
-        deleteEvent?: (event: EventModel, resource: ResourceModel, eventIndex: number) => void,
-
-        startPaint?: (newEvent: Event, startTime: number) => EventModel,
-        paintEvent?: (newTime: moment.Moment, paintedEvent: EventModel, side: "start" | "end") => void,
-        finishPaint?: (resource: ResourceModel, newEvent: EventModel) => void
-
-    });
+    constructor(init: SchedulerInit);
 
     date: DateModel;
     ui: UiModel;
