@@ -11,8 +11,8 @@ const ResourceComponent = props => (
 );
 
 const ResourceHeader = props => (
-    <div style={{ height: "100%", width: "60px", borderRight: "solid 1px #e6e6e6" }}>
-        <span> Day </span>
+    <div style={{ height: "100%", width: "100%", borderRight: "solid 1px #bcbcbc" }}>
+        <span />
     </div>
 )
 

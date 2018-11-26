@@ -22,11 +22,12 @@ class Headers extends React.Component {
         const { classes, headers } = this.props;
         return (
             <div className={classes.headerContainer}>
-                    {headers.map(header => (
-                        <div className={classes.header} key={header}>
-                            <span style={{float: "left"}}> {header} </span>
-                        </div>
-                    ))}
+                <div className={classes.header} key="empty-header" />
+                {headers.map(header => (
+                    <div className={classes.header} key={header}>
+                        <span style={{ float: "left", marginLeft: "-8%" }}> {header} </span>
+                    </div>
+                ))}
             </div>
         );
     }

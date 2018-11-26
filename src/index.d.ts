@@ -36,6 +36,7 @@ export type ResourceModel = {
     schedule: SchedulerStore;
     todaysEvents: EventModel[];
     deleteEvent: (event: EventModel) => void;
+    addEvent: (event: EventModel) => void;
     initNewEvent: () => Event;
     startPaint: (mouseEvent: MouseEvent, data: any) => void;
     doPaint: (mouseEvent: MouseEvent,data: any) => void;
@@ -61,6 +62,7 @@ export class EventModel {
     timeRange: MomentRange;
     canResize: boolean;
     canMove: boolean;
+    componentProps: { [key: string]: any };
     delete: () => void;
     toggleResizing: () => void;
     edit: (newTime: moment.Moment, side: "start" | "end") => void;

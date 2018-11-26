@@ -7,7 +7,7 @@ const styles = {
     root: {
         width: "100%",
         height: "100%",
-        background: "repeating-linear-gradient(45deg, white, white 2.5px, #D8D8D8 2.5px, #D8D8D8 5px)"
+        background: "repeating-linear-gradient(45deg, white, white 2px, #dfdfdf 2px, #dfdfdf 4px)"
     }
 
 }

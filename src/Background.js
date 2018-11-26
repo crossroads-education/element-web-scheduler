@@ -17,7 +17,7 @@ const styles = {
     backgroundCell: {
         width: "100%",
         height: "100%",
-        borderLeft: "solid 1px #e6e6e6",
+        borderLeft: "solid 1px #bcbcbc",
     },
 }
 
