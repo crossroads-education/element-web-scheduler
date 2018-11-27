@@ -15,7 +15,7 @@ const styles = {
     rowContainer: {
         display: "flex",
         height: "auto",
-        borderTop: "solid 1px #9d9d9d",
+        borderTop: "solid 1px #bcbcbc",
         height: props => props.ui.rowHeight,
         position: "relative"
     }
