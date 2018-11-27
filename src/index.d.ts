@@ -1,6 +1,6 @@
 import * as React from "react";
-import {Moment} from "moment";
-import {MomentRange} from "moment-range";
+import { Moment } from "moment";
+import { DateRange } from "moment-range";
 import moment=require("moment");
 
 export type DateModel = {
@@ -59,7 +59,7 @@ export class EventModel {
     _start: Moment;
     _end: Moment;
     duration: number;
-    timeRange: MomentRange;
+    timeRange: DateRange;
     canResize: boolean;
     canMove: boolean;
     componentProps: { [key: string]: any };
