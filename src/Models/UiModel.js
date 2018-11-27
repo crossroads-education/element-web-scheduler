@@ -51,7 +51,7 @@ class UiModel {
 
     @computed get headers() {
         let headers = Array.from(this.schedule.date.range.by("hour")).map(m => m.format("ha").slice(0, -1));
-        headers.shift();
+        if (this.renderResourceHeader) headers.shift();
         headers.pop();
         return headers;
     }
