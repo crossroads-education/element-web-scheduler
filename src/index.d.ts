@@ -106,8 +106,8 @@ export function PopoverWrapper(component: React.ComponentType): React.ComponentT
 export type SchedulerInit = { 
     resources: Resource[],
     events: Event[],
-    startTime: number,
-    endTime: number,
+    startTime: number | string,
+    endTime: number | string,
     currentDay: number,
     activeLayer: number,
     backgroundLayer: number,
