@@ -70,7 +70,7 @@ class ResourceModel {
             this.paintSide = side;
         }
 
-        if (newTime) {
+        if (newTime && newTime.isSameOrBefore(this.schedule.date.end) && newTime.isSameOrAfter(this.schedule.date.start)) {
             this.schedule.paintEvent(newTime, this.paintedEvent, side);
         }
     }

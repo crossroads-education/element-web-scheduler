@@ -159,7 +159,7 @@ class EventModel {
     }
 
     @action togglePopover = target => {
-        if ( this.active ) {
+        if (this.active) {
             this.displayPopup = !this.displayPopup;
             this.anchorElement = this.displayPopup ? target : undefined;
         }

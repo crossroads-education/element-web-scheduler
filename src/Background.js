@@ -27,7 +27,6 @@ const styles = {
 class Background extends React.Component {
 
     render() {
-        
         const { classes, ui, resource, schedule } = this.props;
 
         return (

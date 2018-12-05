@@ -44,7 +44,7 @@ class UiModel {
     }
 
     @computed get cells() {
-        const cells = Array.from(this.schedule.date.range.by("minute", {step: 30})).map(m => m.format("H:mm"));
+        const cells = Array.from(this.schedule.date.range.by("minute", { step: 30 })).map(m => m.format("H:mm"));
         cells.shift();
         return cells;
     }

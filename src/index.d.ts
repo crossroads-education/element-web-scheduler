@@ -55,6 +55,7 @@ export class EventModel {
     resizable: boolean;
     movable: boolean;
     displayPopup: boolean;
+    togglePopup: () => void;
     active: boolean;
     _start: Moment;
     _end: Moment;
