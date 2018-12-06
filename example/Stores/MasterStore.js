@@ -36,7 +36,8 @@ class MasterScheduleStore {
                     },
                     3: {
                         event: ShiftEvent,
-                        resizer: ShiftResizer
+                        resizer: ShiftResizer,
+                        disabled: true
                     }
                 },
                 renderResource: ResourceComponent,

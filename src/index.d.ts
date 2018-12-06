@@ -87,7 +87,7 @@ export type Event = {
 
 export type UiModel = {
     schedule: SchedulerStore;
-    renderLayers: {[key: number]: { event: any, resizer: any}};
+    renderLayers: {[key: number]: { event: any, resizer: any, disabled?: boolean }};
     renderResource: React.ComponentType;
     renderPopover: React.ComponentType;
     renderAdornment: React.ComponentType;
@@ -116,7 +116,8 @@ export type SchedulerInit = {
     renderLayers: {
         [key: number]: {
             event: any,
-            resizer: any
+            resizer: any,
+            disabled?: boolean
         }
     },
     renderResource: any,

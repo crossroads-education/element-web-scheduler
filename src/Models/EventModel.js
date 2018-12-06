@@ -102,6 +102,11 @@ class EventModel {
         return (this.movable && !this.inactive);
     }
 
+    @computed get disabledLayer() {
+        const { disabled = false } = this.schedule.ui.renderLayers[this.layer];
+        return disabled;
+    }
+
     @computed get resizer() {
         return this.schedule.ui.renderLayers[this.layer].resizer;
     }

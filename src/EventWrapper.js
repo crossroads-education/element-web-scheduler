@@ -1,4 +1,5 @@
 import * as React from "react";
+import classNames from "classnames";
 import injectSheet from "react-jss";
 import Draggable, {DraggableCore} from "react-draggable";
 import {observer} from "mobx-react";
@@ -25,6 +26,9 @@ const styles = theme => ( {
         alignItems: "center",
         width: "100%",
         height: "100%"
+    },
+    disabledEvent: {
+        pointerEvents: "none"
     }
 });
 
@@ -50,11 +54,12 @@ function EventWrapper(WrappedComponent) {
                     cancel={"." + this.props.classes.eventResizer}
                 >
                     <div 
-                        className={this.props.classes.eventRoot}
+                        className={classNames(this.props.classes.eventRoot, { [this.props.classes.disabledEvent]: this.props.eventModel.disabledLayer })}
                         style={{
                             zIndex: this.props.eventModel.layer || 0,
                             width: this.props.eventModel.width,
                             left: this.props.eventModel.left,
+
                         }}
                     >
                         {this.props.eventModel.canResize && this.props.eventModel.resizer &&
