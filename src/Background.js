@@ -38,7 +38,7 @@ class Background extends React.Component {
             >
                 <div className={classes.cellRoot}>
                     {ui.cells.map(cell => (
-                        <div 
+                        <div
                             key={cell} 
                             className={classes.backgroundCell} 
                             onClick={(schedule.paint) ? undefined : e => {resource.createEvent(e.target.offsetLeft);}} 

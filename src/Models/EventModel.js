@@ -48,7 +48,7 @@ class EventModel {
     }
 
     timespan(start, end) {
-        return moment(end).diff(moment(start), "second");
+        return moment(end).diff(moment(start), "minute");
     }
 
     @computed get width() {
@@ -61,7 +61,7 @@ class EventModel {
 
     @computed get left() {
         let daySpan = this.timespan(this.schedule.date.start, this.schedule.date.end);
-        let eventStartOffset = this.timespan(this.schedule.date.start, this._start); // hours, minutes, seconds time after 
+        let eventStartOffset = this.timespan(this.schedule.date.start, this._start); // minutes after the schedule start 
         return ((eventStartOffset / daySpan) * 100 + "%");
     }
 
@@ -77,8 +77,17 @@ class EventModel {
         return moment(this.end, "HH:mm:ss").day(this.day);
     }
 
+    @computed get startCell() {
+        return Math.floor(this.timespan(this.schedule.date.start, this._start) / 15);
+    }
+
+    @computed get endCell() {
+        return Math.floor(this.timespan(this.schedule.date.start, this._end) / 15) - 1; // Subtract one b/c it finds the cell after the event
+    }
+
+    // Duration of event in hours
     @computed get duration() {
-        return this.timespan(this._start, this._end) / (60 * 60); 
+        return this.timespan(this._start, this._end) / 60; 
     }
 
     @computed get render() {
@@ -106,10 +115,6 @@ class EventModel {
         return moment.range(this._start, this._end);
     }
 
-    @action startResize = (evt, position) => {
-        return false;
-    }
-
     @action startDrag = (evt, position) => {
         return false;
     }
@@ -129,26 +134,33 @@ class EventModel {
     }
 
     @action resize = (evt, data, side) => {
+        if (this.schedule.paint) {
+            const newHalfCell = Math.floor(data.x / this.schedule.ui.halfCellWidth);
+            if ((side === "end" && newHalfCell > this.endCell) || (side == "start" && newHalfCell < this.startCell)) {
+                const newMinutes = newHalfCell * 15;
+                const newTime = this.schedule.date.start.clone().add(newMinutes, "minutes");
+                return newTime;
+            }
+        } else {
+            if (data.deltaX === 0) return undefined;
 
-        if (data.deltaX === 0) return undefined;
+            this.deltaX += evt.movementX;
 
-        this.deltaX += evt.movementX;
+            if (Math.abs(this.deltaX) >= this.schedule.ui.halfCellWidth) { 
 
-        if (Math.abs(this.deltaX) >= this.schedule.ui.moveWidth) { 
+                let currentTime = this["_" + side].clone(); // get moment computed side
 
-            let currentTime = this["_" + side].clone(); // get moment computed side
+                const cells = Math.floor(Math.abs(this.deltaX) / this.schedule.ui.halfCellWidth);
 
-            const cells = Math.floor(Math.abs(this.deltaX) / this.schedule.ui.moveWidth);
+                const timeChange = Math.sign(this.deltaX) * cells * .25 // one quarter hour
 
-            const timeChange = Math.sign(this.deltaX) * cells * .25 // one quarter hour
+                this.deltaX = Math.sign(this.deltaX) * Math.abs(Math.abs(this.deltaX) % this.schedule.ui.halfCellWidth);
 
-            this.deltaX = Math.sign(this.deltaX) * Math.abs(Math.abs(this.deltaX) % this.schedule.ui.moveWidth);
-
-            const newTime = currentTime.add(timeChange, "hours");
-            
-            return newTime;
+                const newTime = currentTime.add(timeChange, "hours");
+                
+                return newTime;
+            }
         }
-
         return undefined;
     }
 

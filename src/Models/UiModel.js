@@ -39,16 +39,19 @@ class UiModel {
         this.eventRowRef = ref;
     }
 
-    @computed get cellWidth() {
-        return this.eventRowWidth / (this.cells.length + 1); // this is to add the truncated cell back in
-    }
-
+    // 30-minute cell segments, blocks rendered in grid
     @computed get cells() {
         const cells = Array.from(this.schedule.date.range.by("minute", { step: 30 })).map(m => m.format("H:mm"));
-        cells.shift();
+        cells.shift(); // Don't need to render a cell following the last value
         return cells;
     }
 
+    // 15-minute segment, distance to fill when dragging
+    @computed get halfCellWidth() {
+        return this.eventRowWidth / (this.cells.length * 2);
+    }
+
+    // Hour markers to render as headers
     @computed get headers() {
         let headers = Array.from(this.schedule.date.range.by("hour")).map(m => m.format("ha").slice(0, -1));
         if (this.renderResourceHeader) headers.shift();
@@ -56,10 +59,7 @@ class UiModel {
         return headers;
     }
 
-    @computed get moveWidth() {
-        return this.cellWidth * .5; 
-    }
-
+    // Width of the row containing events
     @computed get eventRowWidth() {
         return (this.eventRowRef) ? this.eventRowRef.scrollWidth : undefined;
     }

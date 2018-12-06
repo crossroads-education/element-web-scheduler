@@ -21,9 +21,8 @@ const styles = {
 class Events extends React.Component {
     render() {
         const { classes, events, paintedEvent } = this.props;
-
         return (
-            <div className={classes.eventContainer} >
+            <div className={classes.eventContainer}>
                 {events.map(event => (
                     <event.render
                         key={event.id}

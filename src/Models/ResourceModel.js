@@ -1,12 +1,13 @@
 import {observable,computed, action} from "mobx"
 import EventModel from "./EventModel";
+import moment from "moment";
 
 class ResourceModel {
     @observable componentProps;
     @observable events;
-    @observable paintedEvent; // an event while it is being "painted" before it's actual creation
-    @observable paintEventX;
-    @observable paintSide;
+    @observable paintedEvent; // Event that is being painted
+    @observable paintInitialX; // X-position where drag started
+    @observable paintSide; // Direction of painting
     schedule;
     id;
 
@@ -22,7 +23,7 @@ class ResourceModel {
                 resource: this, layer: event.layer, resizable: event.resizable, day: event.day,
             })
         );
-    } 
+    }
 
     @computed get todaysEvents() {
         const range = this.schedule.date.range;
@@ -30,11 +31,11 @@ class ResourceModel {
     }
 
     @action createEvent = startPosition => {
-        let startTime = Math.round(((startPosition / this.schedule.ui.eventRowWidth) * this.schedule.date.hours) * 2) / 2;
+        const startTime = Math.floor(startPosition / this.schedule.ui.halfCellWidth) * 0.25;
         this.schedule.createEvent(this.initNewEvent(), this, startTime);
     }
 
-    initNewEvent = () => {   
+    @action initNewEvent = () => {   
         const newId = this.schedule.events.reduce((highestId, event) => {
             if (event.id > highestId) highestId = event.id;
             return highestId
@@ -53,25 +54,26 @@ class ResourceModel {
     }
 
     @action startPaint = (mouseEvent, data) => {
-        let startTime = Math.round(((data.x / this.schedule.ui.eventRowWidth) * this.schedule.date.hours) * 2) / 2;
-        this.paintedEvent = this.schedule.startPaint(this.initNewEvent(), startTime);
-        this.paintEventX = mouseEvent.clientX;
+        const startHour = Math.floor(data.x / this.schedule.ui.halfCellWidth) * 0.25;
+        this.paintedEvent = this.schedule.startPaint(this.initNewEvent(), startHour);
+        this.paintInitialX = data.x;
         this.paintSide = "end";
     }
 
     @action doPaint = (mouseEvent, data) => {
-        
-        const side = (this.paintEventX < mouseEvent.clientX) ? "end" : "start";
-        
-        const newTime = this.paintedEvent.resize(mouseEvent, data, side);
-
-        if ( side !== this.paintSide ) {
-            this.paintedEvent.flip();
-            this.paintSide = side;
-        }
-
-        if (newTime && newTime.isSameOrBefore(this.schedule.date.end) && newTime.isSameOrAfter(this.schedule.date.start)) {
-            this.schedule.paintEvent(newTime, this.paintedEvent, side);
+        // Only compute changed time if mouse moved
+        if (data.deltaX !== 0) {
+            // Check if dragging direction swapped
+            const side = data.x > this.paintInitialX ? "end" : "start";
+            if (side !== this.paintSide) {
+                this.paintSide = side;
+            }
+            
+            const newTime = this.paintedEvent.resize(mouseEvent, data, side);
+            
+            if (newTime && newTime.isSameOrBefore(this.schedule.date.end) && newTime.isSameOrAfter(this.schedule.date.start)) {
+                this.schedule.paintEvent(newTime, this.paintedEvent, side);
+            }
         }
     }
 
@@ -89,8 +91,7 @@ class ResourceModel {
     @action deleteEvent = event => {
         const index = this.events.findIndex((evt) => {
             return event.id === evt.id; 
-        })
-
+        });
         this.schedule.deleteEvent(event, this, index);
     }
 

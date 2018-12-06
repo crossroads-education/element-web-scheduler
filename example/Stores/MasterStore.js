@@ -62,35 +62,34 @@ class MasterScheduleStore {
         
     }
 
-    @action resizeEvent = (newTime, event, timeChanged) => {
-        event[timeChanged] = newTime.format("HH:mm:ss");
-        event.componentProps[timeChanged] = newTime.format("HH:mm:ss");
+    @action resizeEvent = (newTime, event, side) => {
+        event[side] = newTime.format("HH:mm:ss");
+        event.componentProps[side] = newTime.format("HH:mm:ss");
     }
 
     @action stopResize = () => {}
 
     @action createEvent = (newEvent, resource, startTime) => {
         const start = this.schedulerStore.date.start.clone().add(startTime, "hours").format("HH:mm:ss");
-        const end = this.schedulerStore.date.start.clone().add(startTime + .5, "hours").format("HH:mm:ss");
+        const end = this.schedulerStore.date.start.clone().add(startTime + 0.5, "hours").format("HH:mm:ss");
         const event = new EventModel({
             ...newEvent, 
             ...{
-                start, 
-                end, 
+                start,
+                end,
                 resizable: false,
                 componentProps: {
                     backgroundColor: "#3091FF"
                 }
             }
         });
-
         resource.addEvent(event);
     }
 
     @action startPaint = (newEvent, startTime) => {
         const start = this.schedulerStore.date.start.clone().add(startTime, "hours").format("HH:mm:ss");
-        const end = this.schedulerStore.date.start.clone().add(startTime, "hours").format("HH:mm:ss");
-        return new EventModel({ ...newEvent, start, end: end, resizable: false, layer: 1 });
+        const end = this.schedulerStore.date.start.clone().add(startTime + 0.25, "hours").format("HH:mm:ss");
+        return new EventModel({ ...newEvent, start, end, resizable: false, layer: 1 });
     }
 
     @action paintEvent = (newTime, paintedEvent, side) => {

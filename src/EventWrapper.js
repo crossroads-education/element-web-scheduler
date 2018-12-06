@@ -44,7 +44,6 @@ function EventWrapper(WrappedComponent) {
         }
 
         render () {
-
             return (
                 <Draggable
                     axis="none"
