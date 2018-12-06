@@ -52,6 +52,7 @@ export class EventModel {
     resource: ResourceModel;
     start: string;
     end: string;
+    day: number;
     resizable: boolean;
     movable: boolean;
     displayPopover: boolean;
