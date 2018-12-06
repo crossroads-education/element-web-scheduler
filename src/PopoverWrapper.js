@@ -13,7 +13,7 @@ function PopoverWrapper(WrappedComponent) {
 
             return (
                 <Popover
-                    open={eventModel.displayPopup}
+                    open={eventModel.displayPopover}
                     anchorEl={eventModel.anchorElement}
                     anchorOrigin={{
                         vertical: 'bottom',

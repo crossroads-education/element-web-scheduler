@@ -21,7 +21,7 @@ class EventModel {
     @observable movable;
     @observable componentProps;
     @observable y;
-    @observable displayPopup;
+    @observable displayPopover;
     @observable anchorElement;
     @observable inactive;
 
@@ -42,7 +42,7 @@ class EventModel {
         this.resizable = resizable;
         this.day = day;
         this.deltaX = 0;
-        this.displayPopup = false;
+        this.displayPopover = false;
         this.movable = movable;
         this.inactive = inactive;
     }
@@ -172,8 +172,8 @@ class EventModel {
 
     @action togglePopover = target => {
         if (this.active) {
-            this.displayPopup = !this.displayPopup;
-            this.anchorElement = this.displayPopup ? target : undefined;
+            this.displayPopover = !this.displayPopover;
+            this.anchorElement = this.displayPopover ? target : undefined;
         }
     }
 
