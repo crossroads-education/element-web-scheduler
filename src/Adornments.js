@@ -39,7 +39,7 @@ class Adornments extends React.Component {
                     </div>
                 }
                 {resources.map(resource => (
-                    <div className={classes.adornmentContainer} key={resource.id}> 
+                    <div className={classes.adornmentContainer} key={"adornment-" + resource.id}> 
                         <ui.renderAdornment 
                             resource={resource}
                             {...ui.renderAdornment.props}

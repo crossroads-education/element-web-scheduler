@@ -25,7 +25,7 @@ class Events extends React.Component {
             <div className={classes.eventContainer}>
                 {events.map(event => (
                     <event.render
-                        key={event.id}
+                        key={"layer-" + event.layer + "-event-" + event.id}
                         eventModel={event}
                         active={event.active}
                         componentProps={event.componentProps}

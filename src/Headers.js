@@ -24,7 +24,7 @@ class Headers extends React.Component {
             <div className={classes.headerContainer}>
                 {this.props.ui.renderResourceHeader && <div className={classes.header} key="empty-header" />}
                 {headers.map(header => (
-                    <div className={classes.header} key={header}>
+                    <div className={classes.header} key={"header" + header}>
                         <span style={{ float: "left", marginLeft: "-8%" }}> {header} </span>
                     </div>
                 ))}

@@ -39,7 +39,7 @@ class Resources extends React.Component {
                     </div>
                 }
                 {resources.map(resource => (
-                    <div className={classes.resourceContainer} key={resource.id}>
+                    <div className={classes.resourceContainer} key={"resource-" + resource.id}>
                         <ui.renderResource 
                             resource={resource}
                             {...resource.componentProps}
