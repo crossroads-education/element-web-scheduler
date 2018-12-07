@@ -36,7 +36,7 @@ class ResourceModel {
     }
 
     @action initNewEvent = (id) => {   
-        const newId = id ? id : "new" + Date.getTime();
+        const newId = id ? id : (new Date()).getTime();
 
         const newEvent = {
             id: newId,

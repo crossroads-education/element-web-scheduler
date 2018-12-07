@@ -21,8 +21,8 @@ class SchedulerStore {
         init = {
             resources: [], 
             events: [],
-            eventKeyGenerator: this.generateEventKey,
-            resourceKeyGenerator: this.generateResourceKey,
+            eventKeyGenerator: undefined,
+            resourceKeyGenerator: undefined,
 
             renderLayers: {},
             renderResource: undefined,
@@ -58,7 +58,7 @@ class SchedulerStore {
             resources, editEvent, events,
             stopResize, createEvent, deleteEvent, 
             startPaint, paintEvent, finishPaint,
-            createMethod,
+            createMethod, eventKeyGenerator, resourceKeyGenerator,
             ...ui
         } = init;
 
@@ -76,8 +76,8 @@ class SchedulerStore {
         this.paintEvent = paintEvent;
         this.finishPaint = finishPaint;
         this.createMethod = createMethod;
-        this.eventKeyGenerator = eventKeyGenerator;
-        this.resourceKeyGenerator = eventKeyGenerator;
+        this.eventKeyGenerator = eventKeyGenerator ? eventKeyGenerator : this.generateEventKey;
+        this.resourceKeyGenerator = resourceKeyGenerator ? resourceKeyGenerator : this.generateResourceKey;
     }
 
     @computed get events() {
@@ -93,11 +93,11 @@ class SchedulerStore {
     }
 
     @action generateEventKey(event) {
-        return "l-" + event.layer + "e-" + event.id;
+        return "l" + event.layer + "-e" + event.id;
     }
 
     @action generateResourceKey(resource) {
-        return "res-" + resource.id;
+        return "res" + resource.id;
     }
 }
 

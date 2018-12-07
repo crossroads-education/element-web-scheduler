@@ -52,7 +52,7 @@ class Rows extends React.Component {
                     />
                 }
                 {resources.map(resource => (
-                    <div className={classes.rowContainer} key={"row-" + resource.id}>
+                    <div className={classes.rowContainer} key={"row" + resource.id}>
                         <Events
                             events={resource.todaysEvents}
                             paintedEvent={resource.paintedEvent}
