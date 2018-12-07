@@ -1,6 +1,6 @@
 import {observable,computed, action} from "mobx"
 import EventModel from "./EventModel";
-import moment from "moment";
+import * as _ from "lodash";
 
 class ResourceModel {
     @observable componentProps;
@@ -35,11 +35,8 @@ class ResourceModel {
         this.schedule.createEvent(this.initNewEvent(), this, startTime);
     }
 
-    @action initNewEvent = () => {   
-        const newId = this.schedule.events.reduce((highestId, event) => {
-            if (event.id > highestId) highestId = event.id;
-            return highestId
-        }, 0) + 1;
+    @action initNewEvent = (id) => {   
+        const newId = id ? id : "new" + Date.getTime();
 
         const newEvent = {
             id: newId,
@@ -90,7 +87,7 @@ class ResourceModel {
 
     @action deleteEvent = event => {
         const index = this.events.findIndex((evt) => {
-            return event.id === evt.id; 
+            return _.isEqual(event, evt);
         });
         this.schedule.deleteEvent(event, this, index);
     }

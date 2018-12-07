@@ -37,7 +37,7 @@ export type ResourceModel = {
     todaysEvents: EventModel[];
     deleteEvent: (event: EventModel) => void;
     addEvent: (event: EventModel) => void;
-    initNewEvent: () => Event;
+    initNewEvent: (id?: number | string) => Event;
     startPaint: (mouseEvent: MouseEvent, data: any) => void;
     doPaint: (mouseEvent: MouseEvent,data: any) => void;
     finishPaint: () => void;
@@ -73,7 +73,7 @@ export class EventModel {
 }
 
 export type Event = {
-    id: number;
+    id: number | string;
     start: string;
     end: string;
     day: number;
@@ -139,6 +139,9 @@ export type SchedulerInit = {
     startPaint?: (newEvent: Event,startTime: number) => EventModel,
     paintEvent?: (newTime: moment.Moment,paintedEvent: EventModel,side: "start"|"end") => void,
     finishPaint?: (resource: ResourceModel,newEvent: EventModel) => void
+
+    eventKeyGenerator?: (event: EventModel) => number | string;
+    resourceKeyGenerator?: (resource: ResourceModel) => number | string;
 }
 
 export class SchedulerStore {

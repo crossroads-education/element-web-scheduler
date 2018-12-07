@@ -14,12 +14,16 @@ class SchedulerStore {
     startPaint;
     paintEvent;
     finishPaint;
+    eventKeyGenerator;
+    resourceKeyGenerator;
 
     constructor( 
         init = {
             resources: [], 
             events: [],
-            
+            eventKeyGenerator: this.generateEventKey,
+            resourceKeyGenerator: this.generateResourceKey,
+
             renderLayers: {},
             renderResource: undefined,
             renderPopover: undefined,
@@ -72,6 +76,8 @@ class SchedulerStore {
         this.paintEvent = paintEvent;
         this.finishPaint = finishPaint;
         this.createMethod = createMethod;
+        this.eventKeyGenerator = eventKeyGenerator;
+        this.resourceKeyGenerator = eventKeyGenerator;
     }
 
     @computed get events() {
@@ -84,6 +90,14 @@ class SchedulerStore {
 
     @action toggleCreateMethod() {
         this.createMethod = (this.createMethod === "paint") ? "add" : "paint";
+    }
+
+    @action generateEventKey(event) {
+        return "l-" + event.layer + "e-" + event.id;
+    }
+
+    @action generateResourceKey(resource) {
+        return "res-" + resource.id;
     }
 }
 
