@@ -13,7 +13,7 @@ export type DateModel = {
     incrementDay: () => void;
     start: Moment;
     end: Moment;
-    range: MomentRange;
+    range: DateRange;
     hours: number;
     day: string;
     dateChanged: boolean;
@@ -105,7 +105,8 @@ export function EventWrapper(component: React.ComponentType): React.ComponentTyp
 
 export function PopoverWrapper(component: React.ComponentType): React.ComponentType;
 
-export type SchedulerInit = { 
+export type SchedulerInit = {
+    editing: boolean,
     resources: Resource[],
     events: Event[],
     startTime?: number | string,
