@@ -8,6 +8,7 @@ class SchedulerStore {
     @observable createEvent;
     date;
     ui; 
+    editing;
     resizeEvent;
     stopResize;
     createEvent;
@@ -21,6 +22,8 @@ class SchedulerStore {
         init = {
             resources: [], 
             events: [],
+
+            editing: false,
             eventKeyGenerator: undefined,
             resourceKeyGenerator: undefined,
 
@@ -31,7 +34,6 @@ class SchedulerStore {
             renderAdornmentHeader: undefined,
             renderResourceHeader: undefined,
             
-
             activeLayer: undefined,
             backgroundLayer: undefined,
 
@@ -47,6 +49,7 @@ class SchedulerStore {
             startTime: "",
             endTime: "",
             currentDay: undefined,
+            hours: undefined,
             
             displayHeaders: false,
             rowHeight: undefined,
@@ -54,20 +57,21 @@ class SchedulerStore {
             createMethod: "add",
         } 
     ) {
-        const {startTime, endTime, currentDay, 
-            resources, editEvent, events,
+        const {startTime, endTime, currentDay, hours,
+            resources, editEvent, editing, events,
             stopResize, createEvent, deleteEvent, 
             startPaint, paintEvent, finishPaint,
             createMethod, eventKeyGenerator, resourceKeyGenerator,
             ...ui
         } = init;
 
-        this.date = new DateModel(startTime, endTime, currentDay, this);
+        this.date = new DateModel(startTime, endTime, currentDay, hours, this);
         this.resources = resources.map(resource => {
             let resourceEvents = events.filter(event => event.resourceId === resource.id);
             return new ResourceModel(resource.id, resourceEvents, resource.componentProps, this)
         });
         this.ui = new UiModel(ui, this);
+        this.editing = editing;
         this.editEvent = editEvent;
         this.stopResize = stopResize;
         this.createEvent = createEvent;
@@ -90,6 +94,10 @@ class SchedulerStore {
 
     @action toggleCreateMethod() {
         this.createMethod = (this.createMethod === "paint") ? "add" : "paint";
+    }
+
+    @action toggleEditing() {
+        this.editing = !this.editing;
     }
 
     @action generateEventKey(event) {

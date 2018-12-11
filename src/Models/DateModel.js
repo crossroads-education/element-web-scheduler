@@ -7,12 +7,15 @@ class DateModel {
     @observable currentDay;
     @observable startTime;
     @observable endTime;
+    @observable hours;
     schedule;
     
-    constructor(startTime, endTime, currentDay) {
+    constructor(startTime, endTime, currentDay, hours, schedule) {
         this.currentDay = currentDay;
         this.startTime = startTime;
         this.endTime = endTime;
+        this.hours = hours;
+        this.schedule = schedule;
     }
 
     @action setDay = day => {
@@ -28,19 +31,17 @@ class DateModel {
     }
 
     @computed get start() {
-        return moment(this.startTime, "HH:mm:ss").day(this.currentDay);
+        const startToday = this.hours && this.hours[this.currentDay] ? this.hours[this.currentDay].start : this.startTime;
+        return moment(startToday, "HH:mm:ss").day(this.currentDay);
     }
 
     @computed get end() {
-        return moment(this.endTime, "HH:mm:ss").day(this.currentDay);
+        const endToday = this.hours && this.hours[this.currentDay] ? this.hours[this.currentDay].end : this.endTime;
+        return moment(endToday, "HH:mm:ss").day(this.currentDay);
     }
 
     @computed.struct get range() {
         return moment.range([this.start, this.end]);
-    }
-
-    @computed get hours() {
-        return this.end.diff(this.start, "hour");
     }
 
     @computed get day() {

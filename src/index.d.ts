@@ -108,8 +108,14 @@ export function PopoverWrapper(component: React.ComponentType): React.ComponentT
 export type SchedulerInit = { 
     resources: Resource[],
     events: Event[],
-    startTime: number | string,
-    endTime: number | string,
+    startTime?: number | string,
+    endTime?: number | string,
+    hours?: {
+        [key: number]: {
+            start: number | string,
+            end: number | string
+        }
+    },
     currentDay: number,
     activeLayer: number,
     backgroundLayer: number,
@@ -151,9 +157,10 @@ export class SchedulerStore {
     ui: UiModel;
     events: EventModel[];
     resources: ResourceModel[];
+    editing: boolean;
+    toggleEditing: () => void;
 
     createMethod: "paint" | "add";
-
     toggleCreateMethod: () => void;
 
     editEvent?: (newTime: Moment, event: EventModel, timeChange: "start" | "end" ) => void;

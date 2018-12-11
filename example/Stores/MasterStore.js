@@ -26,6 +26,20 @@ class MasterScheduleStore {
                 events: e,
                 startTime: 6,
                 endTime: 18,
+                hours: {
+                    6: {
+                        start: 9,
+                        end: 15
+                    },
+                    1: {
+                        start: 10,
+                        end: 21
+                    },
+                    4: {
+                        start: 9,
+                        end: 13
+                    }
+                },
                 currentDay: 5,
                 activeLayer: 5,
                 backgroundLayer: 2,

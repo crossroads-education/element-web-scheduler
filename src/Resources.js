@@ -27,7 +27,6 @@ const styles = {
 class Resources extends React.Component {
 
     render() {
-
         const { classes, resources, ui} = this.props;
         return (
             <div className={classes.root}>
