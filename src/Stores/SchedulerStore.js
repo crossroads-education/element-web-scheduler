@@ -23,7 +23,7 @@ class SchedulerStore {
             resources: [], 
             events: [],
 
-            editing: false,
+            editing: true,
             eventKeyGenerator: undefined,
             resourceKeyGenerator: undefined,
 

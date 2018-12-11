@@ -31,8 +31,10 @@ class ResourceModel {
     }
 
     @action createEvent = startPosition => {
-        const startTime = Math.floor(startPosition / this.schedule.ui.halfCellWidth) * 0.25;
-        this.schedule.createEvent(this.initNewEvent(), this, startTime);
+        if (this.schedule.editing) {
+            const startTime = Math.floor(startPosition / this.schedule.ui.halfCellWidth) * 0.25;
+            this.schedule.createEvent(this.initNewEvent(), this, startTime);
+        }
     }
 
     @action initNewEvent = (id) => {   
@@ -51,32 +53,38 @@ class ResourceModel {
     }
 
     @action startPaint = (mouseEvent, data) => {
-        const startHour = Math.floor(data.x / this.schedule.ui.halfCellWidth) * 0.25;
-        this.paintedEvent = this.schedule.startPaint(this.initNewEvent(), startHour);
-        this.paintInitialX = data.x;
-        this.paintSide = "end";
+        if (this.schedule.editing) {
+            const startHour = Math.floor(data.x / this.schedule.ui.halfCellWidth) * 0.25;
+            this.paintedEvent = this.schedule.startPaint(this.initNewEvent(), startHour);
+            this.paintInitialX = data.x;
+            this.paintSide = "end";
+        }
     }
 
     @action doPaint = (mouseEvent, data) => {
-        // Only compute changed time if mouse moved
-        if (data.deltaX !== 0) {
-            // Check if dragging direction swapped
-            const side = data.x > this.paintInitialX ? "end" : "start";
-            if (side !== this.paintSide) {
-                this.paintSide = side;
-            }
-            
-            const newTime = this.paintedEvent.resize(mouseEvent, data, side);
-            
-            if (newTime && newTime.isSameOrBefore(this.schedule.date.end) && newTime.isSameOrAfter(this.schedule.date.start)) {
-                this.schedule.paintEvent(newTime, this.paintedEvent, side);
+        if (this.schedule.editing) {
+            // Only compute changed time if mouse moved
+            if (data.deltaX !== 0) {
+                // Check if dragging direction swapped
+                const side = data.x > this.paintInitialX ? "end" : "start";
+                if (side !== this.paintSide) {
+                    this.paintSide = side;
+                }
+                
+                const newTime = this.paintedEvent.resize(mouseEvent, data, side);
+                
+                if (newTime && newTime.isSameOrBefore(this.schedule.date.end) && newTime.isSameOrAfter(this.schedule.date.start)) {
+                    this.schedule.paintEvent(newTime, this.paintedEvent, side);
+                }
             }
         }
     }
 
     @action finishPaint = () => {
-        this.schedule.finishPaint(this, this.paintedEvent);
-        this.cleanUpPaint();
+        if (this.schedule.editing) {
+            this.schedule.finishPaint(this, this.paintedEvent);
+            this.cleanUpPaint();
+        }
     }
 
     @action cleanUpPaint = () => {

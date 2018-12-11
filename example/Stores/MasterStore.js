@@ -20,58 +20,57 @@ class MasterScheduleStore {
     init() {    
         const r = _.cloneDeep( MasterDemoData.resources );
         const e = _.cloneDeep( MasterDemoData.events );
-        const schedule = new SchedulerStore( 
-           {
-                resources: r,
-                events: e,
-                startTime: 6,
-                endTime: 18,
-                hours: {
-                    6: {
-                        start: 9,
-                        end: 15
-                    },
-                    1: {
-                        start: 10,
-                        end: 21
-                    },
-                    4: {
-                        start: 9,
-                        end: 13
-                    }
+        const schedule = new SchedulerStore({
+            editing: false,
+            resources: r,
+            events: e,
+            startTime: 6,
+            endTime: 18,
+            hours: {
+                6: {
+                    start: 9,
+                    end: 15
                 },
-                currentDay: 5,
-                activeLayer: 5,
-                backgroundLayer: 2,
-                renderLayers: { 
-                    1: {
-                        event: AvailabilityEvent,
-                        resizer: undefined
-                    },
-                    3: {
-                        event: ShiftEvent,
-                        resizer: ShiftResizer,
-                        disabled: true
-                    }
+                1: {
+                    start: 10,
+                    end: 21
                 },
-                renderResource: ResourceComponent,
-                renderPopover: PopoverComponent,
-                renderAdornment: AdornmentComponent,
-                renderAdornmentHeader: AdornmentHeader,
-                renderResourceHeader: ResourceHeader,
-                editEvent: this.resizeEvent,
-                stopResize: this.stopResize,
-                createEvent: this.createEvent,
-                deleteEvent: this.deleteEvent,
-                startPaint: this.startPaint,
-                paintEvent: this.paintEvent,
-                finishPaint: this.finishPaint,
-                createMethod: "paint",
-                displayHeaders: true,
-                rowHeight: 35,
-                headerHeight: 25
-           }
-        );
+                4: {
+                    start: 9,
+                    end: 13
+                }
+            },
+            currentDay: 5,
+            activeLayer: 5,
+            backgroundLayer: 2,
+            renderLayers: { 
+                1: {
+                    event: AvailabilityEvent,
+                    resizer: undefined
+                },
+                3: {
+                    event: ShiftEvent,
+                    resizer: ShiftResizer,
+                    disabled: true
+                }
+            },
+            renderResource: ResourceComponent,
+            renderPopover: PopoverComponent,
+            renderAdornment: AdornmentComponent,
+            renderAdornmentHeader: AdornmentHeader,
+            renderResourceHeader: ResourceHeader,
+            editEvent: this.resizeEvent,
+            stopResize: this.stopResize,
+            createEvent: this.createEvent,
+            deleteEvent: this.deleteEvent,
+            startPaint: this.startPaint,
+            paintEvent: this.paintEvent,
+            finishPaint: this.finishPaint,
+            createMethod: "paint",
+            displayHeaders: true,
+            rowHeight: 35,
+            headerHeight: 25
+        });
 
         this.schedulerStore = schedule;
         
@@ -130,6 +129,7 @@ class MasterScheduleStore {
 
     @action enableEditing = () => {
         this.editing = (this.editing) ? false : true;
+        this.schedulerStore.toggleEditing();
         this.schedulerStore.events.forEach(event => { 
             event.toggleResizing();
         })
