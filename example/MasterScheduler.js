@@ -27,7 +27,7 @@ export default class MasterScheduler extends React.Component {
                             enableEditing={Store.enableEditing}
                         />
                         <Provider Store={Store}>
-                            <div>
+                            <div style={{minWidth: 960}}>
                                 <Scheduler
                                     schedulerStore={Store.schedulerStore}
                                 />

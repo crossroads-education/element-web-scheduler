@@ -69,7 +69,8 @@ class MasterScheduleStore {
             createMethod: "paint",
             displayHeaders: true,
             rowHeight: 35,
-            headerHeight: 25
+            headerHeight: 25,
+            disableMobileAdd: true
         });
 
         this.schedulerStore = schedule;

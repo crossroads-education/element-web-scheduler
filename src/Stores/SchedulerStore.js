@@ -17,6 +17,7 @@ class SchedulerStore {
     finishPaint;
     eventKeyGenerator;
     resourceKeyGenerator;
+    disableMobileAdd;
 
     constructor( 
         init = {
@@ -55,6 +56,8 @@ class SchedulerStore {
             rowHeight: undefined,
             headerHeight: undefined,
             createMethod: "add",
+
+            disableMobileAdd: false
         } 
     ) {
         const {startTime, endTime, currentDay, hours,
@@ -62,6 +65,7 @@ class SchedulerStore {
             stopResize, createEvent, deleteEvent, 
             startPaint, paintEvent, finishPaint,
             createMethod, eventKeyGenerator, resourceKeyGenerator,
+            disableMobileAdd,
             ...ui
         } = init;
 
@@ -82,6 +86,7 @@ class SchedulerStore {
         this.createMethod = createMethod;
         this.eventKeyGenerator = eventKeyGenerator ? eventKeyGenerator : this.generateEventKey;
         this.resourceKeyGenerator = resourceKeyGenerator ? resourceKeyGenerator : this.generateResourceKey;
+        this.disableMobileAdd = disableMobileAdd;
     }
 
     @computed get events() {

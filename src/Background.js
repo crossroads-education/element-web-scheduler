@@ -2,6 +2,7 @@ import * as React from "react";
 import { observer, inject } from "mobx-react";
 import injectSheet from "react-jss";
 import { DraggableCore } from "react-draggable";
+import { Hidden } from "@material-ui/core";
 
 const styles = {
     cellRoot: {
@@ -28,15 +29,7 @@ class Background extends React.Component {
 
     render() {
         const { classes, ui, resource, schedule } = this.props;
-
-        return (
-             <DraggableCore
-                onStart={(schedule.paint) ? resource.startPaint : undefined}
-                onDrag={(schedule.paint) ? resource.doPaint : undefined}
-                onStop={(schedule.paint) ? resource.finishPaint : undefined}
-                axis="x"
-            >
-                <div className={classes.cellRoot}>
+        const cells = (<div className={classes.cellRoot}>
                     {ui.cells.map(cell => (
                         <div
                             key={"cell-" + cell} 
@@ -44,9 +37,36 @@ class Background extends React.Component {
                             onClick={(schedule.paint) ? undefined : e => {resource.createEvent(e.target.offsetLeft);}} 
                         />
                     ))}
-                </div>
-            </DraggableCore>
-        )
+                </div>);
+        return schedule.disableMobileAdd ? 
+            (
+                <React.Fragment>
+                    <Hidden mdDown key="web-background">
+                        <DraggableCore
+                            onStart={(schedule.paint)? resource.startPaint:undefined}
+                            onDrag={(schedule.paint)? resource.doPaint:undefined}
+                            onStop={(schedule.paint)? resource.finishPaint:undefined}
+                            axis="x"
+                        >
+                            {cells}
+                        </DraggableCore>
+                    </Hidden>
+                    <Hidden lgUp key="mobile-background">
+                        {cells}
+                    </Hidden>
+                </React.Fragment>
+
+            )
+            : (
+                <DraggableCore
+                    onStart={(schedule.paint) ? resource.startPaint : undefined}
+                    onDrag={(schedule.paint) ? resource.doPaint : undefined}
+                    onStop={(schedule.paint) ? resource.finishPaint : undefined}
+                    axis="x"
+                >
+                    {cells}
+                </DraggableCore>
+            );
     }
 }
 
