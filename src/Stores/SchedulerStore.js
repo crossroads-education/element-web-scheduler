@@ -92,6 +92,12 @@ class SchedulerStore {
         return this.createMethod === "paint";
     }
 
+    @action replaceEvents = (events) => {
+        this.resources.forEach(resource => {
+            resource.replaceEvents(events.filter(e => e.resourceId === resource.id));
+        });
+    }
+
     @action toggleCreateMethod() {
         this.createMethod = (this.createMethod === "paint") ? "add" : "paint";
     }

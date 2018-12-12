@@ -18,11 +18,35 @@ class ResourceModel {
         
         this.events = events.map(event => 
             new EventModel({
-                id: event.id, start: event.start, end: event.end, 
-                resourceId: event.resourceId, componentProps: event.componentProps, schedule, 
-                resource: this, layer: event.layer, resizable: event.resizable, day: event.day,
+                id: event.id,
+                start: event.start,
+                end: event.end, 
+                resourceId: event.resourceId,
+                componentProps: event.componentProps,
+                schedule, 
+                resource: this,
+                layer: event.layer,
+                resizable: event.resizable,
+                day: event.day,
             })
         );
+    }
+
+    @action replaceEvents = (newEvents) => {
+        this.events.replace(newEvents.map(event => 
+            new EventModel({
+                id: event.id,
+                start: event.start,
+                end: event.end,
+                resourceId: event.resourceId,
+                componentProps: event.componentProps,
+                schedule: this.schedule,
+                resource: this,
+                layer: event.layer,
+                resizable: event.resizable,
+                day: event.day,
+            })
+        ));
     }
 
     @computed get todaysEvents() {

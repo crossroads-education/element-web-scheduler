@@ -13,7 +13,7 @@ const styles = {
     adornmentContainer: {
         display: "flex",
         height: props => props.ui.rowHeight,
-        borderTop: "solid 1px #9d9d9d",
+        borderTop: "solid 1px #BCBCBC",
     },
     headerContainer: {
         width: "100%",

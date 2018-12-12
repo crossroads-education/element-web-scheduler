@@ -181,8 +181,36 @@ export const MasterDemoData = {
             resourceId: "d6",
             layer: 1,
             resizable: false,
+        },   
+    ],
+    newEvents: [
+        {
+            id: 9,
+            start: "09:15:00",
+            end: "15:00:00",
+            day: 5,
+            resourceId: "d1",
+            componentProps: {
+                start: "09:15:00",
+                end: "15:00:00",
+                backgroundColor: "#3091FF",
+            },
+            layer: 3,
+            resizable: false,
         },
-
-        
+        {
+            id: 8,
+            start: "17:30:00",
+            end: "18:00:00",
+            day: 5,
+            resourceId: "d3",
+            componentProps: {
+                start: "17:30:00",
+                end: "18:00:00",
+                backgroundColor: "#3091FF",
+            },
+            layer: 3,
+            resizable: false,
+        },
     ]
 }

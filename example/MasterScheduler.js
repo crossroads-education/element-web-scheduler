@@ -27,9 +27,12 @@ export default class MasterScheduler extends React.Component {
                             enableEditing={Store.enableEditing}
                         />
                         <Provider Store={Store}>
-                            <Scheduler
-                                schedulerStore={Store.schedulerStore}
-                            />
+                            <div>
+                                <Scheduler
+                                    schedulerStore={Store.schedulerStore}
+                                />
+                                <button onClick={Store.updateEvents}>Change data</button>
+                            </div>
                         </Provider>
                     </div>
             </div>

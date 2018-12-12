@@ -35,6 +35,7 @@ export type ResourceModel = {
     events: EventModel[];
     schedule: SchedulerStore;
     todaysEvents: EventModel[];
+    replaceEvents: (events: Event[]) => void;
     deleteEvent: (event: EventModel) => void;
     addEvent: (event: EventModel) => void;
     initNewEvent: (id?: number | string) => Event;
@@ -164,6 +165,7 @@ export class SchedulerStore {
     createMethod: "paint" | "add";
     toggleCreateMethod: () => void;
 
+    replaceEvents: (events: Event[]) => void;
     editEvent?: (newTime: Moment, event: EventModel, timeChange: "start" | "end" ) => void;
     createEvent?: (newEvent: Event, resource: ResourceModel, startTime: number) => void;
     deleteEvent?: (event: EventModel, resource: ResourceModel, eventIndex: number) => void;
@@ -171,7 +173,6 @@ export class SchedulerStore {
     startPaint?: (newEvent: Event,startTime: number) => EventModel;
     paintEvent?: (newTime: moment.Moment,paintedEvent: EventModel,side: "start"|"end") => void;
     finishPaint?: (resource: ResourceModel,newEvent: EventModel) => void;
-    
 }
 
 declare const Scheduler: React.ComponentType<any>;

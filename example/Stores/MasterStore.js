@@ -134,6 +134,10 @@ class MasterScheduleStore {
             event.toggleResizing();
         })
     }
+
+    @action updateEvents = () => {
+        this.schedulerStore.replaceEvents(MasterDemoData.newEvents);
+    }
 }
 
 export default MasterScheduleStore
