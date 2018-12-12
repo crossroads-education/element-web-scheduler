@@ -94,9 +94,7 @@ class ResourceModel {
                 if (side !== this.paintSide) {
                     this.paintSide = side;
                 }
-                
                 const newTime = this.paintedEvent.resize(mouseEvent, data, side);
-                
                 if (newTime && newTime.isSameOrBefore(this.schedule.date.end) && newTime.isSameOrAfter(this.schedule.date.start)) {
                     this.schedule.paintEvent(newTime, this.paintedEvent, side);
                 }

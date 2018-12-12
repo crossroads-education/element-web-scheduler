@@ -82,7 +82,7 @@ class EventModel {
     }
 
     @computed get endCell() {
-        return Math.floor(this.timespan(this.schedule.date.start, this._end) / 15) - 1; // Subtract one b/c it finds the cell after the event
+        return Math.floor(this.timespan(this.schedule.date.start, this._end) / 15); // Subtract one b/c it finds the cell after the event
     }
 
     // Duration of event in hours
@@ -140,8 +140,9 @@ class EventModel {
 
     @action resize = (evt, data, side) => {
         if (this.schedule.paint) {
-            const newHalfCell = Math.floor(data.x / this.schedule.ui.halfCellWidth);
-            if ((side === "end" && newHalfCell > this.endCell) || (side == "start" && newHalfCell < this.startCell)) {
+            let newHalfCell = Math.floor(data.x / this.schedule.ui.halfCellWidth);
+            if ((side === "end" && newHalfCell >= this.endCell) || (side == "start" && newHalfCell < this.startCell)) {
+                if (side === "end") newHalfCell += 1; // If moving end, needs to add an additional cell
                 const newMinutes = newHalfCell * 15;
                 const newTime = this.schedule.date.start.clone().add(newMinutes, "minutes");
                 return newTime;
