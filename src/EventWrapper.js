@@ -29,6 +29,11 @@ const styles = theme => ( {
     },
     disabledEvent: {
         pointerEvents: "none"
+    },
+    mobileEvent: {
+        [theme.breakpoints.down("sm")]: {
+            pointerEvents: "none"
+        }
     }
 });
 
@@ -54,7 +59,7 @@ function EventWrapper(WrappedComponent) {
                     cancel={"." + this.props.classes.eventResizer}
                 >
                     <div 
-                        className={classNames(this.props.classes.eventRoot, { [this.props.classes.disabledEvent]: this.props.eventModel.disabledLayer })}
+                        className={classNames(this.props.classes.eventRoot, { [this.props.classes.disabledEvent]: this.props.eventModel.disabledLayer, [this.props.classes.mobileEvent]: this.props.eventModel.schedule.disableMobileEdit })}
                         style={{
                             zIndex: this.props.eventModel.layer || 0,
                             width: this.props.eventModel.width,

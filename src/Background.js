@@ -38,7 +38,7 @@ class Background extends React.Component {
                         />
                     ))}
                 </div>);
-        return schedule.disableMobileAdd ? 
+        return schedule.disableMobileEdit ? 
             (
                 <React.Fragment>
                     <Hidden smDown key="web-background">

@@ -140,7 +140,7 @@ export type SchedulerInit = {
 
     createMethod?: "paint"|"add",
 
-    disableMobileAdd: boolean;
+    disableMobileEdit: boolean;
 
     editEvent?: (newTime: Moment,event: EventModel,timeChange: "start"|"end") => void,
     createEvent?: (newEvent: Event,resource: Resource,startTime: number) => void,

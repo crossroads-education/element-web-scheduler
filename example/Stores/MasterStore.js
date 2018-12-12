@@ -70,7 +70,7 @@ class MasterScheduleStore {
             displayHeaders: true,
             rowHeight: 35,
             headerHeight: 25,
-            disableMobileAdd: true
+            disableMobileEdit: true
         });
 
         this.schedulerStore = schedule;
