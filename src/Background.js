@@ -41,7 +41,7 @@ class Background extends React.Component {
         return schedule.disableMobileAdd ? 
             (
                 <React.Fragment>
-                    <Hidden mdDown key="web-background">
+                    <Hidden smDown key="web-background">
                         <DraggableCore
                             onStart={(schedule.paint)? resource.startPaint:undefined}
                             onDrag={(schedule.paint)? resource.doPaint:undefined}
@@ -51,7 +51,7 @@ class Background extends React.Component {
                             {cells}
                         </DraggableCore>
                     </Hidden>
-                    <Hidden lgUp key="mobile-background">
+                    <Hidden mdUp key="mobile-background">
                         {cells}
                     </Hidden>
                 </React.Fragment>
