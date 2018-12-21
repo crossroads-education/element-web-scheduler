@@ -35,7 +35,8 @@ export type ResourceModel = {
     events: EventModel[];
     schedule: SchedulerStore;
     todaysEvents: EventModel[];
-    replaceEvents: (events: Event[]) => void;
+    updateEvents: (events: Event[]) => void;
+    replaceEvents: (events: EventModel[]) => void;
     deleteEvent: (event: EventModel) => void;
     addEvent: (event: EventModel) => void;
     initNewEvent: (id?: number | string) => Event;
@@ -167,7 +168,8 @@ export class SchedulerStore {
     createMethod: "paint" | "add";
     toggleCreateMethod: () => void;
 
-    replaceEvents: (events: Event[]) => void;
+    updateEvents: (events: Event[]) => void;
+    replaceEvents: (events: EventModel[]) => void;
     editEvent?: (newTime: Moment, event: EventModel, timeChange: "start" | "end" ) => void;
     createEvent?: (newEvent: Event, resource: ResourceModel, startTime: number) => void;
     deleteEvent?: (event: EventModel, resource: ResourceModel, eventIndex: number) => void;

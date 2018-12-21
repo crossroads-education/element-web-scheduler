@@ -32,7 +32,7 @@ class ResourceModel {
         );
     }
 
-    @action replaceEvents = (newEvents) => {
+    @action updateEvents = (newEvents) => {
         this.events.replace(newEvents.map(event => 
             new EventModel({
                 id: event.id,
@@ -47,6 +47,10 @@ class ResourceModel {
                 day: event.day,
             })
         ));
+    }
+
+    @action replaceEvents = (events) => {
+        this.events.replace(events);
     }
 
     @computed get todaysEvents() {
