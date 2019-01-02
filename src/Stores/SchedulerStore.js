@@ -106,13 +106,13 @@ class SchedulerStore {
 
     @action updateEvents = (events) => {
         this.resources.forEach(resource => {
-            resource.replaceEvents(events.filter(e => e.resourceId === resource.id));
+            resource.updateEvents(events.filter(e => e.resourceId === resource.id));
         });
     }
 
     @action replaceEvents = (events) => {
         this.resources.forEach(resource => {
-            resource.updateEvents(events.filter(e => e.resource.id === resource.id));
+            resource.replaceEvents(events.filter(e => e.resource.id === resource.id));
         });
     }
 

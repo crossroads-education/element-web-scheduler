@@ -137,7 +137,7 @@ class MasterScheduleStore {
     }
 
     @action updateEvents = () => {
-        this.schedulerStore.replaceEvents(MasterDemoData.newEvents);
+        this.schedulerStore.updateEvents(MasterDemoData.newEvents);
     }
 }
 
