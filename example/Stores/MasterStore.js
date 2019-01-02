@@ -59,6 +59,7 @@ class MasterScheduleStore {
             renderAdornment: AdornmentComponent,
             renderAdornmentHeader: AdornmentHeader,
             renderResourceHeader: ResourceHeader,
+            filterResources: this.filterDays,
             editEvent: this.resizeEvent,
             stopResize: this.stopResize,
             createEvent: this.createEvent,
@@ -135,6 +136,8 @@ class MasterScheduleStore {
             event.toggleResizing();
         })
     }
+
+    @action filterDays = resources => resources.filter(r => r.id !== "d1");
 
     @action updateEvents = () => {
         this.schedulerStore.updateEvents(MasterDemoData.newEvents);

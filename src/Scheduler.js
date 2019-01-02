@@ -40,10 +40,10 @@ class Scheduler extends React.Component {
                                 resources={schedulerStore.filteredResources}
                             />
                             <Rows
-                                resources={schedulerStore.resources}
+                                resources={schedulerStore.filteredResources}
                             />
                             <Adornments 
-                                resources={schedulerStore.resources}
+                                resources={schedulerStore.filteredResources}
                             />
                         </div>
                     </Provider>
