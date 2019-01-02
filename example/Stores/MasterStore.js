@@ -142,6 +142,14 @@ class MasterScheduleStore {
     @action updateEvents = () => {
         this.schedulerStore.updateEvents(MasterDemoData.newEvents);
     }
+
+    @action changeLayer = () => {
+        if (this.schedulerStore.ui.activeLayer === 1) {
+            this.schedulerStore.ui.changeActiveLayer(5);
+        } else {
+            this.schedulerStore.ui.changeActiveLayer(1);
+        }
+    }
 }
 
 export default MasterScheduleStore

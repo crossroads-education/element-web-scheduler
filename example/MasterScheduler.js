@@ -34,6 +34,7 @@ export default class MasterScheduler extends React.Component {
                                     />
                                 </div>
                                 <button onClick={Store.updateEvents}>Change data</button>
+                                <button onClick={Store.changeLayer}>Change layer</button>
                             </div>
                         </Provider>
                     </div>

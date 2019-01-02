@@ -63,6 +63,10 @@ class UiModel {
     @computed get eventRowWidth() {
         return (this.eventRowRef) ? this.eventRowRef.scrollWidth : undefined;
     }
+
+    @action changeActiveLayer = layer => {
+        this.activeLayer = layer;
+    }
 }
 
 export default UiModel;
