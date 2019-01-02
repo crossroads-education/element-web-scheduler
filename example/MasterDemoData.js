@@ -62,8 +62,8 @@ export const MasterDemoData = {
             id: 7,
             start: "09:00:00",
             end: "10:45:00",
-            day: 4,
-            resourceId: "d2",
+            day: 5,
+            resourceId: "d6",
             componentProps: {
                 start: "09:00:00",
                 end: "10:45:00",
@@ -118,7 +118,7 @@ export const MasterDemoData = {
             id: 11,
             start: "11:30:00",
             end: "14:45:00",
-            day: 6,
+            day: 5,
             resourceId: "d4",
             componentProps: {
                 start: "11:30:00",

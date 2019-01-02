@@ -9,6 +9,10 @@ import AdornmentComponent, { AdornmentHeader } from "../AdornmentComponent";
 import AvailabilityEvent from "../Available";
 import _ from "lodash";
 
+const SHIFT_LAYER = 3;
+const AVAILABIILITY_LAYER = 1;
+const EDIT_LAYER = 5;
+
 class MasterScheduleStore {
     @observable editing;
     schedulerStore;
@@ -41,17 +45,17 @@ class MasterScheduleStore {
                 }
             },
             currentDay: 5,
-            activeLayer: 5,
+            activeLayer: SHIFT_LAYER,
             backgroundLayer: 2,
             renderLayers: { 
-                1: {
+                [AVAILABIILITY_LAYER]: {
                     event: AvailabilityEvent,
                     resizer: undefined
                 },
-                3: {
+                [SHIFT_LAYER]: {
                     event: ShiftEvent,
                     resizer: ShiftResizer,
-                    disabled: true
+                    // disabled: true
                 }
             },
             renderResource: ResourceComponent,
@@ -129,7 +133,14 @@ class MasterScheduleStore {
         resource.events.splice(index, 1);
     }
 
-    @action enableEditing = () => {
+    @action toggleEditing = () => {
+        if (this.schedulerStore.ui.activeLayer === SHIFT_LAYER) {
+            this.schedulerStore.ui.changeActiveLayer(EDIT_LAYER);
+            this.schedulerStore.ui.toggleDisabledLayer(SHIFT_LAYER);
+        } else {
+            this.schedulerStore.ui.changeActiveLayer(SHIFT_LAYER);
+            this.schedulerStore.ui.toggleDisabledLayer(SHIFT_LAYER);
+        }
         this.editing = (this.editing) ? false : true;
         this.schedulerStore.toggleEditing();
         this.schedulerStore.events.forEach(event => { 

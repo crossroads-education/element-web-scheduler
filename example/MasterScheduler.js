@@ -24,7 +24,7 @@ export default class MasterScheduler extends React.Component {
                             currentDay={Store.schedulerStore.date.currentDay} 
                             incrementDay={Store.schedulerStore.date.incrementDay}
                             decrementDay={Store.schedulerStore.date.decrementDay}
-                            enableEditing={Store.enableEditing}
+                            enableEditing={Store.toggleEditing}
                         />
                         <Provider Store={Store}>
                             <div style={{overflowX: "auto"}}>

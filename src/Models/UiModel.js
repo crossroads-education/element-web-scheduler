@@ -1,5 +1,4 @@
 import {observable, computed, action} from "mobx";
-import { debounce } from "lodash"; 
 
 class UiModel {
     schedule;
@@ -66,6 +65,10 @@ class UiModel {
 
     @action changeActiveLayer = layer => {
         this.activeLayer = layer;
+    }
+
+    @action toggleDisabledLayer = layer => {
+        this.renderLayers[layer].disabled = !this.renderLayers[layer].disabled;
     }
 }
 
