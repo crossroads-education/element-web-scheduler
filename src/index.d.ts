@@ -97,6 +97,7 @@ export type UiModel = {
     bodyHeight: number;
     activeLayer: number;
     changeActiveLayer: (layer: number) => void;
+    toggleDisabledLayer: (layer: number) => void;
     backgroundLayer: number;
     displayHeaders: boolean;
     headers: string[];
