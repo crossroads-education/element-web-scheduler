@@ -37,7 +37,7 @@ class Scheduler extends React.Component {
                     <Provider ui={ui} schedule={schedulerStore}>
                         <div className={classes.root}>
                             <Resources
-                                resources={schedulerStore.resources}
+                                resources={schedulerStore.filteredResources}
                             />
                             <Rows
                                 resources={schedulerStore.resources}

@@ -17,6 +17,7 @@ class SchedulerStore {
     finishPaint;
     eventKeyGenerator;
     resourceKeyGenerator;
+    filterResources
     disableMobileAdd;
 
     constructor( 
@@ -27,6 +28,7 @@ class SchedulerStore {
             editing: true,
             eventKeyGenerator: undefined,
             resourceKeyGenerator: undefined,
+            filterResources: undefined,
 
             renderLayers: {},
             renderResource: undefined,
@@ -65,7 +67,7 @@ class SchedulerStore {
             stopResize, createEvent, deleteEvent, 
             startPaint, paintEvent, finishPaint,
             createMethod, eventKeyGenerator, resourceKeyGenerator,
-            disableMobileEdit,
+            filterResources, disableMobileEdit,
             ...ui
         } = init;
 
@@ -86,11 +88,16 @@ class SchedulerStore {
         this.createMethod = createMethod;
         this.eventKeyGenerator = eventKeyGenerator ? eventKeyGenerator : this.generateEventKey;
         this.resourceKeyGenerator = resourceKeyGenerator ? resourceKeyGenerator : this.generateResourceKey;
+        this.filterResources = filterResources;
         this.disableMobileEdit = disableMobileEdit;
     }
 
     @computed get events() {
        return this.resources.reduce((events, resource) => (events = events.concat(resource.events )), []);
+    }
+
+    @computed get filteredResources() {
+        return this.filterResources ? this.filterResources(this.resources) : this.resources;
     }
 
     @computed get paint() {
