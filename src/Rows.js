@@ -21,6 +21,7 @@ const styles = {
     }
 }
 
+@inject("schedule")
 @inject("ui")
 @injectSheet(styles)
 @observer
@@ -42,7 +43,7 @@ class Rows extends React.Component {
 
     render() {
 
-        const { classes, resources, ui } = this.props;
+        const { classes, schedule, ui } = this.props;
 
         return (
             <div className={classes.root} ref={this.setRowsRef}>
@@ -51,7 +52,7 @@ class Rows extends React.Component {
                         headers={ui.headers}
                     />
                 }
-                {resources.map(resource => (
+                {schedule.filteredResources.map(resource => (
                     <div className={classes.rowContainer} key={"row" + resource.id}>
                         <Events
                             events={resource.todaysEvents}

@@ -21,13 +21,14 @@ const styles = {
     }
 }
 
+@inject("schedule")
 @inject("ui")
 @injectSheet(styles)
 @observer
 class Resources extends React.Component {
 
     render() {
-        const { classes, resources, ui} = this.props;
+        const { classes, schedule, ui } = this.props;
         return (
             <div className={classes.root}>
                 {ui.renderResourceHeader &&
@@ -37,7 +38,7 @@ class Resources extends React.Component {
                         />
                     </div>
                 }
-                {resources.map(resource => (
+                {schedule.filteredResources.map(resource => (
                     <div className={classes.resourceContainer} key={resource.schedule.resourceKeyGenerator(resource)}>
                         <ui.renderResource 
                             resource={resource}

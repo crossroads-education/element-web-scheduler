@@ -1,4 +1,4 @@
-import {observable, action, toJS} from "mobx"
+import { action, computed, observable, reaction, toJS} from "mobx"
 import {MasterDemoData} from "../MasterDemoData";
 import {SchedulerStore, EventModel} from "../../src/";
 import PopoverComponent from "../PopoverComponent";
@@ -11,11 +11,14 @@ import _ from "lodash";
 
 const SHIFT_LAYER = 3;
 const AVAILABIILITY_LAYER = 1;
-const EDIT_LAYER = 5;
+const EDIT_LAYER = 5; 
 
 class MasterScheduleStore {
     @observable editing;
+    filteredResources = observable.array([]);
     schedulerStore;
+
+    resourceIds=["d1","d2","d3","d4","d5","d6","d7"];
 
     constructor() {
         this.editing = false;
@@ -63,7 +66,6 @@ class MasterScheduleStore {
             renderAdornment: AdornmentComponent,
             renderAdornmentHeader: AdornmentHeader,
             renderResourceHeader: ResourceHeader,
-            filterResources: this.filterDays,
             editEvent: this.resizeEvent,
             stopResize: this.stopResize,
             createEvent: this.createEvent,
@@ -79,7 +81,6 @@ class MasterScheduleStore {
         });
 
         this.schedulerStore = schedule;
-        
     }
 
     @action resizeEvent = (newTime, event, side) => {
@@ -148,8 +149,6 @@ class MasterScheduleStore {
         })
     }
 
-    @action filterDays = resources => resources.filter(r => r.id !== "d1");
-
     @action updateEvents = () => {
         this.schedulerStore.updateEvents(MasterDemoData.newEvents);
     }
@@ -160,6 +159,19 @@ class MasterScheduleStore {
         } else {
             this.schedulerStore.ui.changeActiveLayer(1);
         }
+    }
+
+    @action changeFilter = event => {
+        const newIndex = event.target.options.selectedIndex;
+        const newOption = event.target.options[newIndex];
+        const resourceIndex = this.filteredResources.findIndex(r => r === newOption.value);
+        if (resourceIndex !== -1) {
+            this.filteredResources.splice(resourceIndex, 1);
+        } else {
+            this.filteredResources.push(newOption.value);
+        }
+        const resource = this.schedulerStore.resources.find(r => newOption.value === r.id);
+        resource.toggleHidden();
     }
 }
 

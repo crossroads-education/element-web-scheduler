@@ -30,21 +30,14 @@ class Scheduler extends React.Component {
         const { schedulerStore, classes } = this.props;
 
         const { ui } = schedulerStore;
-
         return (
             <ThemeProvider theme={Theme}>
                 <MuiThemeProvider theme={theme => createMuiTheme({ ...theme, typography: { ...theme.typography, useNextVariants: true } })}>   
                     <Provider ui={ui} schedule={schedulerStore}>
                         <div className={classes.root}>
-                            <Resources
-                                resources={schedulerStore.filteredResources}
-                            />
-                            <Rows
-                                resources={schedulerStore.filteredResources}
-                            />
-                            <Adornments 
-                                resources={schedulerStore.filteredResources}
-                            />
+                            <Resources />
+                            <Rows />
+                            <Adornments />
                         </div>
                     </Provider>
                 </MuiThemeProvider>

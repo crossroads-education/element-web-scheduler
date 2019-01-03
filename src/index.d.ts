@@ -23,12 +23,15 @@ export type Resource = {
     id: number | string;
     componentProps?: {
         [key: string]: any;
-    }
+    },
+    hidden?: boolean;
 }
 
 export type ResourceModel = {
     componentProps: {[key: string]: any};
     id: number | string;
+    hidden: boolean;
+    toggleHidden: () => void;
     paintEventX: number;
     paintedEvent: EventModel;
     paintSide: "start" | "end";
@@ -155,7 +158,6 @@ export type SchedulerInit = {
 
     eventKeyGenerator?: (event: EventModel) => number | string;
     resourceKeyGenerator?: (resource: ResourceModel) => number | string;
-    filterResources?: (resources: ResourceModel[]) => ResourceModel[];
 }
 
 export class SchedulerStore {
@@ -180,8 +182,6 @@ export class SchedulerStore {
     startPaint?: (newEvent: Event,startTime: number) => EventModel;
     paintEvent?: (newTime: moment.Moment,paintedEvent: EventModel,side: "start"|"end") => void;
     finishPaint?: (resource: ResourceModel,newEvent: EventModel) => void;
-
-    filterResources?: (resources: ResourceModel[]) => ResourceModel[];
 }
 
 declare const Scheduler: React.ComponentType<any>;

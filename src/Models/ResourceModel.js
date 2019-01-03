@@ -8,13 +8,15 @@ class ResourceModel {
     @observable paintedEvent; // Event that is being painted
     @observable paintInitialX; // X-position where drag started
     @observable paintSide; // Direction of painting
+    @observable hidden;
     schedule;
     id;
 
-    constructor(id, events, componentProps, schedule) {
-        this.schedule = schedule;
+    constructor(id, events, componentProps, schedule, hidden) {
         this.id = id;
         this.componentProps = componentProps;
+        this.schedule = schedule;
+        this.hidden = hidden;
         
         this.events = events.map(event => 
             new EventModel({
@@ -30,6 +32,10 @@ class ResourceModel {
                 day: event.day,
             })
         );
+    }
+
+    @action toggleHidden = () => {
+        this.hidden = !this.hidden;
     }
 
     @action updateEvents = (newEvents) => {

@@ -35,6 +35,11 @@ export default class MasterScheduler extends React.Component {
                                 </div>
                                 <button onClick={Store.updateEvents}>Change data</button>
                                 <button onClick={Store.changeLayer}>Change layer</button>
+                                <select multiple value={Store.filteredResources} onChange={Store.changeFilter}>
+                                    {Store.resourceIds.map(r => (
+                                        <option key={r}>{r}</option>
+                                    ))}
+                                </select>
                             </div>
                         </Provider>
                     </div>

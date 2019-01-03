@@ -4,7 +4,7 @@ import DateModel from "../Models/DateModel";
 import UiModel from "../Models/UiModel";
 
 class SchedulerStore {
-    @observable resources;
+    resources = observable.array([]);
     @observable createEvent;
     date;
     ui; 
@@ -17,19 +17,16 @@ class SchedulerStore {
     finishPaint;
     eventKeyGenerator;
     resourceKeyGenerator;
-    filterResources
     disableMobileAdd;
 
     constructor( 
         init = {
-            resources: [], 
+            resources: [],
             events: [],
 
             editing: true,
             eventKeyGenerator: undefined,
             resourceKeyGenerator: undefined,
-            filterResources: undefined,
-
             renderLayers: {},
             renderResource: undefined,
             renderPopover: undefined,
@@ -67,15 +64,16 @@ class SchedulerStore {
             stopResize, createEvent, deleteEvent, 
             startPaint, paintEvent, finishPaint,
             createMethod, eventKeyGenerator, resourceKeyGenerator,
-            filterResources, disableMobileEdit,
+            disableMobileEdit,
             ...ui
         } = init;
 
         this.date = new DateModel(startTime, endTime, currentDay, hours, this);
-        this.resources = resources.map(resource => {
+        this.resources.replace(resources.map(resource => {
+            const hidden = resource.hidden || false;
             let resourceEvents = events.filter(event => event.resourceId === resource.id);
-            return new ResourceModel(resource.id, resourceEvents, resource.componentProps, this)
-        });
+            return new ResourceModel(resource.id, resourceEvents, resource.componentProps, this, hidden)
+        }));
         this.ui = new UiModel(ui, this);
         this.editing = editing;
         this.editEvent = editEvent;
@@ -88,7 +86,6 @@ class SchedulerStore {
         this.createMethod = createMethod;
         this.eventKeyGenerator = eventKeyGenerator ? eventKeyGenerator : this.generateEventKey;
         this.resourceKeyGenerator = resourceKeyGenerator ? resourceKeyGenerator : this.generateResourceKey;
-        this.filterResources = filterResources;
         this.disableMobileEdit = disableMobileEdit;
     }
 
@@ -97,7 +94,7 @@ class SchedulerStore {
     }
 
     @computed get filteredResources() {
-        return this.filterResources ? this.filterResources(this.resources) : this.resources;
+        return this.resources.filter(r => !r.hidden);
     }
 
     @computed get paint() {
