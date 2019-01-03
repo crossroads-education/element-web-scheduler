@@ -2,8 +2,7 @@ import * as React from "react";
 import {observer} from "mobx-react";
 import Popover from "@material-ui/core/Popover";
 
-function PopoverWrapper(WrappedComponent) {
-
+const PopoverWrapper = (WrappedComponent) => {
     @observer
     class EventPopover extends React.Component {
 

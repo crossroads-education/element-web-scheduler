@@ -1,7 +1,7 @@
 import {observable, computed, action} from "mobx"
 import Moment from "moment";
 import { extendMoment } from "moment-range";
-
+import PopoverWrapper from "../PopoverWrapper";
 const moment = extendMoment(Moment);
 
 class EventModel {
@@ -113,7 +113,7 @@ class EventModel {
 
     @computed get popover() {
         if(!this.schedule.ui.renderPopover) return false;
-        return this.schedule.ui.renderPopover;
+        return PopoverWrapper(this.schedule.ui.renderPopover);
     }
 
     @computed get timeRange() {
