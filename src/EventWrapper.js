@@ -46,6 +46,7 @@ function EventWrapper(WrappedComponent) {
         eventRef;
 
         edit = (e, data, side) => {
+            e.stopPropagation();
             this.props.eventModel.edit(this.props.eventModel.resize(e, data, side), side);
         }
 
@@ -75,7 +76,7 @@ function EventWrapper(WrappedComponent) {
                                 axis="x"
                                 onMouseDown={e => {e.stopPropagation();}}
                             >
-                                <div style={{left: 1}} className={this.props.classes.eventResizer} onClick={this.togglePopover}>
+                                <div style={{ left: 1, zIndex: (this.props.eventModel.layer || 0) + 1 }} className={this.props.classes.eventResizer} onClick={this.togglePopover}>
                                     <this.props.eventModel.resizer />
                                 </div>
                             </DraggableCore>
@@ -90,7 +91,7 @@ function EventWrapper(WrappedComponent) {
                                 axis="x"
                                 onMouseDown={e => {e.stopPropagation();}}
                             >
-                                <div style={{right: 1}} className={this.props.classes.eventResizer} onClick={this.togglePopover}>
+                                <div style={{ right: 1, zIndex: (this.props.eventModel.layer || 0) + 1 }} className={this.props.classes.eventResizer} onClick={this.togglePopover}>
                                     <this.props.eventModel.resizer />
                                 </div>
                             </DraggableCore>

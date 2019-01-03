@@ -188,6 +188,7 @@ class EventModel {
     }
 
     @action stopResize = e => {
+        e.stopPropagation();
         this.deltaX = 0;
     }
 

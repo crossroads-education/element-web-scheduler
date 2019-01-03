@@ -73,7 +73,7 @@ class MasterScheduleStore {
             startPaint: this.startPaint,
             paintEvent: this.paintEvent,
             finishPaint: this.finishPaint,
-            createMethod: "paint",
+            createMethod: "add",
             displayHeaders: true,
             rowHeight: 35,
             headerHeight: 25,
@@ -135,13 +135,13 @@ class MasterScheduleStore {
     }
 
     @action toggleEditing = () => {
-        if (this.schedulerStore.ui.activeLayer === SHIFT_LAYER) {
-            this.schedulerStore.ui.changeActiveLayer(EDIT_LAYER);
-            this.schedulerStore.ui.toggleDisabledLayer(SHIFT_LAYER);
-        } else {
-            this.schedulerStore.ui.changeActiveLayer(SHIFT_LAYER);
-            this.schedulerStore.ui.toggleDisabledLayer(SHIFT_LAYER);
-        }
+        // if (this.schedulerStore.ui.activeLayer === SHIFT_LAYER) {
+        //     this.schedulerStore.ui.changeActiveLayer(EDIT_LAYER);
+        //     this.schedulerStore.ui.toggleDisabledLayer(SHIFT_LAYER);
+        // } else {
+        //     this.schedulerStore.ui.changeActiveLayer(SHIFT_LAYER);
+        //     this.schedulerStore.ui.toggleDisabledLayer(SHIFT_LAYER);
+        // }
         this.editing = (this.editing) ? false : true;
         this.schedulerStore.toggleEditing();
         this.schedulerStore.events.forEach(event => { 
