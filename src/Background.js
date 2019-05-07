@@ -10,30 +10,35 @@ const styles = {
         position: "absolute",
         width: "100%",
         zIndex: props => props.ui.backgroundLayer,
-        "& $backgroundCell:nth-child(2n)": {
-            borderLeft: "dashed 1px #dfdfdf"
-        },
         height: "100%"
     },
     backgroundCell: {
         width: "100%",
         height: "100%",
-        borderLeft: "solid 1px #bcbcbc",
+        flexBasis: "1px",
+        boxSizing: "border-box"
     },
+    solidLeft: { borderLeft: "solid 1px #bcbcbc" },
+    dashedLeft: { borderLeft: "dashed 1px #dfdfdf" }
 }
 
 @inject("ui", "schedule")
 @injectSheet(styles)
 @observer
 class Background extends React.Component {
+    getBorderClass(cell, idx) {
+        if (idx === 0 || cell.time.get("minutes") === 0) return "solidLeft";
+        else return "dashedLeft";
+    }
 
     render() {
         const { classes, ui, resource, schedule } = this.props;
         const cells = (<div className={classes.cellRoot}>
-                    {ui.cells.map(cell => (
+                    {ui.cells.map((cell, idx) => (
                         <div
-                            key={"cell-" + cell} 
-                            className={classes.backgroundCell} 
+                            key={"cell-" + idx} 
+                            style={{ flexGrow: cell.dur }}
+                            className={classes.backgroundCell + " " + classes[this.getBorderClass(cell, idx)] } 
                             onClick={(schedule.paint) ? undefined : e => {resource.createEvent(e.target.offsetLeft);}} 
                         />
                     ))}
