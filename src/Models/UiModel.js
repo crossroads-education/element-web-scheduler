@@ -53,12 +53,13 @@ class UiModel {
         const cells = Array.from(alignedRange.by("minute", { step: 30 })).map(m => { 
             return { time: m, dur: 30 }
         });
-        if (startMinutes !== this.schedule.date.range.start.minute()) {
-            cells.unshift({ time: this.schedule.date.range.start
-                , dur: (60 + alignedRange.start.get("minute") - this.schedule.date.range.start.get("minute")) % 60 });
+        const offset = (60 + alignedRange.start.get("minute") - startMinutes) % 60;
+        if (offset !== 0) {
+            cells.unshift({ time: this.schedule.date.range.start, dur: offset });
         }
         if (cells.length > 1) {
             cells[cells.length-1].dur = this.schedule.date.range.end.get("minute") % 30;
+            if (cells[cells.length-1].dur === 0) cells.pop();
         }
         return cells;
     }
@@ -77,8 +78,8 @@ class UiModel {
         let headers = Array.from(fullHourRange.by("hour")).map(time => 
             new HeaderModel({ time, schedule: this.schedule, alignment: "center" })
         );
-        if (this.renderResourceHeader && (startMinutes >= 45 || startMinutes === 0)) headers[0].alignment = "flex-start";
-        if (fullHourRange.end.get("minute") <= 15) headers[headers.length-1].alignment = "flex-end";
+        if (this.renderResourceHeader && (startMinutes >= 45 || startMinutes === 0)) headers.shift(); // alternatively: headers[0].alignment = "flex-start";
+        if (fullHourRange.end.get("minute") <= 15) headers.pop(); // alternatively: headers[headers.length-1].alignment = "flex-end";
         return headers;
     }
 

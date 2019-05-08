@@ -11,7 +11,9 @@ const styles = {
         position: "absolute",
         display: "flex",
         width: 0,
-        justifyContent: "center"
+        height: "100%",
+        justifyContent: "center",
+        alignItems: "center"
     },
     spanStyle: {
         display: "inline-block",
@@ -25,7 +27,6 @@ const styles = {
 class Headers extends React.Component {
 
     render() {
-        console.log("rendering");
         const { classes, headers } = this.props;
         return (
             <div className={classes.headerContainer}>

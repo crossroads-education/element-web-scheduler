@@ -10,7 +10,6 @@ class HeaderModel {
     constructor({
         time, schedule, alignment
     }) {
-        console.log("HeaderModel")
         this.alignment = alignment;
         this.time = time;
         this.schedule = schedule;
@@ -23,7 +22,6 @@ class HeaderModel {
     @computed get left() {
         let daySpan = this.timespan(this.schedule.date.start, this.schedule.date.end);
         let eventStartOffset = this.timespan(this.schedule.date.start, this._time); // minutes after the schedule start 
-        console.log("left:", moment(this.schedule.date.start), moment(this.time), daySpan, eventStartOffset, ((eventStartOffset / daySpan) * 100 + "%"));
         return ((eventStartOffset / daySpan) * 100 + "%");
     }
 
@@ -32,7 +30,7 @@ class HeaderModel {
     }
 
     @computed get asString() {
-        return this.time.format("h:mma").slice(0, -1);
+        return this.time.format("ha").slice(0, -1);
     }
 }
 
