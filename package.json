@@ -1,6 +1,6 @@
 {
   "name": "@xroadsed/react-scheduler",
-  "version": "2.13.5",
+  "version": "2.13.9",
   "description": "A fork of a scheduler and resource planning component built for React and made for modern browsers (IE10+)",
   "files": [
     "dist",
@@ -27,7 +27,7 @@
   "scripts": {
     "start": "webpack-dev-server --config ./webpack/webpack-dev.config.js --hot",
     "analyz": "cross-env NODE_ENV=production npm_config_report=true npm run build",
-    "build": "rimraf dist && mkdir dist && babel src --out-dir dist && cpy src/index.d.ts dist"
+    "build": "rimraf dist && mkdir dist && babel src --out-dir dist && cp src/index.d.ts dist"
   },
   "types": "./dist/index.d.ts",
   "pre-commit": [

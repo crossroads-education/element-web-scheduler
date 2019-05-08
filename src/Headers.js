@@ -4,12 +4,20 @@ import injectSheet from "react-jss";
 
 const styles = {
     headerContainer: {
-        display: "flex",
         height: props => props.ui.headerHeight,
-        alignItems: "center",
+        position: "relative"
     },
     header: {
-        width: "100%"
+        position: "absolute",
+        display: "flex",
+        width: 0,
+        height: "100%",
+        justifyContent: "center",
+        alignItems: "center"
+    },
+    spanStyle: {
+        display: "inline-block",
+        padding: "0 0.25em"
     }
 }
 
@@ -24,8 +32,12 @@ class Headers extends React.Component {
             <div className={classes.headerContainer}>
                 {this.props.ui.renderResourceHeader && <div className={classes.header} key="empty-header" />}
                 {headers.map(header => (
-                    <div className={classes.header} key={"h-" + header}>
-                        <span style={{ float: "left", marginLeft: "-8%" }}> {header} </span>
+                    <div
+                        className={classes.header}
+                        key={"h-" + header.asString}
+                        style={{ left: header.left, justifyContent: header.alignment }}
+                    >
+                        <span className={classes.spanStyle}> {header.asString} </span>
                     </div>
                 ))}
             </div>
