@@ -18,6 +18,10 @@ class DateModel {
         this.schedule = schedule;
     }
 
+    @computed get hasHours() {
+        return this.range.start.isValid() && this.range.end.isValid();
+    }
+
     @action setDay = day => {
         this.currentDay = day;
     }
