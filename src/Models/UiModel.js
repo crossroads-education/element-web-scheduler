@@ -42,6 +42,7 @@ class UiModel {
     // 30-minute cell segments, blocks rendered in grid; includes a shorter first and last block
     // in case the schedule times don't fall on full 30 minutes times
     @computed get cells() {
+        if (!this.schedule.date.hasHours) return [];
         const alignedRange = this.schedule.date.range.clone();
         const startMinutes = alignedRange.start.minute();
         if (startMinutes > 0 && startMinutes < 30) {

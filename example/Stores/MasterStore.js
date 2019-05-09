@@ -31,9 +31,11 @@ class MasterScheduleStore {
             editing: false,
             resources: r,
             events: e,
-            startTime: '7:11',
-            endTime: '18:07',
             hours: {
+                3: {
+                    start: "7:11",
+                    end: "18:07"
+                },
                 6: {
                     start: 9,
                     end: 15
